@@ -1,0 +1,709 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Instruction &mdash; T-Mart 1.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Parameters" href="tmart.html" />
+    <link rel="prev" title="Overview" href="overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> T-Mart
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Instruction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multiple-processing">Multiple Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#observing-the-movements-of-a-single-photon">Observing the Movements of a Single Photon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#water-pixels">Water Pixels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modify-background">Modify Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-aerosol">Adding Aerosol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#additional-parameters">Additional Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#full-single-run">Full Single Run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#be-creative-at-what-you-can-do">Be Creative at What You Can Do!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#case-study-typical-ocean-colour-observation">Case Study: Typical Ocean-Colour Observation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#useful-information">Useful Information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tmart.html">Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docu.html">Document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DEM_shadow.html">Other: DEM-shadow</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">T-Mart</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Instruction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="instruction">
+<h1>Instruction<a class="headerlink" href="#instruction" title="Permalink to this headline">¶</a></h1>
+<p>We start with a simple setting. I will introduce new functions as we go, and have a ‘put together’ code in each sub-section.</p>
+<p>To run the code below, you can overwrite the example scripts in the main folder, create your own script in the main folder, or copy the <em>./tmart</em> folder to where your script is.</p>
+<div class="section" id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<p>Run T-Mart with simple settings here.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tmart</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">Py6S.Params.atmosprofile</span> <span class="kn">import</span> <span class="n">AtmosProfile</span>
+
+<span class="c1"># Specify wavelength in nm</span>
+<span class="n">wl</span> <span class="o">=</span> <span class="mi">400</span>
+
+
+<span class="c1">### DEM and reflectance ###</span>
+
+<span class="c1"># Three same-size numpy arrays are needed</span>
+<span class="n">image_DEM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span> <span class="c1"># in meters</span>
+<span class="n">image_reflectance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">]])</span> <span class="c1"># unitless     </span>
+<span class="n">image_isWater</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">image_DEM</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="c1"># 1 is water, 0 is land</span>
+
+<span class="c1"># pixel width and length, in meters </span>
+<span class="n">cell_size</span> <span class="o">=</span> <span class="mi">20_000</span> 
+
+<span class="c1"># Synthesize a surface object</span>
+<span class="n">my_surface</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Surface</span><span class="p">(</span><span class="n">image_DEM</span><span class="p">,</span><span class="n">image_reflectance</span><span class="p">,</span><span class="n">image_isWater</span><span class="p">,</span><span class="n">cell_size</span><span class="p">)</span>  
+
+
+<span class="c1">### Atmosphere ###</span>
+
+<span class="c1"># Atmophere profile comes from 6S</span>
+<span class="n">atm_profile</span> <span class="o">=</span> <span class="n">AtmosProfile</span><span class="o">.</span><span class="n">PredefinedType</span><span class="p">(</span><span class="n">AtmosProfile</span><span class="o">.</span><span class="n">MidlatitudeSummer</span><span class="p">)</span> 
+
+<span class="c1"># Synthesize an atmosphere object </span>
+<span class="n">my_atm</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Atmosphere</span><span class="p">(</span><span class="n">atm_profile</span><span class="p">)</span>
+
+
+<span class="c1">### Running T-Mart ###</span>
+
+<span class="c1"># Make a T-Mart object </span>
+<span class="n">my_tmart</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Tmart</span><span class="p">(</span><span class="n">Surface</span> <span class="o">=</span> <span class="n">my_surface</span><span class="p">,</span> <span class="n">Atmosphere</span><span class="o">=</span> <span class="n">my_atm</span><span class="p">)</span>
+
+<span class="c1"># Specify the sensor&#39;s position (x, y, z), viewing direction relative </span>
+<span class="c1"># to the sensor (zenith, azimuth), sun&#39;s direction relative to the target </span>
+<span class="c1"># (zenith, azimuth)</span>
+<span class="n">my_tmart</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">sensor_coords</span><span class="o">=</span><span class="p">[</span><span class="mi">51</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">130_000</span><span class="p">],</span> 
+                      <span class="n">target_pt_direction</span><span class="o">=</span><span class="p">[</span><span class="mi">180</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+                      <span class="n">sun_dir</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">my_tmart</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="n">wl</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+<span class="c1"># Calculate reflectances using recorded photon information </span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">calc_ref</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="multiple-processing">
+<h2>Multiple Processing<a class="headerlink" href="#multiple-processing" title="Permalink to this headline">¶</a></h2>
+<p>Monte Carlo simulations have inherent noise - it decreases with a larger sample size. Multiprocessing is used to speed up the computation.</p>
+<p>By default, 10,000 photons are used. Number of CPU cores to use is automated. Default number of jobs is 80. Use 100,000 photons for more stable results (it may take several minutes for a single computation).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Number of photons</span>
+<span class="n">n_photon</span> <span class="o">=</span> <span class="mi">100_000</span>
+
+<span class="c1"># Number of CPU cores to use, sometimes default doesn&#39;t work and </span>
+<span class="c1"># you need to specify the number of cores you have. </span>
+<span class="n">nc</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="c1"># Dividing the task into n jobs, I found 80-120 function </span>
+<span class="c1"># more or less the same. </span>
+<span class="n">njobs</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">my_tmart</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="n">wl</span><span class="p">,</span> <span class="n">n_photon</span><span class="o">=</span><span class="n">n_photon</span><span class="p">,</span><span class="n">nc</span><span class="o">=</span> <span class="n">nc</span><span class="p">,</span><span class="n">njobs</span><span class="o">=</span> <span class="n">njobs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we add the snippet to the code and put things together:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tmart</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">Py6S.Params.atmosprofile</span> <span class="kn">import</span> <span class="n">AtmosProfile</span>
+
+<span class="c1"># Specify wavelength in nm</span>
+<span class="n">wl</span> <span class="o">=</span> <span class="mi">400</span>
+
+
+<span class="c1">### DEM and reflectance ###</span>
+
+<span class="c1"># Three same-size numpy arrays are needed</span>
+<span class="n">image_DEM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span> <span class="c1"># in meters</span>
+<span class="n">image_reflectance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">]])</span> <span class="c1"># unitless     </span>
+<span class="n">image_isWater</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">image_DEM</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="c1"># 1 is water, 0 is land</span>
+
+<span class="c1"># pixel width and length, in meters </span>
+<span class="n">cell_size</span> <span class="o">=</span> <span class="mi">20_000</span> 
+
+<span class="c1"># Synthesize a surface object</span>
+<span class="n">my_surface</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Surface</span><span class="p">(</span><span class="n">image_DEM</span><span class="p">,</span><span class="n">image_reflectance</span><span class="p">,</span><span class="n">image_isWater</span><span class="p">,</span><span class="n">cell_size</span><span class="p">)</span>  
+
+
+<span class="c1">### Atmosphere ###</span>
+
+<span class="c1"># Atmophere profile comes from 6S</span>
+<span class="n">atm_profile</span> <span class="o">=</span> <span class="n">AtmosProfile</span><span class="o">.</span><span class="n">PredefinedType</span><span class="p">(</span><span class="n">AtmosProfile</span><span class="o">.</span><span class="n">MidlatitudeSummer</span><span class="p">)</span> 
+
+<span class="c1"># Synthesize an atmosphere object </span>
+<span class="n">my_atm</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Atmosphere</span><span class="p">(</span><span class="n">atm_profile</span><span class="p">)</span>
+
+
+<span class="c1">### Running T-Mart ###</span>
+
+<span class="c1"># Make a T-Mart object </span>
+<span class="n">my_tmart</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Tmart</span><span class="p">(</span><span class="n">Surface</span> <span class="o">=</span> <span class="n">my_surface</span><span class="p">,</span> <span class="n">Atmosphere</span><span class="o">=</span> <span class="n">my_atm</span><span class="p">)</span>
+
+<span class="c1"># Specify the sensor&#39;s position (x, y, z), viewing direction relative </span>
+<span class="c1"># to the sensor (zenith, azimuth), sun&#39;s direction relative to the target </span>
+<span class="c1"># (zenith, azimuth)</span>
+<span class="n">my_tmart</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">sensor_coords</span><span class="o">=</span><span class="p">[</span><span class="mi">51</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">130_000</span><span class="p">],</span> 
+                      <span class="n">target_pt_direction</span><span class="o">=</span><span class="p">[</span><span class="mi">180</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+                      <span class="n">sun_dir</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Run</span>
+<span class="n">n_photon</span> <span class="o">=</span> <span class="mi">10_000</span>
+<span class="n">nc</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">njobs</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">my_tmart</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="n">wl</span><span class="p">,</span> <span class="n">n_photon</span><span class="o">=</span><span class="n">n_photon</span><span class="p">,</span><span class="n">nc</span><span class="o">=</span> <span class="n">nc</span><span class="p">,</span><span class="n">njobs</span><span class="o">=</span> <span class="n">njobs</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+<span class="c1"># Calculate reflectances using recorded photon information </span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">calc_ref</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="observing-the-movements-of-a-single-photon">
+<h2>Observing the Movements of a Single Photon<a class="headerlink" href="#observing-the-movements-of-a-single-photon" title="Permalink to this headline">¶</a></h2>
+<p>Instead of running lots of photons, we can run a single photon and observe where it goes and what happens. This is mostly for debugging purposes. The details of each movement will be printed.</p>
+<p>We replace Tmart’s <em>run</em> function with the <em>run_plot</em> function here, note that number of photons and multiprocessing are not needed here.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">my_tmart</span><span class="o">.</span><span class="n">run_plot</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="n">wl</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can also plot the photon’s movements by turnining on <em>plot_on</em>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">my_tmart</span><span class="o">.</span><span class="n">run_plot</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="n">wl</span><span class="p">,</span> <span class="n">plot_on</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>By default, the limits of X, Y, Z are all 0 to 100,000. We can specify them in the format of [xmin, xmax, ymin, ymax, zmin, zmax]:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">my_tmart</span><span class="o">.</span><span class="n">run_plot</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="n">wl</span><span class="p">,</span> <span class="n">plot_on</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plot_range</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">100_000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">100_000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">100_000</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Lastly, to switch to an interactive plotting mode where you can zoom and rotate the camera in a plot interactively, and switch back, use:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Interactive mode</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">qt</span>
+
+<span class="c1"># Inline plotting </span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+</pre></div>
+</div>
+<p>Putting it all together. We can still calculate reflectances using one photon thanks to the local-estimate technique, but this is not accurate - precise stats come from a large sample size.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tmart</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">Py6S.Params.atmosprofile</span> <span class="kn">import</span> <span class="n">AtmosProfile</span>
+
+
+<span class="c1"># Specify wavelength in nm</span>
+<span class="n">wl</span> <span class="o">=</span> <span class="mi">400</span>
+
+
+<span class="c1">### DEM and reflectance ###</span>
+
+<span class="c1"># Three same-size numpy arrays are needed</span>
+<span class="n">image_DEM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span> <span class="c1"># in meters</span>
+<span class="n">image_reflectance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">]])</span> <span class="c1"># unitless     </span>
+<span class="n">image_isWater</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">image_DEM</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="c1"># 1 is water, 0 is land</span>
+
+<span class="c1"># pixel width and length, in meters </span>
+<span class="n">cell_size</span> <span class="o">=</span> <span class="mi">20_000</span> 
+
+<span class="c1"># Synthesize a surface object</span>
+<span class="n">my_surface</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Surface</span><span class="p">(</span><span class="n">image_DEM</span><span class="p">,</span><span class="n">image_reflectance</span><span class="p">,</span><span class="n">image_isWater</span><span class="p">,</span><span class="n">cell_size</span><span class="p">)</span>  
+
+
+<span class="c1">### Atmosphere ###</span>
+
+<span class="c1"># Atmophere profile comes from 6S</span>
+<span class="n">atm_profile</span> <span class="o">=</span> <span class="n">AtmosProfile</span><span class="o">.</span><span class="n">PredefinedType</span><span class="p">(</span><span class="n">AtmosProfile</span><span class="o">.</span><span class="n">MidlatitudeSummer</span><span class="p">)</span> 
+
+<span class="c1"># Synthesize an atmosphere object </span>
+<span class="n">my_atm</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Atmosphere</span><span class="p">(</span><span class="n">atm_profile</span><span class="p">)</span>
+
+
+<span class="c1">### Running T-Mart ###</span>
+
+<span class="c1"># Make a T-Mart object </span>
+<span class="n">my_tmart</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Tmart</span><span class="p">(</span><span class="n">Surface</span> <span class="o">=</span> <span class="n">my_surface</span><span class="p">,</span> <span class="n">Atmosphere</span><span class="o">=</span> <span class="n">my_atm</span><span class="p">)</span>
+
+<span class="c1"># Specify the sensor&#39;s position (x, y, z), viewing direction relative </span>
+<span class="c1"># to the sensor (zenith, azimuth), sun&#39;s direction relative to the target </span>
+<span class="c1"># (zenith, azimuth)</span>
+<span class="n">my_tmart</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">sensor_coords</span><span class="o">=</span><span class="p">[</span><span class="mi">51</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">130_000</span><span class="p">],</span> 
+                      <span class="n">target_pt_direction</span><span class="o">=</span><span class="p">[</span><span class="mi">180</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+                      <span class="n">sun_dir</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Run and plot on a separate window</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">qt</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">my_tmart</span><span class="o">.</span><span class="n">run_plot</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="n">wl</span><span class="p">,</span> <span class="n">plot_on</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plot_range</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">100_000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">100_000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">100_000</span><span class="p">])</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+<span class="c1"># Calculate reflectances using recorded photon information </span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">calc_ref</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here’s the first plot generated by the code above, the following ones are not shown here.
+<img alt="Geometry" src="_images/movement.png" /></p>
+<p>There are lines of different colours in the plot:</p>
+<ul class="simple">
+<li><p>Blue to red: the photon moves from blue to red.</p></li>
+<li><p>Green: surface normal of a Lambertian surface.</p></li>
+<li><p>Dark blue: surface normal of a specular surface.</p></li>
+<li><p>Orange: next moving direction</p></li>
+</ul>
+</div>
+<div class="section" id="water-pixels">
+<h2>Water Pixels<a class="headerlink" href="#water-pixels" title="Permalink to this headline">¶</a></h2>
+<p>From here we go back to multiprocessing lots of photons.</p>
+<p>We can change the pixels from land to water by specifying the water pixels in the image_isWater numpy array:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image_isWater</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="modify-background">
+<h2>Modify Background<a class="headerlink" href="#modify-background" title="Permalink to this headline">¶</a></h2>
+<p>By default, the background surface takes the average reflectance and average elevation of the DEM and the reflecting surface.</p>
+<p>A total of two background surfaces can be specified to model coastal environments, they are divided by a line connected by two specified coordinates (<em>bg_coords</em>). We can modify the reflectance and if-is-water of each of the two background surfaces. We can modify the elevation of the background too, but both background surfaces have to share the same elevation (to avoid gaps in between).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set background information, 1 or 2 background surfaces can be set;</span>
+<span class="c1"># If 2: the first background is the one closer to [0,0]</span>
+<span class="n">my_surface</span><span class="o">.</span><span class="n">set_background</span><span class="p">(</span><span class="n">bg_ref</span>        <span class="o">=</span> <span class="p">[</span><span class="mf">0.02</span><span class="p">,</span><span class="mf">0.02</span><span class="p">],</span> <span class="c1"># background reflectance</span>
+                          <span class="n">bg_isWater</span>    <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="c1"># if is water</span>
+                          <span class="n">bg_elevation</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="c1"># elevation of both background</span>
+                          <span class="n">bg_coords</span>     <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">]])</span> <span class="c1"># a line dividing two background                                    </span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="adding-aerosol">
+<h2>Adding Aerosol<a class="headerlink" href="#adding-aerosol" title="Permalink to this headline">¶</a></h2>
+<p>Add AOT550 and aerosol scattering phase function into the atmosphere object. Currently T-Mart only supports the maritime aerosol model from 6S. If you need to use other models, let me know. The miepython package is handy — I used 6S’ input and got the same scattering properties as 6S thanks to help from John Hedley. I just haven’t had the incentive to look into it…</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Atmosphere</span>
+<span class="n">atm_profile</span> <span class="o">=</span> <span class="n">AtmosProfile</span><span class="o">.</span><span class="n">PredefinedType</span><span class="p">(</span><span class="n">AtmosProfile</span><span class="o">.</span><span class="n">MidlatitudeSummer</span><span class="p">)</span> 
+<span class="n">aerosol_SPF</span> <span class="o">=</span> <span class="s1">&#39;tmart/ancillary/aerosol_maritime_SPF.csv&#39;</span> 
+<span class="n">aot550</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">my_atm</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Atmosphere</span><span class="p">(</span><span class="n">atm_profile</span><span class="p">,</span> <span class="n">aot550</span><span class="p">,</span> <span class="n">aerosol_SPF</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="additional-parameters">
+<h2>Additional Parameters<a class="headerlink" href="#additional-parameters" title="Permalink to this headline">¶</a></h2>
+<p>Set the number of atmosphere layers and aerosol scale height. T-Mart can calculate the movement of a photon through multiple layers so having lots of layers (e.g., 20) does not slow down the computation significantly.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">n_layers</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">aerosol_scale_height</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># Unless you have a reason, don&#39;t change this</span>
+    
+<span class="n">my_atm</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Atmosphere</span><span class="p">(</span><span class="n">atm_profile</span><span class="p">,</span> <span class="n">aot550</span><span class="p">,</span> <span class="n">aerosol_SPF</span><span class="p">,</span> <span class="n">n_layers</span><span class="p">,</span> <span class="n">aerosol_scale_height</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Once we have the Tmart object, we can modify wind and water properties. They are both related to the specular reflectance of the water surface.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">my_tmart</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Tmart</span><span class="p">(</span><span class="n">Surface</span> <span class="o">=</span> <span class="n">my_surface</span><span class="p">,</span> <span class="n">Atmosphere</span><span class="o">=</span> <span class="n">my_atm</span><span class="p">)</span>
+<span class="n">my_tmart</span><span class="o">.</span><span class="n">set_wind</span><span class="p">(</span><span class="n">wind_speed</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">wind_dir</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">my_tmart</span><span class="o">.</span><span class="n">set_water</span><span class="p">(</span><span class="n">water_salinity</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">water_temperature</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="full-single-run">
+<h2>Full Single Run<a class="headerlink" href="#full-single-run" title="Permalink to this headline">¶</a></h2>
+<p>Now we can put everything together. Below is the code I usually use for my single runs (different components of TOA reflectance at a single wavelength in a single scenario, but with lots of photons):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tmart</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">Py6S.Params.atmosprofile</span> <span class="kn">import</span> <span class="n">AtmosProfile</span>
+
+<span class="c1"># Specify wavelength in nm</span>
+<span class="n">wl</span> <span class="o">=</span> <span class="mi">400</span>
+
+
+<span class="c1">### DEM and reflectance ###</span>
+
+<span class="c1"># Three same-size numpy arrays are needed</span>
+<span class="n">image_DEM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span> <span class="c1"># in meters</span>
+<span class="n">image_reflectance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">]])</span> <span class="c1"># unitless     </span>
+<span class="n">image_isWater</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">image_DEM</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="c1"># 1 is water, 0 is land</span>
+
+<span class="c1"># pixel width and length, in meters </span>
+<span class="n">cell_size</span> <span class="o">=</span> <span class="mi">20_000</span> 
+
+<span class="c1"># Synthesize a surface object</span>
+<span class="n">my_surface</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Surface</span><span class="p">(</span><span class="n">image_DEM</span><span class="p">,</span><span class="n">image_reflectance</span><span class="p">,</span><span class="n">image_isWater</span><span class="p">,</span><span class="n">cell_size</span><span class="p">)</span>  
+<span class="c1"># Set background information, 1 or 2 background surfaces can be set;</span>
+<span class="c1"># If 2: the first background is the one closer to [0,0]</span>
+<span class="n">my_surface</span><span class="o">.</span><span class="n">set_background</span><span class="p">(</span><span class="n">bg_ref</span>        <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],</span> <span class="c1"># background reflectance</span>
+                          <span class="n">bg_isWater</span>    <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="c1"># if is water</span>
+                          <span class="n">bg_elevation</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="c1"># elevation of both background</span>
+                          <span class="n">bg_coords</span>     <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">]])</span> <span class="c1"># a line dividing two background                                    </span>
+
+<span class="c1">### Atmosphere ###</span>
+
+<span class="c1"># Atmophere profile comes from 6S</span>
+<span class="n">atm_profile</span> <span class="o">=</span> <span class="n">AtmosProfile</span><span class="o">.</span><span class="n">PredefinedType</span><span class="p">(</span><span class="n">AtmosProfile</span><span class="o">.</span><span class="n">MidlatitudeSummer</span><span class="p">)</span> 
+<span class="n">aerosol_SPF</span> <span class="o">=</span> <span class="s1">&#39;tmart/ancillary/aerosol_maritime_SPF.csv&#39;</span> 
+<span class="n">aot550</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">n_layers</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">aerosol_scale_height</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># Unless you have a reason, don&#39;t change this</span>
+
+<span class="c1"># Synthesize an atmosphere object     </span>
+<span class="n">my_atm</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Atmosphere</span><span class="p">(</span><span class="n">atm_profile</span><span class="p">,</span> <span class="n">aot550</span><span class="p">,</span> <span class="n">aerosol_SPF</span><span class="p">,</span> <span class="n">n_layers</span><span class="p">,</span> <span class="n">aerosol_scale_height</span><span class="p">)</span>
+
+
+<span class="c1">### Running T-Mart ###</span>
+
+<span class="c1"># Make a T-Mart object </span>
+<span class="n">my_tmart</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Tmart</span><span class="p">(</span><span class="n">Surface</span> <span class="o">=</span> <span class="n">my_surface</span><span class="p">,</span> <span class="n">Atmosphere</span><span class="o">=</span> <span class="n">my_atm</span><span class="p">)</span>
+<span class="n">my_tmart</span><span class="o">.</span><span class="n">set_wind</span><span class="p">(</span><span class="n">wind_speed</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">wind_dir</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">my_tmart</span><span class="o">.</span><span class="n">set_water</span><span class="p">(</span><span class="n">water_salinity</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">water_temperature</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="c1"># Specify the sensor&#39;s position (x, y, z), viewing direction relative </span>
+<span class="c1"># to the sensor (zenith, azimuth), sun&#39;s direction relative to the target </span>
+<span class="c1"># (zenith, azimuth)</span>
+<span class="n">my_tmart</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">sensor_coords</span><span class="o">=</span><span class="p">[</span><span class="mi">51</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">130_000</span><span class="p">],</span> 
+                      <span class="n">target_pt_direction</span><span class="o">=</span><span class="p">[</span><span class="mi">180</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+                      <span class="n">sun_dir</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Run</span>
+<span class="n">n_photon</span> <span class="o">=</span> <span class="mi">10_000</span>
+<span class="n">nc</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">njobs</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">my_tmart</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="n">wl</span><span class="p">,</span> <span class="n">n_photon</span><span class="o">=</span><span class="n">n_photon</span><span class="p">,</span><span class="n">nc</span><span class="o">=</span> <span class="n">nc</span><span class="p">,</span><span class="n">njobs</span><span class="o">=</span> <span class="n">njobs</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+<span class="c1"># Calculate reflectances using recorded photon information </span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">calc_ref</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="be-creative-at-what-you-can-do">
+<h2>Be Creative at What You Can Do!<a class="headerlink" href="#be-creative-at-what-you-can-do" title="Permalink to this headline">¶</a></h2>
+<p>You can do lots of things with T-Mart! E.g.:</p>
+<ul class="simple">
+<li><p>Load your own DEM and image (they have to be the same size),</p></li>
+<li><p>Loop through wavelengths, distances from shore, AOT, viewing or solar angles, etc.</p></li>
+</ul>
+<p>T-Mart currently provides four built-in spectral landcover types: soil, vegetation, water and water with a chlorophyll concentration of 1 µg/L. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create object</span>
+<span class="n">water</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">spectral_surface</span><span class="p">(</span><span class="s1">&#39;water_chl1&#39;</span><span class="p">)</span>
+      
+<span class="c1"># Find spectral reflectance at 400nm</span>
+<span class="n">water</span><span class="o">.</span><span class="n">wl</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="case-study-typical-ocean-colour-observation">
+<h2>Case Study: Typical Ocean-Colour Observation<a class="headerlink" href="#case-study-typical-ocean-colour-observation" title="Permalink to this headline">¶</a></h2>
+<p>Here we model a typical hyperspectral ocean-colour observation with the following parameters:</p>
+<ul class="simple">
+<li><p>View zenith = 30°</p></li>
+<li><p>Solar zenith = 30°</p></li>
+<li><p>View azimuthal = 90° (to minimize sun-glint)</p></li>
+<li><p>Windspeed = 5 m/s</p></li>
+<li><p>Atmosphere profile: mid-latitude summer</p></li>
+<li><p>Aerosol profile: maritime aerosols</p></li>
+<li><p>AOT550: 0.1</p></li>
+<li><p>Water salinity: 35 parts per thousand</p></li>
+<li><p>Water temperature: 25 C</p></li>
+<li><p>Water chl-a concentration: 1 µg/L</p></li>
+</ul>
+<p>Water’s specular reflectance is calculated following Cox&amp;Munk slope statistics.</p>
+<p>We loop through wavelengths 400 to 1100nm at an interval of 10nm, use a Python list to collect the reflectances at each wavelength, convert it to a Pandas dataframe, and plot the reflectances with the <em>matplotlib</em> package:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tmart</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">Py6S.Params.atmosprofile</span> <span class="kn">import</span> <span class="n">AtmosProfile</span>
+
+<span class="n">water</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">spectral_surface</span><span class="p">(</span><span class="s1">&#39;water_chl1&#39;</span><span class="p">)</span>
+
+<span class="c1"># Specify wavelength in nm</span>
+
+<span class="n">pd_output</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">wavelengths</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">1110</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">wl</span> <span class="ow">in</span> <span class="n">wavelengths</span><span class="p">:</span>
+
+    <span class="c1">### DEM and reflectance ###</span>
+    
+    <span class="c1"># Three same-size numpy arrays are needed</span>
+    <span class="n">image_DEM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span> <span class="c1"># in meters</span>
+    <span class="n">image_reflectance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">water</span><span class="o">.</span><span class="n">wl</span><span class="p">(</span><span class="n">wl</span><span class="p">),</span><span class="n">water</span><span class="o">.</span><span class="n">wl</span><span class="p">(</span><span class="n">wl</span><span class="p">)],</span>
+                                  <span class="p">[</span><span class="n">water</span><span class="o">.</span><span class="n">wl</span><span class="p">(</span><span class="n">wl</span><span class="p">),</span><span class="n">water</span><span class="o">.</span><span class="n">wl</span><span class="p">(</span><span class="n">wl</span><span class="p">)]])</span> <span class="c1"># unitless     </span>
+    <span class="n">image_isWater</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span> <span class="c1"># 1 is water, 0 is land</span>
+    
+    <span class="c1"># pixel width and length, in meters </span>
+    <span class="n">cell_size</span> <span class="o">=</span> <span class="mi">20_000</span> 
+    
+    <span class="c1"># Synthesize a surface object</span>
+    <span class="n">my_surface</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Surface</span><span class="p">(</span><span class="n">image_DEM</span><span class="p">,</span><span class="n">image_reflectance</span><span class="p">,</span><span class="n">image_isWater</span><span class="p">,</span><span class="n">cell_size</span><span class="p">)</span>  
+    <span class="c1"># Set background information, 1 or 2 background surfaces can be set;</span>
+    <span class="c1"># If 2: the first background is the one closer to [0,0]</span>
+    <span class="n">my_surface</span><span class="o">.</span><span class="n">set_background</span><span class="p">(</span><span class="n">bg_ref</span>        <span class="o">=</span> <span class="p">[</span><span class="n">water</span><span class="o">.</span><span class="n">wl</span><span class="p">(</span><span class="n">wl</span><span class="p">),</span><span class="n">water</span><span class="o">.</span><span class="n">wl</span><span class="p">(</span><span class="n">wl</span><span class="p">)],</span> 
+                              <span class="n">bg_isWater</span>    <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="c1"># water</span>
+                              <span class="n">bg_elevation</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="c1"># elevation of both background</span>
+                              <span class="n">bg_coords</span>     <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">]])</span> <span class="c1"># a line dividing two background                                    </span>
+    
+    <span class="c1">### Atmosphere ###</span>
+    
+    <span class="c1"># Atmophere profile comes from 6S</span>
+    <span class="n">atm_profile</span> <span class="o">=</span> <span class="n">AtmosProfile</span><span class="o">.</span><span class="n">PredefinedType</span><span class="p">(</span><span class="n">AtmosProfile</span><span class="o">.</span><span class="n">MidlatitudeSummer</span><span class="p">)</span> 
+    <span class="n">aerosol_SPF</span> <span class="o">=</span> <span class="s1">&#39;tmart/ancillary/aerosol_maritime_SPF.csv&#39;</span> 
+    <span class="n">aot550</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">n_layers</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">aerosol_scale_height</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># Unless you have a reason, don&#39;t change this</span>
+    
+    <span class="c1"># Synthesize an atmosphere object     </span>
+    <span class="n">my_atm</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Atmosphere</span><span class="p">(</span><span class="n">atm_profile</span><span class="p">,</span> <span class="n">aot550</span><span class="p">,</span> <span class="n">aerosol_SPF</span><span class="p">,</span> <span class="n">n_layers</span><span class="p">,</span> <span class="n">aerosol_scale_height</span><span class="p">)</span>
+    
+    
+    <span class="c1">### Running T-Mart ###</span>
+    
+    <span class="c1"># Make a T-Mart object </span>
+    <span class="n">my_tmart</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Tmart</span><span class="p">(</span><span class="n">Surface</span> <span class="o">=</span> <span class="n">my_surface</span><span class="p">,</span> <span class="n">Atmosphere</span><span class="o">=</span> <span class="n">my_atm</span><span class="p">)</span>
+    <span class="n">my_tmart</span><span class="o">.</span><span class="n">set_wind</span><span class="p">(</span><span class="n">wind_speed</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">wind_dir</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">my_tmart</span><span class="o">.</span><span class="n">set_water</span><span class="p">(</span><span class="n">water_salinity</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">water_temperature</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    
+    <span class="c1"># Specify the sensor&#39;s position (x, y, z), viewing direction relative </span>
+    <span class="c1"># to the sensor (zenith, azimuth), sun&#39;s direction relative to the target </span>
+    <span class="c1"># (zenith, azimuth)</span>
+    <span class="n">my_tmart</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">sensor_coords</span><span class="o">=</span><span class="p">[</span><span class="mi">51</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">130_000</span><span class="p">],</span> 
+                          <span class="n">target_pt_direction</span><span class="o">=</span><span class="p">[</span><span class="mi">150</span><span class="p">,</span><span class="mi">90</span><span class="p">],</span>
+                          <span class="n">sun_dir</span><span class="o">=</span><span class="p">[</span><span class="mi">30</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+    
+    <span class="c1"># Run</span>
+    <span class="n">n_photon</span> <span class="o">=</span> <span class="mi">10_000</span>
+    <span class="n">nc</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">njobs</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">my_tmart</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="n">wl</span><span class="p">,</span> <span class="n">n_photon</span><span class="o">=</span><span class="n">n_photon</span><span class="p">,</span><span class="n">nc</span><span class="o">=</span> <span class="n">nc</span><span class="p">,</span><span class="n">njobs</span><span class="o">=</span> <span class="n">njobs</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+    
+    <span class="c1"># Calculate reflectances using recorded photon information </span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">calc_ref</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+    <span class="n">R</span><span class="p">[</span><span class="s1">&#39;Wavelength&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wl</span>
+    
+    <span class="n">pd_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+
+<span class="n">pd_output</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd_output</span><span class="p">)</span>
+
+<span class="c1"># Plot </span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pd_output</span><span class="p">[</span><span class="s2">&quot;Wavelength&quot;</span><span class="p">],</span> <span class="n">pd_output</span><span class="p">[</span><span class="s2">&quot;R_atm&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Atmospheric intrinsic R.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pd_output</span><span class="p">[</span><span class="s2">&quot;Wavelength&quot;</span><span class="p">],</span> <span class="n">pd_output</span><span class="p">[</span><span class="s2">&quot;R_dir&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Direct R.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pd_output</span><span class="p">[</span><span class="s2">&quot;Wavelength&quot;</span><span class="p">],</span> <span class="n">pd_output</span><span class="p">[</span><span class="s2">&quot;R_env&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Environmental R.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pd_output</span><span class="p">[</span><span class="s2">&quot;Wavelength&quot;</span><span class="p">],</span> <span class="n">pd_output</span><span class="p">[</span><span class="s2">&quot;R_total&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Total R.&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="waterTOA" src="_images/waterTOA.png" /></p>
+</div>
+<div class="section" id="useful-information">
+<h2>Useful Information<a class="headerlink" href="#useful-information" title="Permalink to this headline">¶</a></h2>
+<p>The following two pandas dataframes completely describe the atmosphere in T-Mart.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The atmosphere profile</span>
+<span class="n">my_atm_profile</span> <span class="o">=</span> <span class="n">my_tmart</span><span class="o">.</span><span class="n">atm_profile_wl</span>
+
+<span class="c1"># The aerosol scattering phase function</span>
+<span class="n">my_aerosol_SPF</span> <span class="o">=</span> <span class="n">my_tmart</span><span class="o">.</span><span class="n">aerosol_SPF_wl</span>
+</pre></div>
+</div>
+<p>The columns of the atmosphere profile:</p>
+<ul class="simple">
+<li><p>Alt_bottom: the bottom the the layer in km.</p></li>
+<li><p>Alt_top: the top of the layer in km.</p></li>
+<li><p>ot_abs: optical thickness of absroption.</p></li>
+<li><p>ot_rayleigh: optical thickness of molecular or rayleigh scattering. No scattering phase function needed because it is built-in.</p></li>
+<li><p>ot_mie: optical thickness of aerosol scattering, relies on the input scattering phase function (see below).</p></li>
+<li><p>ot_scatt: sum of ot_rayleigh and ot_mie.</p></li>
+</ul>
+<p>The columns of the aerosol scattering phase function (currently rely on pre-calculated values, may use miepython in the future to compute on the go):</p>
+<ul class="simple">
+<li><p>Angle: the scattering angle.</p></li>
+<li><p>Value: normalized intensity at the corresponding scattering angle.</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tmart.html" class="btn btn-neutral float-right" title="Parameters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="overview.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, Yulun Wu
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

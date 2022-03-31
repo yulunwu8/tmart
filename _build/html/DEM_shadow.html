@@ -1,0 +1,292 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Other: DEM-shadow &mdash; T-Mart 1.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Document" href="docu.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> T-Mart
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="instruction.html">Instruction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tmart.html">Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docu.html">Document</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Other: DEM-shadow</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#instruction">Instruction</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">T-Mart</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Other: DEM-shadow</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="other-dem-shadow">
+<h1>Other: DEM-shadow<a class="headerlink" href="#other-dem-shadow" title="Permalink to this headline">¶</a></h1>
+<p>Source: https://github.com/tomderuijter/python-dem-raycast</p>
+<p>Modified by Yulun Wu, March 11, 2022</p>
+<p>Slightly improved the computation effeciency by skiping the elevations 0s in the begining of the lines because they don’t cast shadows, as often encountered in coastal areas.</p>
+<div class="section" id="instruction">
+<h2>Instruction<a class="headerlink" href="#instruction" title="Permalink to this headline">¶</a></h2>
+<p>First, import the libraries. Place the <strong>python_dem_shadows</strong> folder in the same folder as your script and data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">osgeo</span> <span class="kn">import</span> <span class="n">gdal</span><span class="p">,</span> <span class="n">ogr</span><span class="p">,</span> <span class="n">osr</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">python_dem_shadows</span> <span class="k">as</span> <span class="nn">dem</span>
+<span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Imports done&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Modify your input:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">file_in</span> <span class="o">=</span> <span class="s2">&quot;cdem_16_17_26_19N.tif&quot;</span>
+<span class="n">zenith</span> <span class="o">=</span> <span class="mf">55.54170463</span> 
+<span class="n">azimuth</span> <span class="o">=</span> <span class="mf">176.92407132</span>
+</pre></div>
+</div>
+<p>Load the DEM raster:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">Open</span><span class="p">(</span><span class="n">file_in</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">ds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Warning: can&#39;t open raster dataset&quot;</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span> <span class="c1"># error message</span>
+
+<span class="n">xsize</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">RasterXSize</span>
+<span class="n">ysize</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">RasterYSize</span>
+<span class="n">nbands</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">RasterCount</span>
+<span class="n">projection</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">GetProjection</span><span class="p">()</span>
+<span class="n">geotransform</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">GetGeoTransform</span><span class="p">()</span>
+
+<span class="n">bands</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nbands</span><span class="p">):</span>
+    <span class="n">bands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">arrays</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nbands</span><span class="p">):</span>
+    <span class="n">arrays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bands</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ReadAsArray</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">xsize</span><span class="p">,</span><span class="n">ysize</span><span class="p">))</span>
+
+<span class="c1"># Load DEM </span>
+<span class="n">dem_data</span> <span class="o">=</span> <span class="n">arrays</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Plot the DEM in gray scale if needed:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">dem_data</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys_r&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;DEM&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Set up parameters:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Solar angle vector </span>
+<span class="n">sv</span> <span class="o">=</span> <span class="n">dem</span><span class="o">.</span><span class="n">normal_vector</span><span class="p">(</span><span class="n">zenith</span><span class="p">,</span>  <span class="n">azimuth</span><span class="p">)</span>
+
+<span class="c1"># cell_width </span>
+<span class="n">dx</span> <span class="o">=</span> <span class="n">geotransform</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># cell height, abs because its value usually increases as it moves south </span>
+<span class="n">dy</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">geotransform</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Calculate shadow and plot it. In the output numpy array: 1 is no-shadow, 0 is shadow.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cast shadow. Turn off print_progress if you don&#39;t need it</span>
+<span class="n">drop_shadow</span> <span class="o">=</span> <span class="n">dem</span><span class="o">.</span><span class="n">project_shadows</span><span class="p">(</span><span class="n">dem_data</span><span class="p">,</span> <span class="n">sv</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">print_progress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">drop_shadow</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys_r&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Ray cast&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If needed, export the numpy array to a tiff file with the same geospatial information as the input raster.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">driver</span> <span class="o">=</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GetDriverByName</span><span class="p">(</span><span class="s2">&quot;GTiff&quot;</span><span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="s1">&#39;test.tif&#39;</span><span class="p">,</span> <span class="n">xsize</span><span class="p">,</span> <span class="n">ysize</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">gdal</span><span class="o">.</span><span class="n">GDT_Float32</span><span class="p">)</span>
+<span class="n">dataset</span><span class="o">.</span><span class="n">SetGeoTransform</span><span class="p">(</span><span class="n">geotransform</span><span class="p">)</span>
+<span class="n">dataset</span><span class="o">.</span><span class="n">SetProjection</span><span class="p">(</span><span class="n">projection</span><span class="p">)</span>
+<span class="n">band</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">GetRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">band</span><span class="o">.</span><span class="n">WriteArray</span><span class="p">(</span><span class="n">drop_shadow</span><span class="p">)</span> 
+<span class="n">dataset</span> <span class="o">=</span> <span class="kc">None</span> 
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="docu.html" class="btn btn-neutral float-left" title="Document" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, Yulun Wu
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

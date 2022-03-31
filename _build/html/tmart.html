@@ -1,0 +1,448 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Parameters &mdash; T-Mart 1.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Document" href="docu.html" />
+    <link rel="prev" title="Instruction" href="instruction.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> T-Mart
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="instruction.html">Instruction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Parameters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-tmart.tmart_class">Tmart Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-tmart.Atmosphere">Atmosphere Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-tmart.Surface">Surface Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-tmart.tm_calcref">calcref Function</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="docu.html">Document</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DEM_shadow.html">Other: DEM-shadow</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">T-Mart</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Parameters</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="parameters">
+<h1>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-tmart.tmart_class">
+<span id="tmart-class"></span><h2>Tmart Class<a class="headerlink" href="#module-tmart.tmart_class" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="tmart.tmart_class.Tmart_Class">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tmart.tmart_class.</span></span><span class="sig-name descname"><span class="pre">Tmart_Class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Surface</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Atmosphere</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tmart.tmart_class.Tmart_Class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Create a Tmart object.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Surface</span></code> – Surface object from the Surface module.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Atmosphere</span></code> – Atmosphere object from the Atmosphere module.</p></li>
+</ul>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_tmart</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Tmart</span><span class="p">(</span><span class="n">Surface</span> <span class="o">=</span> <span class="n">my_surface</span><span class="p">,</span> <span class="n">Atmosphere</span><span class="o">=</span> <span class="n">my_atm</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="tmart.tmart_class.Tmart_Class.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_photon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">njobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">80</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_on</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_flux</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tmart.tmart_class.Tmart_Class.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run with multiple processing</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">wl</span></code> – wavelength in nm.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_photon</span></code> – number of photons to use in MC simulation, default 10,000.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nc</span></code> – number of CPU cores to use in multiprocessing, default automatic.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">njobs</span></code> – dividing the jobs into n portions in multiprocessing, default 80.</p></li>
+</ul>
+<p>Return:</p>
+<ul class="simple">
+<li><p>Movement information of photons.</p></li>
+</ul>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n_photon</span> <span class="o">=</span> <span class="mi">100_00</span>
+<span class="n">nc</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">njobs</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">my_tmart</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="n">wl</span><span class="p">,</span> <span class="n">n_photon</span><span class="o">=</span><span class="n">n_photon</span><span class="p">,</span><span class="n">nc</span><span class="o">=</span> <span class="n">nc</span><span class="p">,</span><span class="n">njobs</span><span class="o">=</span> <span class="n">njobs</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tmart.tmart_class.Tmart_Class.run_plot">
+<span class="sig-name descname"><span class="pre">run_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wl</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_on</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tmart.tmart_class.Tmart_Class.run_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a single photon and plot, print the details of photon movements.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">wl</span></code> – wavelength in nm.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_on</span></code> – Boolean, if plot the movements.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_range</span></code> – List, [xmin, xmax, ymin, ymax, zmin, zmax]</p></li>
+</ul>
+<p>Return:</p>
+<ul class="simple">
+<li><p>Movement information of a photon.</p></li>
+</ul>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">my_tmart</span><span class="o">.</span><span class="n">run_plot</span><span class="p">(</span><span class="n">wl</span><span class="o">=</span><span class="n">wl</span><span class="p">,</span> <span class="n">plot_on</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plot_range</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">100_000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">100_000</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">100_000</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tmart.tmart_class.Tmart_Class.set_geometry">
+<span class="sig-name descname"><span class="pre">set_geometry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sensor_coords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_cell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sun_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">0]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_pt_direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tmart.tmart_class.Tmart_Class.set_geometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set geometry</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sensor_coords</span></code> – Where the sensor is, in [X, Y, Z], unit in meters.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sun_dir</span></code> – Solar angle, in [Zenith, Azimuth], relative to the target.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">target_pt_direction</span></code> – Were to shoot photon from the sensor, AKA viewing angle, in [Zenith, Azimuth], relative to the sensor.</p></li>
+</ul>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_tmart</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">sensor_coords</span><span class="o">=</span><span class="p">[</span><span class="mi">51</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">130_000</span><span class="p">],</span> 
+            <span class="n">target_pt_direction</span><span class="o">=</span><span class="p">[</span><span class="mi">180</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">sun_dir</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tmart.tmart_class.Tmart_Class.set_water">
+<span class="sig-name descname"><span class="pre">set_water</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">water_salinity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">water_temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tmart.tmart_class.Tmart_Class.set_water" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set water salinity and temperature.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">water_salinity</span></code> – water salinity in parts per thousand, default 0.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">water_temperature</span></code> – water temperature in celsius, default 25.</p></li>
+</ul>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_tmart</span><span class="o">.</span><span class="n">set_water</span><span class="p">(</span><span class="n">water_salinity</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">water_temperature</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tmart.tmart_class.Tmart_Class.set_wind">
+<span class="sig-name descname"><span class="pre">set_wind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wind_speed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wind_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tmart.tmart_class.Tmart_Class.set_wind" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set wind speed and direction.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">wind_speed</span></code> – wind speed in meters, default 10.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">wind_dir</span></code> – wind direction clockwise from east, default 0.</p></li>
+</ul>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_tmart</span><span class="o">.</span><span class="n">set_wind</span><span class="p">(</span><span class="n">wind_speed</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">wind_dir</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-tmart.Atmosphere">
+<span id="atmosphere-class"></span><h2>Atmosphere Class<a class="headerlink" href="#module-tmart.Atmosphere" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="tmart.Atmosphere.Atmosphere">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tmart.Atmosphere.</span></span><span class="sig-name descname"><span class="pre">Atmosphere</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atm_profile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aot550</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aerosol_SPF</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'tmart/ancillary/aerosol_maritime_SPF.csv'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aerosol_scale_height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_absorption</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">specify_ot_rayleigh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">specify_abs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tmart.Atmosphere.Atmosphere" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Create an Atmosphere object.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">atm_profile</span></code> – AtmosProfile object from 6S.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">aot550</span></code> – AOT at 550nm.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">aerosol_SPF</span></code> – Directory to a CSV file, aerosol scattering phase function.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_layers</span></code> – Number of atmosphere layers to use</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">aerosol_scale_height</span></code> – Aerosol scale height in km.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">no_absorption</span></code> – Boolean, if yes -&gt; remove all absorption.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">specify_ot_rayleigh</span></code> – Specify rayleigh optical thickness.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">specify_abs</span></code> – Specifiy absorption optical thickness.</p></li>
+</ul>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">atm_profile</span> <span class="o">=</span> <span class="n">AtmosProfile</span><span class="o">.</span><span class="n">PredefinedType</span><span class="p">(</span><span class="n">AtmosProfile</span><span class="o">.</span><span class="n">MidlatitudeSummer</span><span class="p">)</span> 
+<span class="n">aerosol_SPF</span> <span class="o">=</span> <span class="s1">&#39;tmart/ancillary/aerosol_maritime_SPF.csv&#39;</span> 
+<span class="n">aot550</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">my_atm</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Atmosphere</span><span class="p">(</span><span class="n">atm_profile</span><span class="p">,</span> <span class="n">aot550</span><span class="p">,</span> <span class="n">aerosol_SPF</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tmart.Surface">
+<span id="surface-class"></span><h2>Surface Class<a class="headerlink" href="#module-tmart.Surface" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="tmart.Surface.Surface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tmart.Surface.</span></span><span class="sig-name descname"><span class="pre">Surface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DEM</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reflectance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isWater</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alignPixels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tmart.Surface.Surface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Create an Atmosphere object.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DEM</span></code> – Numpy array, Digital Elevation Model, the elevation of pixels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reflectance</span></code> – Numpy array, reflectance of land or water-leaving reflectance of water, Lambertian.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">isWater</span></code> – Numpy array, which pixels are water pixels. 1 is water, 0 is land.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cell_size</span></code> – The width and length of each pixel, in meters.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alignPixels</span></code> – Boolean. If true: the southeast corner of the pixel will take the elevation in DEM. If false: the centre of the pixel will take the elevation in DEM.</p></li>
+</ul>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">image_DEM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span> <span class="c1"># in meters</span>
+<span class="n">image_reflectance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">],[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">]])</span> <span class="c1"># unitless     </span>
+<span class="n">image_isWater</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span> <span class="c1"># 1 is water, 0 is land</span>
+<span class="n">cell_size</span> <span class="o">=</span> <span class="mi">20_000</span> 
+<span class="n">my_surface</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Surface</span><span class="p">(</span><span class="n">image_DEM</span><span class="p">,</span><span class="n">image_reflectance</span><span class="p">,</span><span class="n">image_isWater</span><span class="p">,</span><span class="n">cell_size</span><span class="p">)</span>  
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="tmart.Surface.Surface.set_background">
+<span class="sig-name descname"><span class="pre">set_background</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bg_ref</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_isWater</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_elevation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bg_coords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tmart.Surface.Surface.set_background" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set background information, 1 or 2 background surfaces can be set;
+If 2 surfaces: the first background is the one closer to [0,0]</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">bg_ref</span></code> – A number or a list of two numbers. Reflectance of each background surface. Default average reflectance of the pixels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bg_isWater</span></code> – A number or a list of two numbers. If each of the background surface is water. Default land.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bg_elevation</span></code> – A number. The elevation of the background surfaces. Default 0.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bg_coords</span></code> – A list of two lists of two numbers. Two XY coordinates divide the two background surfaces. Default [[0,0],[1,1]].</p></li>
+</ul>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_surface</span><span class="o">.</span><span class="n">set_background</span><span class="p">(</span><span class="n">bg_ref</span>        <span class="o">=</span> <span class="p">[</span><span class="mf">0.02</span><span class="p">,</span><span class="mf">0.02</span><span class="p">],</span> <span class="c1"># background reflectance</span>
+                          <span class="n">bg_isWater</span>    <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="c1"># if is water</span>
+                          <span class="n">bg_elevation</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="c1"># elevation of both background</span>
+                          <span class="n">bg_coords</span>     <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">]])</span> <span class="c1"># a line dividing two background </span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="tmart.Surface.spectral_surface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tmart.Surface.</span></span><span class="sig-name descname"><span class="pre">spectral_surface</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">land_cover</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tmart.Surface.spectral_surface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Create an object to capture the spectral reflectance of surfaces when looping wavelengths.</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">land_cover</span></code> – Text, currently support soil (general), vegetation (general), water (general), water_chl1 ([chla]=1).</p></li>
+</ul>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create object</span>
+<span class="n">water</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">spectral_surface</span><span class="p">(</span><span class="s1">&#39;water_chl1&#39;</span><span class="p">)</span>
+
+<span class="c1"># Find spectral reflectance at 400nm</span>
+<span class="n">water</span><span class="o">.</span><span class="n">wl</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="tmart.Surface.spectral_surface.wl">
+<span class="sig-name descname"><span class="pre">wl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wavelength</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tmart.Surface.spectral_surface.wl" title="Permalink to this definition">¶</a></dt>
+<dd><p>See above.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-tmart.tm_calcref">
+<span id="calcref-function"></span><h2>calcref Function<a class="headerlink" href="#module-tmart.tm_calcref" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="tmart.tm_calcref.calc_ref">
+<span class="sig-prename descclassname"><span class="pre">tmart.tm_calcref.</span></span><span class="sig-name descname"><span class="pre">calc_ref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tmart.tm_calcref.calc_ref" title="Permalink to this definition">¶</a></dt>
+<dd><p>Analyze the results of T-Mart and calculate reflectances. 
+It is possible to seperate specular and water-leaving contributions and seperate aerosol and molecule contributions. Let me know if it’s useful.’</p>
+<p>Arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">df</span></code> – Results from T-Mart runs</p></li>
+</ul>
+<p>Output:</p>
+<ul class="simple">
+<li><p>A list of atmospheric intrinsic reflectance, direct reflectance, environmental reflectance and total reflectance.</p></li>
+</ul>
+<p>Example usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">calc_ref</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<span class="target" id="module-tmart"></span></div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="docu.html" class="btn btn-neutral float-right" title="Document" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="instruction.html" class="btn btn-neutral float-left" title="Instruction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, Yulun Wu
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

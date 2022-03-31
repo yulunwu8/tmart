@@ -1,0 +1,377 @@
+# Instruction
+
+We start with a simple setting. I will introduce new functions as we go, and have a 'put together' code in each sub-section.
+
+
+
+## Quick Start
+
+Run T-Mart with simple settings here. 
+
+
+```python
+import tmart
+import numpy as np
+from Py6S.Params.atmosprofile import AtmosProfile
+
+# Specify wavelength in nm
+wl = 400
+
+
+### DEM and reflectance ###
+
+# Three same-size numpy arrays are needed
+image_DEM = np.array([[0,0],[0,0]]) # in meters
+image_reflectance = np.array([[0.1,0.1],[0.1,0.1]]) # unitless     
+image_isWater = np.zeros(image_DEM.shape) # 1 is water, 0 is land
+
+# pixel width and length, in meters 
+cell_size = 20_000 
+
+# Synthesize a surface object
+my_surface = tmart.Surface(image_DEM,image_reflectance,image_isWater,cell_size)  
+
+
+### Atmosphere ###
+
+# Atmophere profile comes from 6S
+atm_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer) 
+
+# Synthesize an atmosphere object 
+my_atm = tmart.Atmosphere(atm_profile)
+
+
+### Running T-Mart ###
+
+# Make a T-Mart object 
+my_tmart = tmart.Tmart(Surface = my_surface, Atmosphere= my_atm)
+
+# Specify the sensor's position (x, y, z), viewing direction relative 
+# to the sensor (zenith, azimuth), sun's direction relative to the target 
+# (zenith, azimuth)
+my_tmart.set_geometry(sensor_coords=[51,50,130_000], 
+                      target_pt_direction=[180,0],
+                      sun_dir=[0,0])
+
+results = my_tmart.run(wl=wl)
+results = np.vstack(results)
+
+# Calculate reflectances using recorded photon information 
+R = tmart.calc_ref(results,n_photon=10_000)
+print(R)
+```
+
+
+## Multiple Processing 
+
+Monte Carlo simulations have inherent noise - it decreases with a larger sample size. Multiprocessing is used to speed up the computation. 
+
+By default, 10,000 photons are used. Number of CPU cores to use is automated. Default number of jobs is 80. Use 100,000 photons for more stable results.
+
+
+
+```python
+# Number of photons
+n_photon = 100_000
+
+# Number of CPU cores to use, sometimes default doesn't work and 
+# you need to specify the number of cores you have. 
+nc = 10
+
+# Dividing the task into n jobs, I found 80-120 function 
+# more or less the same. 
+njobs = 100
+
+results = my_tmart.run(wl=wl, n_photon=n_photon,nc= nc,njobs= njobs)
+```
+
+Now we put things together:
+
+```python
+import tmart
+import numpy as np
+from Py6S.Params.atmosprofile import AtmosProfile
+
+# Specify wavelength in nm
+wl = 400
+
+
+### DEM and reflectance ###
+
+# Three same-size numpy arrays are needed
+image_DEM = np.array([[0,0],[0,0]]) # in meters
+image_reflectance = np.array([[0.1,0.1],[0.1,0.1]]) # unitless     
+image_isWater = np.zeros(image_DEM.shape) # 1 is water, 0 is land
+
+# pixel width and length, in meters 
+cell_size = 20_000 
+
+# Synthesize a surface object
+my_surface = tmart.Surface(image_DEM,image_reflectance,image_isWater,cell_size)  
+
+
+### Atmosphere ###
+
+# Atmophere profile comes from 6S
+atm_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer) 
+
+# Synthesize an atmosphere object 
+my_atm = tmart.Atmosphere(atm_profile)
+
+
+### Running T-Mart ###
+
+# Make a T-Mart object 
+my_tmart = tmart.Tmart(Surface = my_surface, Atmosphere= my_atm)
+
+# Specify the sensor's position (x, y, z), viewing direction relative 
+# to the sensor (zenith, azimuth), sun's direction relative to the target 
+# (zenith, azimuth)
+my_tmart.set_geometry(sensor_coords=[51,50,130_000], 
+                      target_pt_direction=[180,0],
+                      sun_dir=[0,0])
+
+# Run
+n_photon = 100_000
+nc = 10
+njobs = 100
+results = my_tmart.run(wl=wl, n_photon=n_photon,nc= nc,njobs= njobs)
+results = np.vstack(results)
+
+# Calculate reflectances using recorded photon information 
+R = tmart.calc_ref(results,n_photon=10_000)
+print(R)
+```
+
+## Observing the Movements of a Single Photon
+
+Instead of running lots of photons, we can run a single photon and observe where it goes and what happens. This is mostly for debugging purposes. The details of each movement will be printed. 
+
+We use the run_plot function here, note that number of photons and multiprocessing are not needed here. 
+
+```python
+results = my_tmart.run_plot(wl=wl)
+```
+
+We can also plot the photon's movements by turnining on *plot_on*: 
+
+```python
+results = my_tmart.run_plot(wl=wl, plot_on=True)
+```
+
+Lines: 
+
+- Blue to red: the photon moves from blue to red.
+- Green: surface normal of a Lambertian surface.
+- Dark blue: surface normal of a specular surface.
+- Orange: next moving direction 
+
+By default, the limits of X, Y, Z are all 0 to 100,000. We can specify them in the format of [xmin, xmax, ymin, ymax, zmin, zmax]:
+
+```python
+results = my_tmart.run_plot(wl=wl, plot_on=True, plot_range=[0,100_000,0,100_000,0,100_000])
+```
+
+Lastly, to switch to an interactive plotting mode where you can zoom and rotate the camera in a plot interactively, and switch back, use: 
+
+```python
+# Interactive mode
+%matplotlib qt
+
+# Switch back 
+%matplotlib inline
+```
+
+Putting it all together. We can still calculate reflectances using one photon thanks to the local-estimate technique, but this is not accurate - we need stats from a large sample size. 
+
+```python
+import tmart
+import numpy as np
+from Py6S.Params.atmosprofile import AtmosProfile
+
+
+# Specify wavelength in nm
+wl = 400
+
+
+### DEM and reflectance ###
+
+# Three same-size numpy arrays are needed
+image_DEM = np.array([[0,0],[0,0]]) # in meters
+image_reflectance = np.array([[0.1,0.1],[0.1,0.1]]) # unitless     
+image_isWater = np.zeros(image_DEM.shape) # 1 is water, 0 is land
+
+# pixel width and length, in meters 
+cell_size = 20_000 
+
+# Synthesize a surface object
+my_surface = tmart.Surface(image_DEM,image_reflectance,image_isWater,cell_size)  
+
+
+### Atmosphere ###
+
+# Atmophere profile comes from 6S
+atm_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer) 
+
+# Synthesize an atmosphere object 
+my_atm = tmart.Atmosphere(atm_profile)
+
+
+### Running T-Mart ###
+
+# Make a T-Mart object 
+my_tmart = tmart.Tmart(Surface = my_surface, Atmosphere= my_atm)
+
+# Specify the sensor's position (x, y, z), viewing direction relative 
+# to the sensor (zenith, azimuth), sun's direction relative to the target 
+# (zenith, azimuth)
+my_tmart.set_geometry(sensor_coords=[51,50,130_000], 
+                      target_pt_direction=[180,0],
+                      sun_dir=[0,0])
+
+# Run
+%matplotlib qt
+results = my_tmart.run_plot(wl=wl, plot_on=True, plot_range=[0,100_000,0,100_000,0,100_000])
+results = np.vstack(results)
+
+# Calculate reflectances using recorded photon information 
+R = tmart.calc_ref(results,n_photon=10_000)
+print(R)
+```
+Here's the first plot generated by the code above, the next ones are not shown here.
+![Geometry](files/movement.png)
+
+
+
+
+## Water Pixels 
+
+
+## Modify Background 
+
+By default, background takes the average reflectance and average elevation of the DEM and reflecting surface. 
+
+```python
+# Set background information, 1 or 2 background should be set;
+# If 2: the first background is the one closer to [0,0]
+my_surface.set_background(bg_ref        = [0.02,0.02], # background reflectance
+                          bg_isWater    = [0,0], # if is water
+                          bg_elevation  = 0, # elevation of both background
+                          bg_coords     = [[0,0],[10,10]] # a line dividing two background                                    
+
+# Construct the topography by triangulating the DEM pixels into 3D triangles 
+my_surface.triangulate_DEM(alignPixels=True)
+
+
+
+```
+
+## Adding Aerosol 
+
+
+## Additional Parameters 
+
+
+
+## Full Single Run 
+
+Below is the code I usually use for my single runs. Be creative at what you can do, e.g.:
+
+- Load your own DEM and image (they have to be the same size),
+- Loop through wavelengths, distances from shore, AOT, viewing or solar angles, etc. 
+
+Copy the comments from above!!!
+
+
+```python
+import tmart
+import numpy as np
+from Py6S.Params.atmosprofile import AtmosProfile
+
+
+# Specify wavelength in nm
+wl = 400
+
+
+### DEM and reflectance ###
+
+image_DEM = np.array([[0,0],[0,0]]) # DEM
+cell_size = 100 # pixel width and length 
+image_reflectance = np.array([[0.1,0.1],[0.1,0.1]])     
+image_isWater = np.zeros(image_DEM.shape)
+
+# Synthesize a surface object
+my_surface = tmart.Surface(image_DEM,image_reflectance,image_isWater,cell_size)  
+
+# Set background information, 1 or 2 background should be set;
+# If 2: the first background is the one closer to [0,0]
+my_surface.set_background(bg_ref        = [0.02,0.02], # background reflectance
+                          bg_isWater    = [0,0], # if is water
+                          bg_elevation  = 0, # elevation of both background
+                          bg_coords     = [[0,0],[10,10]]) # a line dividing two background                                    
+
+# Construct the topography by triangulating the DEM pixels into 3D triangles 
+my_surface.triangulate_DEM(alignPixels=True)
+
+
+### Atmosphere ###
+
+# Atmophere profile comes from 6S
+atm_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer) 
+
+# Aerosol scattering function 
+aerosol_SPF = 'tmart/ancillary/aerosol_maritime_SPF.csv' 
+aot550 = 0.1
+
+
+# Number of layers and aerosol scale height
+n_layers = 20
+aerosol_scale_height = 2 
+
+# Synthesize an atmosphere object 
+my_atm = tmart.Atmosphere(atm_profile, aot550, aerosol_SPF, n_layers, aerosol_scale_height)
+
+
+### Running T-Mart ###
+
+# Make a T-Mart object 
+my_tmart = tmart.Tmart(Surface = my_surface, Atmosphere= my_atm)
+
+my_tmart.set_wind(wind_speed=5, wind_dir=0)
+my_tmart.set_water(water_salinity=35, water_temperature=20)
+my_tmart.set_geometry(sensor_coords=[51,50,130_000], target_pt_direction=[180,0],sun_dir=[0,0])
+
+n_photon = 10_000
+
+# results = my_tmart.run_plot(wl=wl, plot_on=True)
+
+results = my_tmart.run(wl=wl, n_photon=n_photon,nc=8,njobs=100, print_on=False)
+results = np.vstack(results)
+
+
+# Calculate reflectances using recorded photon information 
+R = tmart.calc_ref(results,n_photon)
+print(R)
+
+
+```
+
+## Useful Information 
+
+
+
+```python
+my_atm_profile = my_tmart.atm_profile_wl
+my_aerosol_SPF = my_tmart.aerosol_SPF_wl
+```
+
+
+
+
+
+
+
+
+
+
+
