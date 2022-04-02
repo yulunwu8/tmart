@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd 
 from .tm_geometry import rotation_matrix, dirP_to_coord, dirC_to_dirP, angle_3d
 
+import os.path
 
 # whitecap reflectance 
 def find_R_wc(wl, wind_speed):
@@ -17,7 +18,8 @@ def find_R_wc(wl, wind_speed):
         from scipy.interpolate import interp1d
         
         # interpolate whitecape factor 
-        df = pd.read_csv('tmart/ancillary/whitecap_factor.csv')
+        
+        df = pd.read_csv(os.path.join(os.path.dirname(__file__), 'ancillary/whitecap_factor.csv'))
         df_wl = df.Wavelength.to_numpy()
         df_value = df.Value.to_numpy()
         f2 = interp1d(df_wl, df_value, kind='cubic')

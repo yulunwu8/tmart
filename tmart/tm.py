@@ -401,10 +401,9 @@ class Tmart(Tmart_Class):
                 if self.print_on: print("local_est: " + str(local_est))
                 pt_stat = np.vstack([pt_stat, local_est])     
                 
-        
+            # Scattering 
             if scenario == 3 and out == False:
                 
-
                 le_scatt = self.local_est_scat(pt_direction_op_C, q_collision, pt_weight, ot_mie, ot_rayleigh, scatt_intensity)
 
                 local_est = [pt_id, movement,type_scat,0,0,0,0] + le_scatt + [0, 0, 0]
@@ -457,25 +456,29 @@ class Tmart(Tmart_Class):
         T = math.exp(-OT)
         if self.print_on: print ('\nT_total for local_est: ' +str(T))
         
-        # total 
+        # total scattering in that layer 
         ot_scattering = ot_mie + ot_rayleigh
         
         
         # angle between pt_direction and the sun 
         angle_pt_sun = angle_3d(dirP_to_coord(1,self.sun_dir), [0,0,0], pt_direction_op_C)
         
-        # the angle needed to scattering the photon into the sun's direction 
+        # the angle needed to scatter the photon into the sun's direction 
         angle_scattering = 180 - angle_pt_sun
         
         # rayleigh 
         rayleigh = (3/4)*(1+(math.cos(angle_scattering/180*math.pi))**2)
         # print('rayleigh: ' + str(rayleigh))
         
+        # c: contribution? 
+        
         rayleigh_c = rayleigh / math.cos(self.sun_dir[0]/180*math.pi)  / 4 # 4 should be the right normalization 
         # print('rayleigh_c: ' + str(rayleigh_c))
         rayleigh_c = rayleigh_c * (ot_rayleigh/ot_scattering)
         # print('rayleigh_c2: ' + str(rayleigh_c))
         
+        
+        # This function should be built-in in the object to run faster !!!
     
         # mie
         df_angle = self.aerosol_SPF_wl.Angle.to_numpy()

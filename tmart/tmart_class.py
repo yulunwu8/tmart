@@ -334,12 +334,14 @@ class Tmart_Class():
         return self._run_single_photon(0)
     
     
-    # A single photon run, should be overwritten 
+    # A single photon run, is overwritten in tm.py
     def _run_single_photon(self):
         return None
 
 
-    def _local_est_OT(self,q_collision): # finds OT between TOA and z
+    # finds OT between TOA and z
+    
+    def _local_est_OT(self,q_collision): 
         # print('OT_abs of entire atm: {}'.format(sum(self.atm_profile_wl.ot_abs)))
         
         # Altitude of the collision point  

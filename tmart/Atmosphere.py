@@ -8,6 +8,7 @@ import Py6S
 from Py6S.Params.atmosprofile import AtmosProfile
 from Py6S.Params.aeroprofile import AeroProfile
 
+import os.path
 
 # Include layered atmosphere, molecules and particles, at all wavelengths  
 
@@ -34,8 +35,11 @@ class Atmosphere(): # wavelength
       my_atm = tmart.Atmosphere(atm_profile, aot550, aerosol_SPF)
 
     '''
+    
+    # os.path.join(os.path.dirname(__file__), 'ancillary/aerosol_maritime_SPF.csv')
 
-    def __init__(self,atm_profile, aot550 = 0, aerosol_SPF='tmart/ancillary/aerosol_maritime_SPF.csv' ,
+    def __init__(self,atm_profile, aot550 = 0, 
+                 aerosol_SPF=os.path.join(os.path.dirname(__file__), 'ancillary/aerosol_maritime_SPF.csv') ,
                  n_layers=None, aerosol_scale_height=None, no_absorption = False, specify_ot_rayleigh = -1, specify_abs = -1):
         
         self.atm_profile = atm_profile

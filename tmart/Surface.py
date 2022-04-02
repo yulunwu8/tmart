@@ -5,7 +5,7 @@ import pandas as pd
 
 from scipy.interpolate import interp1d
 
-
+import os.path
 
 
 class spectral_surface():
@@ -26,7 +26,8 @@ class spectral_surface():
 
     '''
     def __init__(self,land_cover):
-        file_name = 'tmart/ancillary/' + str(land_cover) + '.csv'
+        
+        file_name = os.path.join(os.path.dirname(__file__), 'ancillary', str(land_cover) + '.csv')
         
         try:
         
