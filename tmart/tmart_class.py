@@ -81,8 +81,10 @@ class Tmart_Class():
         
         
         self.wind_speed = 10 # default 10 m/s
+        self.wind_azi_avg = True # azimuthally averaged cox munk
         self.wind_dir = 0 # default azimuthal, 0 means UPWIND along x-axis
             # AKA the direction where wind comes from 
+           
         self.F_wc_wl = None # fraction of sea surface covered by whitecaps 
         self.R_wc_wl = None # whitecap reflectance at this wavelength
         
@@ -135,22 +137,25 @@ class Tmart_Class():
         # Sun direction 
         self.sun_dir = sun_dir # [zenith, azimuthal]        
         
-    def set_wind(self,wind_speed=10,wind_dir=0): 
+    def set_wind(self,wind_speed=10,wind_azi_avg=True,wind_dir=0): 
         '''Set wind speed and direction. 
         
         Arguments:
 
         * ``wind_speed`` -- wind speed in meters, default 10.
-        * ``wind_dir`` -- wind direction clockwise from east, default 0.
+        * ``wind_azi_avg`` -- cox-munk slopes azimuthally averaged, default True.
+        * ``wind_dir`` -- upwind direction clockwise from east, default 0. Meaningless when wind_azi_avg is True.
 
         Example usage::
-
-          my_tmart.set_wind(wind_speed=5, wind_dir=0)
+          
+          my_tmart.set_wind(wind_speed=5)
+          my_tmart.set_wind(wind_speed=5, wind_azi_avg = False, wind_dir=0)
           
         '''
         
         self.wind_speed = wind_speed
         self.wind_dir = wind_dir
+        self.wind_azi_avg = wind_azi_avg
         
     def set_water(self,water_salinity=0,water_temperature=25): # default 0/1000 and 25C
         '''Set water salinity and temperature. 

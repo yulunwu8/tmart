@@ -430,6 +430,8 @@
 </div>
 <p>Once we have the Tmart object, we can modify wind and water properties. They are both related to the specular reflectance of the water surface.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">my_tmart</span> <span class="o">=</span> <span class="n">tmart</span><span class="o">.</span><span class="n">Tmart</span><span class="p">(</span><span class="n">Surface</span> <span class="o">=</span> <span class="n">my_surface</span><span class="p">,</span> <span class="n">Atmosphere</span><span class="o">=</span> <span class="n">my_atm</span><span class="p">)</span>
+<span class="c1"># wind_dir is the wind direction clockwise from the X axis, 0 means upwind </span>
+<span class="c1"># along the X axis (X+), AKA where the wind comes from</span>
 <span class="n">my_tmart</span><span class="o">.</span><span class="n">set_wind</span><span class="p">(</span><span class="n">wind_speed</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">wind_dir</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">my_tmart</span><span class="o">.</span><span class="n">set_water</span><span class="p">(</span><span class="n">water_salinity</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">water_temperature</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>

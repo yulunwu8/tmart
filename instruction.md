@@ -300,6 +300,8 @@ Once we have the Tmart object, we can modify wind and water properties. They are
 
 ```python
 my_tmart = tmart.Tmart(Surface = my_surface, Atmosphere= my_atm)
+# wind_dir is the wind direction clockwise from the X axis, 0 means upwind 
+# along the X axis (X+), AKA where the wind comes from
 my_tmart.set_wind(wind_speed=5, wind_dir=0)
 my_tmart.set_water(water_salinity=35, water_temperature=20)
 ```

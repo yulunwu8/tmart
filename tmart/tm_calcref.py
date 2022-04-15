@@ -16,13 +16,16 @@ from copy import copy
 
 
 
-def calc_ref(df):
+def calc_ref(df, n_photon = None):
     '''Analyze the results of T-Mart and calculate reflectances. 
     It is possible to seperate specular and water-leaving contributions and seperate aerosol and molecule contributions. Let me know if it's useful.'
     
     Arguments:
 
     * ``df`` -- Results from T-Mart runs
+    * ``n_photon`` -- Specify the number of photons in the run. If not specified, the number of unique pt_id will be used.
+    
+       * This can lead to errors when photons were fired upwards because some photons will not have pt_id.
     
     Output:
 
@@ -59,7 +62,9 @@ def calc_ref(df):
     dfpd['env'] = 0 # 1 is environment reflectance 
     
     unique_pt_id = (np.unique(dfpd.pt_id))
-    n_photon = unique_pt_id.shape[0]
+    
+    if n_photon == None:
+        n_photon = unique_pt_id.shape[0]
 
     
     dfpd.dtypes

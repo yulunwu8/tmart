@@ -6,6 +6,13 @@ import numpy as np
 import pandas as pd 
 from .tm_geometry import rotation_matrix, dirP_to_coord, dirC_to_dirP, angle_3d
 
+
+
+
+# for testing within this script 
+# from tm_geometry import rotation_matrix, dirP_to_coord, dirC_to_dirP, angle_3d
+
+
 import os.path
 
 # whitecap reflectance 
@@ -160,7 +167,7 @@ def eta_to_dirP(eta_a_degree, eta_c_degree):
 
 
 # basic one 
-def cox_munk(slope_along_wind, slope_cross_wind, wind_speed, unit='slope'):
+def cox_munk(slope_along_wind, slope_cross_wind, wind_speed, unit='slope', azi_avg = False):
     '''
     
 
@@ -195,26 +202,34 @@ def cox_munk(slope_along_wind, slope_cross_wind, wind_speed, unit='slope'):
         print('Warning: unit unknown in calculating cox_munk probability')
         return None
     
-    # Slope variances 
-    sigma_a_2 = 3.16 * 10**-3 * wind_speed # along-wind direction 
-    sigma_c_2 = 1.92 * 10**-3 * wind_speed + 0.003 # cross-wind direction 
+
+    if azi_avg: 
+        sigma_a_2 = 2.54 * 10**-3 * wind_speed # along-wind direction 
+        sigma_c_2 = 2.54 * 10**-3 * wind_speed # cross-wind direction 
+        eta = Z_y / math.sqrt(sigma_a_2) # along wind
+        xi = Z_x / math.sqrt(sigma_c_2) # cross wind
+        cm_exp = math.exp(-0.5 * (xi**2 + eta**2))
     
-    # Normalized slope 
-    eta = Z_y / math.sqrt(sigma_a_2) # along wind
-    xi = Z_x / math.sqrt(sigma_c_2) # cross wind
-    
-    # Cox-Munk distribution 
-    c21 = 0.01 - 0.0086*wind_speed
-    c03 = 0.04 - 0.033*wind_speed
-    c40 = 0.40
-    c22 = 0.12
-    c04 = 0.23
-    
-    cm_exp = math.exp(-0.5 * (xi**2 + eta**2)) * (
-        1 - 0.5*c21*(xi**2 - 1)*eta - (1/6)*c03*(eta**3 - 3*eta) +
-        (1/24)*c40 * (xi**4 - 6*xi**2 + 3) + (1/4) * c22 *(xi**2 - 1)*(eta**2 - 1) + 
-        (1/24)*c04*(eta**4 - 6*eta**2 + 3) )
-    
+    else: 
+        # Slope variances 
+        sigma_a_2 = 3.16 * 10**-3 * wind_speed # along-wind direction 
+        sigma_c_2 = 1.92 * 10**-3 * wind_speed + 0.003 # cross-wind direction 
+        
+        # Normalized slope 
+        eta = Z_y / math.sqrt(sigma_a_2) # along wind
+        xi = Z_x / math.sqrt(sigma_c_2) # cross wind
+        
+        # Cox-Munk distribution 
+        c21 = 0.01 - 0.0086*wind_speed
+        c03 = 0.04 - 0.033*wind_speed
+        c40 = 0.40
+        c22 = 0.12
+        c04 = 0.23
+        
+        cm_exp = math.exp(-0.5 * (xi**2 + eta**2)) * (
+            1 - 0.5*c21*(xi**2 - 1)*eta - (1/6)*c03*(eta**3 - 3*eta) +
+            (1/24)*c40 * (xi**4 - 6*xi**2 + 3) + (1/4) * c22 *(xi**2 - 1)*(eta**2 - 1) + 
+            (1/24)*c04*(eta**4 - 6*eta**2 + 3) )
     
     p = cm_exp / (2 * math.pi * math.sqrt(sigma_a_2) * math.sqrt(sigma_c_2)) # correcpond to value corrected 
     
@@ -225,6 +240,46 @@ def cox_munk(slope_along_wind, slope_cross_wind, wind_speed, unit='slope'):
     return p
 
 
+
+# test basic cox-munk
+# if __name__=='__main__':
+    
+#     wind_speed = 10 # m/s 
+    
+#     eta_a_degree = 20  # along-wind direction 
+#     eta_c_degree = 0  # cross-wind direction 
+
+#     # test = cox_munk(eta_a_degree, eta_c_degree, wind_speed,correction = '*sin')
+#     test = cox_munk(eta_a_degree, eta_c_degree, wind_speed, unit='degree', azi_avg = False)   
+#     print ('10, 0')
+#     print(test)
+    
+#     test = cox_munk(eta_a_degree, eta_c_degree, wind_speed, unit='degree', azi_avg = True)   
+#     print ('10, 0, azi_avg')
+#     print(test)
+    
+
+#     eta_a_degree = 0  # along-wind direction 
+#     eta_c_degree = 20  # cross-wind direction 
+
+#     # test = cox_munk(eta_a_degree, eta_c_degree, wind_speed,correction = '*sin')
+#     test = cox_munk(eta_a_degree, eta_c_degree, wind_speed, unit='degree', azi_avg = False)   
+#     print ('0, 10')
+#     print(test)
+
+#     test = cox_munk(eta_a_degree, eta_c_degree, wind_speed, unit='degree', azi_avg = True)   
+#     print ('0, 10, azi_avg')
+#     print(test)
+
+
+
+
+
+    # eta_a = 0.176326981
+    # eta_c = 0.043660943
+
+    # test2 = cox_munk_slope(eta_a, eta_c, wind_speed,correction = '/cos')   
+    # print(test2)
 
 
 
@@ -317,7 +372,7 @@ def cox_munk(slope_along_wind, slope_cross_wind, wind_speed, unit='slope'):
 
 
 # sample a random slope, not related to the sun, correct to X direction  
-def sample_cox_munk(wind_speed, wind_dir):
+def sample_cox_munk(wind_speed, wind_dir,azi_avg=False):
     '''
     
 
@@ -349,7 +404,7 @@ def sample_cox_munk(wind_speed, wind_dir):
             eta_a_degree = -i # make it downwind
             eta_c_degree = 0
             
-            cm_calc = cox_munk(eta_a_degree, eta_c_degree, wind_speed, unit='degree') 
+            cm_calc = cox_munk(eta_a_degree, eta_c_degree, wind_speed, unit='degree',azi_avg = azi_avg) 
             # print(cm_calc)
             
             if cm_calc >= cm_max:
@@ -367,7 +422,7 @@ def sample_cox_munk(wind_speed, wind_dir):
         
             eta_a_degree = random.uniform(-90,90)    
             eta_c_degree = random.uniform(-90,90)    
-            cm_calc = cox_munk(eta_a_degree, eta_c_degree, wind_speed, unit='degree')
+            cm_calc = cox_munk(eta_a_degree, eta_c_degree, wind_speed, unit='degree',azi_avg = azi_avg)
             cm_rand = random.uniform(0,cm_max) 
         
         # print([eta_a_degree,eta_c_degree])
@@ -384,6 +439,31 @@ def sample_cox_munk(wind_speed, wind_dir):
         coords = dirP_to_coord(1, L[0:2])
         
         return coords
+
+
+
+
+# # test sampling lots of cox_munk 
+# if __name__=='__main__':
+    
+#     df = np.empty((0,3))
+    
+#     wind_speed = 5 # m/s 
+#     wind_dir = 0
+    
+#     # test = sample_cox_munk(wind_speed,wind_dir)
+#     # print (test)
+
+#     for i in range(10000):
+
+#         test = np.array(sample_cox_munk(wind_speed,wind_dir))
+#         df = np.vstack((df,test))
+
+#     import matplotlib.pyplot as plt
+    
+#     plt.plot(df[:,0],df[:,1],'o') #x: x, y:y
+    
+
 
 
 
@@ -472,7 +552,7 @@ def find_eta_P(pt_direction_op_C,sun_dir,q_collision_N_polar,wind_dir):
 
 
 # Cox-Munk + Fresnel reflectance 
-def find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_speed, water_refraIdx_wl, print_on):
+def find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_speed, water_refraIdx_wl, print_on, azi_avg=False):
     '''
     
 
@@ -501,6 +581,7 @@ def find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_sp
     eta_P = find_eta_P(pt_direction_op_C,sun_dir,q_collision_N_polar,wind_dir)
     if print_on: print('\neta_P, needed CM slopes in polar: '+str(eta_P))
     
+    # beta: steepest slope of the water surface facet
     beta = eta_P[0]/180*math.pi
     
     # eta_polar ==> coords ==> slopes 
@@ -522,7 +603,7 @@ def find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_sp
     # surface normal is right between the two because of CM
     angle_pt_sun = angle_3d(dirP_to_coord(1,sun_dir), [0,0,0], pt_direction_op_C)
     R_specular = fresnel(water_refraIdx_wl, angle_pt_sun/2)
-    p_cox_munk = cox_munk(eta_a, eta_c, wind_speed,unit='slope') 
+    p_cox_munk = cox_munk(eta_a, eta_c, wind_speed,unit='slope',azi_avg=azi_avg) 
     
     solar_zenith = sun_dir[0] /180 * math.pi
     
@@ -551,24 +632,31 @@ def find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_sp
 
 
 
-# test cox_munk reflectance 
-if __name__=='__main__':
+# # test cox_munk reflectance 
+# if __name__=='__main__':
 
-    pt_direction = [130,0] # essentially sensor viewing angle 
+#     pt_direction = [120,10] # essentially sensor viewing angle 
     
-    pt_direction_op_C = np.negative(dirP_to_coord(1, pt_direction))
+#     pt_direction_op_C = np.negative(dirP_to_coord(1, pt_direction))
     
     
-    sun_dir = [50,0]
+#     sun_dir = [50,0]
     
-    q_collision_N_polar = [0, 0]
-    wind_dir = 0
-    wind_speed = 10
+#     q_collision_N_polar = [0, 0]
+#     water_refraIdx_wl = 1.34
     
-    water_refraIdx_wl = 1.34
+#     wind_dir = 270
+#     wind_speed = 5    
+#     print('=== original ===')  
+#     test = find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_speed,water_refraIdx_wl, print_on=True)
     
-    test = find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_speed,water_refraIdx_wl, print_on=True)
-    
+#     print('\n=== azi_avg ===')  
+#     test = find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_speed,water_refraIdx_wl, print_on=True, azi_avg=True)
+
+
+
+
+
 
 
 # test cox_munk reflectance in a loop 
@@ -652,52 +740,6 @@ if __name__=='__main__':
 
 
 
-
-# # test basic cox-munk
-# if __name__=='__main__':
-
-    
-#     eta_a_degree = 10  # along-wind direction 
-#     eta_c_degree = 2.5  # cross-wind direction 
-#     wind_speed = 10 # m/s 
-    
-
-#     # test = cox_munk(eta_a_degree, eta_c_degree, wind_speed,correction = '*sin')
-#     test = cox_munk(eta_a_degree, eta_c_degree, wind_speed,correction = '/cos')   
-#     print(test)
-
-
-
-#     eta_a = 0.176326981
-#     eta_c = 0.043660943
-
-#     test2 = cox_munk_slope(eta_a, eta_c, wind_speed,correction = '/cos')   
-#     print(test2)
-
-
-
-
-
-# # test sampling lots of cox_munk 
-# if __name__=='__main__':
-    
-#     df = np.empty((0,3))
-    
-#     wind_speed = 5 # m/s 
-#     wind_dir = 0
-    
-#     # test = sample_cox_munk(wind_speed,wind_dir)
-#     # print (test)
-
-#     for i in range(10000):
-
-#         test = np.array(sample_cox_munk(wind_speed,wind_dir))
-#         df = np.vstack((df,test))
-
-#     import matplotlib.pyplot as plt
-    
-#     plt.plot(df[:,0],df[:,1],'o') #x: x, y:y
-    
 
 
 
