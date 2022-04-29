@@ -292,7 +292,7 @@ def intersect_line_DEMtri2(q0, q1, DEM_tri, print_on = False):
                 N = np.cross(p1-p0, p2-p0) #maybe faster than the line above 
                 
                 # test normal if in the same direction as the incoming line 
-                if angle_3d(q0,intersect,N) > 90:
+                if angle_3d(q0,intersect,(intersect + N)) > 90:
                     # print('Reversing normal direction')
                     
                     

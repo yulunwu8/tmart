@@ -6,6 +6,8 @@
 
 
 
+
+
 import random
 from multiprocessing import Pool, cpu_count
 from pathos.multiprocessing import ProcessingPool
@@ -272,11 +274,13 @@ class Tmart_Class():
         
         # manual print 
         results_temp = pool.amap(self._run,part_count) # Async
+        
         if njobs>1:
             _track_job(results_temp)
-        results = results_temp.get() 
         
-        
+        results = results_temp.get()
+        # time.sleep(1)
+
         
         # pool.close() # only map needs this, amap is good
 
@@ -287,16 +291,20 @@ class Tmart_Class():
     def _run(self,part_count):
     
         pts_stat = np.empty([0,12])
-        # pts_stat = np.empty([0,1]) # for surface irradiance 
+        # pts_stat = np.empty([0,2]) 
         
         for i in part_count:
             
             if self.print_on:
                 print("\n---------- Running Photon " + str(i) + " ----------")
             
+
+            
             pt_stat = self._run_single_photon(i)
+            # pt_stat = self._run_single_photon_test(i) # test if it's my code that causes multiprocessing not to finish
+            
             pts_stat = np.vstack([pts_stat, pt_stat])
-          
+
       
         return pts_stat
     

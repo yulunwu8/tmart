@@ -3,6 +3,7 @@
 # T-MART: Topography-adjusted Monte-Carlo Adjacency-effect Radiative Transfer code  
 
 
+
 from .tmart_class import Tmart_Class
 
 import numpy as np
@@ -24,6 +25,10 @@ from .tm_OT import find_OT
 
 # inherit and overwrite _run_single_photon
 class Tmart(Tmart_Class): 
+    
+    def _run_single_photon_test(self,pt_id): # test if it's my code that causes multiprocessing not to finish
+        return [1,1]
+    
     
     # A single photon run 
     def _run_single_photon(self,pt_id):
@@ -174,7 +179,7 @@ class Tmart(Tmart_Class):
                     in_angle = 100 # just an impossible incident angle 
                     pt_direction_op_C = np.negative(dirP_to_coord(1, pt_direction)) # opposite to pt_direction Coordinates, only for isWater scenarios 
                     
-                    while in_angle>90: # if and impossible angle (CM does it sometimes), re-randomize
+                    while in_angle>90: # if an impossible angle (CM does it sometimes), re-randomize
                     
                         # Use Cox-munk to draw a normal
                         random_cox_munk = sample_cox_munk(self.wind_speed, self.wind_dir)
@@ -188,7 +193,8 @@ class Tmart(Tmart_Class):
     
                         # incident angle to calculate Fresnel reflectance 
                         in_angle = angle_3d(rotated_cm, [0,0,0], pt_direction_op_C)
-                    
+                        
+      
                     
                     R_specular = fresnel(self.water_refraIdx_wl, in_angle)
                     # R_specular = fresnel_test(in_angle, rotated_cm, pt_direction) # testing version, for in_angles > 90
