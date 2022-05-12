@@ -123,7 +123,7 @@ class Tmart(Tmart_Class):
                 intersect_bg_y = intersect_bg[1] < self.Surface.y_min or intersect_bg[1] > self.Surface.y_max
                 
                 # if xy of intersecting background is outside the triangles on X or Y axies 
-                if intersect_bg_x or intersect_bg_y:     
+                if q1[2]<self.Surface.bg_elevation and (intersect_bg_x or intersect_bg_y):     
                     if self.print_on: print ("\nScenario 2: Background collision")
                     scenario = 2 
                 else: 

@@ -62,12 +62,13 @@ class Tmart_Class():
 
     '''
     
-    def __init__(self, Surface, Atmosphere):
+    def __init__(self, Surface, Atmosphere, shadow = False):
 
         
         
         self.Surface = Surface
         self.Atmosphere = Atmosphere
+        if shadow == True: self.shadow = True
         
         self.sensor_coords = None
 
