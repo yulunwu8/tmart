@@ -70,12 +70,15 @@ class Tmart_Class():
         self.Atmosphere = Atmosphere
         
         self.sensor_coords = None
+
         self.target_cell = None
         self.sun_dir = None
         self.print_on = False # print switch 
         self.plot_on = False  # don't turn it on for multiprocessing 
         
         self.target_pt_direction = [180,0] 
+        self.pixel = None
+        self.pixel_elevation = None
         
         self.wl = None
         self.atm_profile_wl = None # single wavelength 
@@ -100,7 +103,7 @@ class Tmart_Class():
              
         
     def set_geometry(self,sensor_coords=None,target_cell=None,
-                     sun_dir=[0,0], target_pt_direction=None):
+                     sun_dir=[0,0], target_pt_direction=None, pixel=None):
         '''Set geometry
         
         Arguments:
@@ -118,12 +121,20 @@ class Tmart_Class():
         '''
         
         
-        # Sensor coordinates 
+        ### Sensor coordinates 
+        
+        # pixel based 
         if sensor_coords==None:
-            self.sensor_coords = np.array([4500,4501,100_000]) 
+            
+            self.pixel_elevation = self.Surface.DEM[pixel[0],pixel[1]]
+            
+            dist_120000 = (120_000 - self.pixel_elevation) / np.cos(target_pt_direction[0]/180*np.pi) 
+            self.sensor_coords = dirP_to_coord(dist_120000, target_pt_direction)
+            self.pixel = pixel
+            
+        # direct input 
         else:
             if sensor_coords[0]==sensor_coords[1]: sensor_coords[1]=sensor_coords[1]+0.0001
-            
             self.sensor_coords = np.array(sensor_coords)
         
         # Target cell: [x1,y1,x2,y2]
@@ -461,6 +472,9 @@ class Tmart_Class():
                     p2 = tri[2,:,row,col]
                     
                     plot_tri = [p0,p1,p2]
+                    
+                    plot_tri = np.array([p0,p1,p2])
+                    
                     
                     # print("------")
                     # print('plot_tri: ' + str(plot_tri))

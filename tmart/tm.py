@@ -40,7 +40,14 @@ class Tmart(Tmart_Class):
         
 
         # Initial position of the photon 
-        q0 = self.sensor_coords
+        if self.pixel == None:
+            q0 = self.sensor_coords
+        else:
+            pixel_x = self.Surface.cell_size * (self.pixel[1] + random.random()) # X
+            pixel_y = self.Surface.cell_size * (self.pixel[0] + random.random()) # Y
+
+            q0 = self.sensor_coords + [pixel_x,pixel_y,self.pixel_elevation]
+            
         
         # Initial moving direction of the photon, 改成 function！！！！！！
         pt_direction = self.target_pt_direction
@@ -109,8 +116,14 @@ class Tmart(Tmart_Class):
                 scenario = 1
             
             # If no triangle intersection 
-            else:           
-                if q1[2]<self.Surface.bg_elevation:     
+            else:      
+                
+                intersect_bg = intersect_background(q0, q1, self.Surface.bg_elevation) 
+                intersect_bg_x = intersect_bg[0] < self.Surface.x_min or intersect_bg[0] > self.Surface.x_max
+                intersect_bg_y = intersect_bg[1] < self.Surface.y_min or intersect_bg[1] > self.Surface.y_max
+                
+                # if xy of intersecting background is outside the triangles on X or Y axies 
+                if intersect_bg_x or intersect_bg_y:     
                     if self.print_on: print ("\nScenario 2: Background collision")
                     scenario = 2 
                 else: 
@@ -179,6 +192,8 @@ class Tmart(Tmart_Class):
                     in_angle = 100 # just an impossible incident angle 
                     pt_direction_op_C = np.negative(dirP_to_coord(1, pt_direction)) # opposite to pt_direction Coordinates, only for isWater scenarios 
                     
+
+                    
                     while in_angle>90: # if an impossible angle (CM does it sometimes), re-randomize
                     
                         # Use Cox-munk to draw a normal
@@ -194,7 +209,7 @@ class Tmart(Tmart_Class):
                         # incident angle to calculate Fresnel reflectance 
                         in_angle = angle_3d(rotated_cm, [0,0,0], pt_direction_op_C)
                         
-      
+
                     
                     R_specular = fresnel(self.water_refraIdx_wl, in_angle)
                     # R_specular = fresnel_test(in_angle, rotated_cm, pt_direction) # testing version, for in_angles > 90
@@ -271,8 +286,8 @@ class Tmart(Tmart_Class):
             
                 q_collision_N_polar = [0,0] 
                 
-                intersect_bg = intersect_background(q0, q1, self.Surface.bg_elevation)
-                q_collision = intersect_bg + [self.Surface.bg_elevation]
+                
+                q_collision = intersect_bg + [self.Surface.bg_elevation]    
                 if self.print_on: print('q_collision: ' + str(q_collision))  
                 
                 # re-calculate absorption 
@@ -302,12 +317,18 @@ class Tmart(Tmart_Class):
                     in_angle = 100 # just an impossible incident angle 
                     pt_direction_op_C = np.negative(dirP_to_coord(1, pt_direction)) # opposite to pt_direction Coordinates, only for isWater scenarios 
                     
+                    
+
+                    
                     while in_angle>90: 
                         # Use Cox-munk to draw a normal, no need for rotation
                         random_cox_munk = sample_cox_munk(self.wind_speed, self.wind_dir)
                                        
                         # incident angle to calculate Fresnel reflectance 
                         in_angle = angle_3d(random_cox_munk, [0,0,0], pt_direction_op_C)
+                        
+
+                        
                     
                     
                     R_specular = fresnel(self.water_refraIdx_wl, in_angle)

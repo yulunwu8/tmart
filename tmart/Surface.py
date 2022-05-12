@@ -112,6 +112,12 @@ class Surface():
         self.set_background() # test March 12, 2022
         self._triangulate_DEM()
         
+        self.x_min = np.min(self.DEM_triangulated[0][:,0,:,:])
+        self.x_max = np.max(self.DEM_triangulated[0][:,0,:,:])
+        self.y_min = np.min(self.DEM_triangulated[0][:,1,:,:])
+        self.y_max = np.max(self.DEM_triangulated[0][:,1,:,:])
+        
+        
         
         
     def _info(self): # print all the information 
