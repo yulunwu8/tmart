@@ -68,7 +68,11 @@ class Tmart_Class():
         
         self.Surface = Surface
         self.Atmosphere = Atmosphere
-        if shadow == True: self.shadow = True
+        
+        if shadow == True: 
+            self.shadow = True
+        else: 
+            self.shadow = False
         
         self.sensor_coords = None
 

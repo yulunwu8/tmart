@@ -391,7 +391,7 @@ class Tmart(Tmart_Class):
             
             ###### Calculate absorption 
           
-            T_abs = math.exp(-tao_abs) # tao_abs is unchanged if scenario 3 
+            T_abs = math.exp(-tao_abs) # tao_abs is unchanged if scenario 3 because the whole segment was used
             pt_weight = pt_weight * T_abs
             
             if self.print_on:
@@ -402,6 +402,22 @@ class Tmart(Tmart_Class):
                 print('\n= Local estimate =')
             
             
+            ''' to be deleted
+            
+            # 1000 -> self.pixel_elevation 
+            # 30 -> self.sun_dir[0]
+            
+            sun_dir = [30,0]
+            q_collision = np.array([0,0,1000])
+            
+            dist_120000 = (120_000 - 1000) / np.cos(30/180*np.pi) 
+            
+            q_sun = dirP_to_coord(dist_120000, sun_dir) + q_collision
+            
+            '''
+            
+            
+            
              
             
             ###### Local estimates 
@@ -410,10 +426,17 @@ class Tmart(Tmart_Class):
             # Columes: pt_id, movement, type of collision, L_cox-munk, L_whitecap, L_water, L_land, L_rayleigh, L_mie, surface xyz 
             
             
+            if_shadow = False
+            
             if scenario == 1 or scenario == 2: 
                 
+                if self.shadow: if_shadow = self.detect_shadow(q_collision)
+                    
+                if if_shadow:
+                    local_est = [pt_id, movement,'Shadow',0,0,0,0,0,0] + q_collision
+                
                 # Water
-                if q_collision_isWater==1:
+                elif q_collision_isWater==1:
                     
                     le_water = self.local_est_water(pt_weight, pt_direction_op_C, q_collision, 
                                                     q_collision_N_polar, R_specular, q_collision_ref, R_surf)
@@ -431,9 +454,17 @@ class Tmart(Tmart_Class):
             # Scattering 
             if scenario == 3 and out == False:
                 
-                le_scatt = self.local_est_scat(pt_direction_op_C, q_collision, pt_weight, ot_mie, ot_rayleigh, scatt_intensity)
-
-                local_est = [pt_id, movement,type_scat,0,0,0,0] + le_scatt + [0, 0, 0]
+                if self.shadow: if_shadow = self.detect_shadow(q_collision)
+                    
+                if if_shadow:
+                    local_est = [pt_id, movement,'Shadow',0,0,0,0,0,0] + q_collision.tolist() 
+                    # tolist because q_collision comes from q1, which is a numpy array
+                    
+                else:
+                
+                    le_scatt = self.local_est_scat(pt_direction_op_C, q_collision, pt_weight, ot_mie, ot_rayleigh, scatt_intensity)
+    
+                    local_est = [pt_id, movement,type_scat,0,0,0,0] + le_scatt + [0, 0, 0]
                 
                 if self.print_on: print("local_est: " + str(local_est))
                 pt_stat = np.vstack([pt_stat, local_est])            
@@ -575,7 +606,24 @@ class Tmart(Tmart_Class):
         local_est = local_est * T 
         return local_est.tolist()
            
+    
+    def detect_shadow(self, q_collision):
+        
 
+        
+        dist_120000 = (120_000 - q_collision[2]) / np.cos(self.sun_dir[0]/180*np.pi) 
+        q_sun = dirP_to_coord(dist_120000, self.sun_dir) + q_collision
+        
+        intersect_tri = intersect_line_DEMtri2(q_collision, q_sun, self.Surface.DEM_triangulated, self.print_on)  
+        
+        if_shadow = intersect_tri.shape[0] > 0
+        
+        if self.print_on: print ('\nif_shadow: ' +str(if_shadow))
+        
+        
+        return if_shadow
+        
+        
 
 
 
