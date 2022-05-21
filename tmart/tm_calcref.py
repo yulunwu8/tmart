@@ -71,6 +71,7 @@ def calc_ref(df, n_photon = None):
     
     ###
     
+    # number of unique pt_id
     pt_id_counts = dfpd.pt_id.value_counts()
     
     # isolate those that only have one
@@ -138,7 +139,8 @@ def calc_ref(df, n_photon = None):
                 
                 total = pt_movement.L_whitecap.values[0] + pt_movement.L_water.values[0] + pt_movement.L_land.values[0]
                 
-                r_wc = pt_movement.L_whitecap.values[0] / total # ratio 
+                # ratio 
+                r_wc = pt_movement.L_whitecap.values[0] / total 
                 r_water = pt_movement.L_water.values[0] / total
                 r_land = pt_movement.L_land.values[0] / total 
                 
