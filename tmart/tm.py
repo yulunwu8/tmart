@@ -13,9 +13,9 @@ import random
 import math, sys
 from scipy.interpolate import interp1d
 
-from .tm_sampling import sample_distance2scatter, sample_Lambertian, sample_scattering
+from .tm_sampling import sample_distance2scatter, sample_Lambertian, sample_scattering, weight_impSampling, weight_impSampling2
 from .tm_geometry import dirP_to_coord, linear_distance, dirC_to_dirP, rotation_matrix, angle_3d, dirC_to_coord
-from .tm_intersect import find_atm, intersect_line_DEMtri, find_atm2, intersect_line_DEMtri2
+from .tm_intersect import find_atm2, intersect_line_DEMtri2
 from .tm_intersect import intersect_line_boundary, reflectance_intersect, reflectance_background, intersect_background
 from .tm_water import fresnel, sample_cox_munk, find_R_cm
 
@@ -378,13 +378,37 @@ class Tmart(Tmart_Class):
                 q_collision = q1
                 
                 ### Find ot_mie and ot_rayleigh
-                
                 ot_rayleigh, ot_mie = find_atm2(atm_profile,q1)
-               
                 
                 pt_direction_op_C = np.negative(dirP_to_coord(1, pt_direction))
-                pt_direction, scatt_intensity, type_scat = sample_scattering(ot_mie, ot_rayleigh, pt_direction, self.Atmosphere.aerosol_SPF, self.print_on)
+                
+                
+                # regular sampling  
+                if random.random() >= self.VROOM:
+                    if self.print_on: print('\n==Regular Sampling==')  
+                    pt_direction, scatt_intensity, type_scat = sample_scattering(ot_mie, ot_rayleigh, pt_direction, self.Atmosphere.aerosol_SPF, self.print_on)
     
+                # importance sampling 
+                else:
+                    if self.print_on: print('\n==Importance Sampling==')  
+                    
+                    # Force mie scattering when importance sampling 
+                    pt_direction, scatt_intensity, type_scat = sample_scattering(1, 0, self.sun_dir, self.Atmosphere.aerosol_SPF, self.print_on)
+                    
+                    
+                    # angle between the old direction and the importance-sampled direction --> Scattering angle 
+                    angle_impSampling = angle_3d(dirP_to_coord(1,pt_direction), [0,0,0], pt_direction_op_C)
+                    
+                    scatt_intensity_impSampling = weight_impSampling(ot_mie,ot_rayleigh,angle_impSampling,self.Atmosphere.aerosol_SPF, self.print_on)
+                    
+                    if self.print_on: print("  pt_weight before adjustment: " + str(pt_weight))
+                    if self.print_on: print("  adjustment factor: " + str(scatt_intensity_impSampling/scatt_intensity))
+                    pt_weight = pt_weight * (scatt_intensity_impSampling/scatt_intensity)
+ 
+                    
+    
+    
+
 
 
     
@@ -462,7 +486,7 @@ class Tmart(Tmart_Class):
                     
                 else:
                 
-                    le_scatt = self.local_est_scat(pt_direction_op_C, q_collision, pt_weight, ot_mie, ot_rayleigh, scatt_intensity)
+                    le_scatt = self.local_est_scat(pt_direction_op_C, q_collision, pt_weight, ot_mie, ot_rayleigh)
     
                     local_est = [pt_id, movement,type_scat,0,0,0,0] + le_scatt + [0, 0, 0]
                 
@@ -505,7 +529,7 @@ class Tmart(Tmart_Class):
 
 
 
-    def local_est_scat(self,pt_direction_op_C,q_collision, pt_weight, ot_mie, ot_rayleigh, scatt_intensity):
+    def local_est_scat(self,pt_direction_op_C,q_collision, pt_weight, ot_mie, ot_rayleigh):
         
         
         # calculate remaining Transmittance 

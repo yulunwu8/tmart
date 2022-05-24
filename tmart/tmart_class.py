@@ -62,17 +62,18 @@ class Tmart_Class():
 
     '''
     
-    def __init__(self, Surface, Atmosphere, shadow = False):
+    def __init__(self, Surface, Atmosphere, shadow = False, VROOM = 0):
 
         
         
         self.Surface = Surface
         self.Atmosphere = Atmosphere
         
-        if shadow == True: 
-            self.shadow = True
-        else: 
-            self.shadow = False
+        
+        self.shadow = shadow
+        self.VROOM = VROOM # 0: no acceleration. 1: all collisions are directed towards the sun
+            
+            
         
         self.sensor_coords = None
 

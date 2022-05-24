@@ -9,7 +9,7 @@ from .tm_geometry import angle_3d, linear_distance
 from copy import copy
 
 
-def find_atm(q0, pt_direction, atm_profile_wl, print_on = False):
+def find_atm(q0, pt_direction, atm_profile_wl, print_on = False): # Not used 
     # Find a pohton in the atmosphere, retrieve OTs 
     
     # Test if the photon alt is equal to any of the upper boundaries 
@@ -177,8 +177,11 @@ def intersect_line_DEMtri2(q0, q1, DEM_tri, print_on = False):
     box_y_min = min(q_z_max[1],q_z_min[1])
     box_y_max = max(q_z_max[1],q_z_min[1])
     
+    # boxes that cross z
     crossing_z = np.logical_and(np.logical_and(tri_x_min < box_x_max, tri_x_max > box_x_min),
                                 np.logical_and(tri_y_min < box_y_max, tri_y_max > box_y_min))
+    
+    # crossing is for all xyz 
     
     if np.sum(crossing_z) <= 1:
         crossing = crossing_z
@@ -323,7 +326,7 @@ def intersect_line_DEMtri2(q0, q1, DEM_tri, print_on = False):
 
 
 # Testing intersecting triangles, this function is not used 
-def intersect_line_DEMtri(q0, q1, DEM_tri, print_on = False):
+def intersect_line_DEMtri(q0, q1, DEM_tri, print_on = False): # not used 
     '''
 
     Parameters

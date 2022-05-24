@@ -56,6 +56,93 @@ def sample_Lambertian():
 
 
 
+def weight_impSampling(ot_mie,ot_rayleigh,angle_impSampling,aerosol_SPF, print_on=False): 
+    
+    # sum of scattering 
+    ot_sum = ot_mie + ot_rayleigh
+    
+    ot_random = random.uniform(0,ot_sum)
+    
+    ### Determine if mie or rayleigh 
+    
+    # Mie 
+    if ot_random <= ot_mie:
+        if print_on: print ('\nMie scattering importance sampling')
+
+        
+        df_angle = aerosol_SPF.Angle.to_numpy()
+        
+        # sin correction 
+        df_value = aerosol_SPF.Value.to_numpy() 
+        
+        x_min = np.min(df_angle)
+        x_max = np.max(df_angle)
+        
+        if x_min!=0 or x_max!=180:
+            print('WARNING: Angle has to be between 0 and 180') # csv problem
+            # break???
+        
+        #f = interp1d(df_angle, df_value)
+        f2 = interp1d(df_angle, df_value, kind='cubic') # this works better 
+
+        y_calculated = f2(angle_impSampling).item() # interpolate 
+                
+    # Rayleigh   
+    else:
+        if print_on: print ('\nRayleigh scattering importance sampling')
+
+        y_calculated = (3/4)*(1+(math.cos(angle_impSampling/180*math.pi))**2)
+
+    # intensity at new_direction 
+    intensity = y_calculated 
+    if print_on: print ('  importance sampling intensity: ' + str(intensity))
+
+    return intensity
+  
+    
+# Normalized to a combined SPF model 
+def weight_impSampling2(ot_mie,ot_rayleigh,angle_impSampling,aerosol_SPF, print_on=False):  
+    
+    # sum of scattering 
+    ot_sum = ot_mie + ot_rayleigh
+    
+
+    # Mie 
+    df_angle = aerosol_SPF.Angle.to_numpy()
+    
+    # sin correction 
+    df_value = aerosol_SPF.Value.to_numpy() 
+    
+    x_min = np.min(df_angle)
+    x_max = np.max(df_angle)
+    
+    if x_min!=0 or x_max!=180:
+        print('WARNING: Angle has to be between 0 and 180') # csv problem
+        # break???
+    
+    #f = interp1d(df_angle, df_value)
+    f2 = interp1d(df_angle, df_value, kind='cubic') # this works better 
+
+    y_calculated_M = f2(angle_impSampling).item() # interpolate 
+                
+    # Rayleigh   
+
+    y_calculated_R = (3/4)*(1+(math.cos(angle_impSampling/180*math.pi))**2)
+
+
+
+    # intensity at new_direction 
+    intensity =  y_calculated_M * (ot_mie/ot_sum) + y_calculated_R * (ot_rayleigh/ot_sum)
+    
+    
+    
+    if print_on: print ('  importance sampling intensity: ' + str(intensity))
+
+    return intensity    
+    
+    
+
+
 def sample_scattering(ot_mie,ot_rayleigh,pt_direction,aerosol_SPF, print_on=False): 
     
     # sum of scattering 
@@ -166,8 +253,14 @@ def sample_scattering(ot_mie,ot_rayleigh,pt_direction,aerosol_SPF, print_on=Fals
     
     if print_on: print("Rotated_direction: " + str(new_direction)) 
     
+    
+    
+    
     # intensity at new_direction 
-    intensity = y_calculated / math.sin(x/180*math.pi)
+    intensity = y_calculated  / math.sin(x/180*math.pi)
+    
+    if print_on: print ('  intensity: ' + str(intensity))
+    
     
     
     
