@@ -207,12 +207,12 @@ class Tmart_Class():
         print(self.sun_dir)  
 
 
-    def _init_atm(self): 
+    def _init_atm(self,band): 
         
         if self.sensor_coords is None:
             print ("WARNING: geometry missing, set_geometry before you run")
         else:
-            self.atm_profile_wl, self.aerosol_SPF_wl = self.Atmosphere._wavelength(self.wl)
+            self.atm_profile_wl, self.aerosol_SPF_wl = self.Atmosphere._wavelength(self.wl,band)
             self.F_wc_wl, self.R_wc_wl = find_R_wc(wl=self.wl, wind_speed = self.wind_speed)
             self.water_refraIdx_wl = RefraIdx(self.water_salinity,self.water_temperature,self.wl)
             # self.water_refraIdx_wl = 1.34
@@ -226,7 +226,7 @@ class Tmart_Class():
 
 
     # User interface 
-    def run(self, wl, n_photon=10_000,nc=None, njobs=80, print_on=False, output_flux=False): 
+    def run(self, wl, band = None, n_photon=10_000,nc=None, njobs=80, print_on=False, output_flux=False): 
         '''Run with multiple processing 
         
         Arguments:
@@ -253,7 +253,7 @@ class Tmart_Class():
         self.print_on = print_on
         self.plot_on = False # don't even try it 
         self.output_flux = output_flux
-        self._init_atm()
+        self._init_atm(band)
         
         
         if nc==None:
@@ -326,7 +326,7 @@ class Tmart_Class():
         return pts_stat
     
     
-    def run_plot(self, wl, plot_on=True, plot_range=None): 
+    def run_plot(self, wl, band = None, plot_on=True, plot_range=None): 
         '''Run a single photon and plot, print the details of photon movements. 
         
         Arguments:
@@ -354,7 +354,7 @@ class Tmart_Class():
             plot_range = [0,100_000,0,100_000,0,100_000]
         self.plot_range = plot_range
             
-        self._init_atm()
+        self._init_atm(band)
         
         
         

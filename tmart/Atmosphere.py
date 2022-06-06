@@ -8,6 +8,8 @@ import Py6S
 from Py6S.Params.atmosprofile import AtmosProfile
 from Py6S.Params.aeroprofile import AeroProfile
 
+from .Aerosol import find_aerosolSPF
+
 import os.path
 
 # Include layered atmosphere, molecules and particles, at all wavelengths  
@@ -19,9 +21,9 @@ class Atmosphere(): # wavelength
 
     * ``atm_profile`` -- AtmosProfile object from 6S.
     * ``aot550`` -- AOT at 550nm.
-    * ``aerosol_SPF`` -- Directory to a CSV file, aerosol scattering phase function. 
+    * ``aerosol_SPF`` -- 'maritime', 'continental' or directory to a CSV file, aerosol scattering phase function. 
     * ``n_layers`` -- Number of atmosphere layers to use
-    * ``aerosol_scale_height`` -- Aerosol scale height in km.
+    * ``aerosol_scale_height`` -- Aerosol scale height in km. Default 2km. 
     * ``no_absorption`` -- Boolean, if yes -> remove all absorption. 
     * ``specify_ot_rayleigh`` -- Specify rayleigh optical thickness.
     * ``specify_abs`` -- Specifiy absorption optical thickness.
@@ -39,19 +41,24 @@ class Atmosphere(): # wavelength
     # os.path.join(os.path.dirname(__file__), 'ancillary/aerosol_maritime_SPF.csv')
 
     def __init__(self,atm_profile, aot550 = 0, 
-                 aerosol_SPF=os.path.join(os.path.dirname(__file__), 'ancillary/aerosol_maritime_SPF.csv') ,
+                 aerosol_type='maritime' , wl = None, 
                  n_layers=None, aerosol_scale_height=None, no_absorption = False, specify_ot_rayleigh = -1, specify_abs = -1):
         
         self.atm_profile = atm_profile
         self.aot550 = aot550
         
-        # Idaelly, pick a name and these are loaded automatically 
-        self.aerosol_SPF = pd.read_csv(aerosol_SPF) 
+        # pick a name and these are loaded automatically 
+        
+        self.aerosol_type = aerosol_type
+        self.aerosol_SPF = find_aerosolSPF(aerosol_type,wl)
+        
+        # aerosol_SPF = os.path.join(os.path.dirname(__file__), 'ancillary/aerosolSPF_maritime.csv')
+        # self.aerosol_SPF = pd.read_csv(aerosol_SPF) 
 
         
         # Default 20 layers 
         if n_layers is None:
-            self.n_layers = 10
+            self.n_layers = 20
         else:
             self.n_layers = n_layers
         
@@ -73,7 +80,7 @@ class Atmosphere(): # wavelength
     # return everything at a single wavelength 
     # supports Aerosol LUT AND 6S wavelengths 
     # A table of OTs at different heights   +    aerosol_SPF
-    def _wavelength(self, wl): 
+    def _wavelength(self, wl, band=None): 
         
         self.wl = wl
         
@@ -99,7 +106,7 @@ class Atmosphere(): # wavelength
         # print(sum(test[0])+ sum(test[1]))
         
         # Calculate tao in each layer and aerosol scattering phase function 
-        layers_ot_molecule, layers_ot_rayleigh = self._atm_profile_wl()
+        layers_ot_molecule, layers_ot_rayleigh = self._atm_profile_wl(band)
         
         # print('\n======= Summary ======')
         # print(layers_ot_molecule)
@@ -107,7 +114,9 @@ class Atmosphere(): # wavelength
         # print(sum(layers_ot_molecule))
         # print(sum(layers_ot_rayleigh))
         
-        layers_ot_mie, layers_ot_aerosol, aerosol_SPF = self._aerosol_wl()
+        
+        # ot_mie is aerosol scattering, ot_aerosol is aerosol absorption 
+        layers_ot_mie, layers_ot_aerosol, aerosol_SPF = self._aerosol_wl(band)
         # print(layers_ot_aerosol)
     
         layers_ot_total_abs = layers_ot_molecule + layers_ot_aerosol
@@ -166,7 +175,7 @@ class Atmosphere(): # wavelength
 
     
     # Extract the molecular profile at one wavelength 
-    def _atm_profile_wl(self): 
+    def _atm_profile_wl(self,band): 
         
         # Return two lists 
 
@@ -188,7 +197,21 @@ class Atmosphere(): # wavelength
             # print('alt_top: ' + str(alt_top))
             
             s = Py6S.SixS()
-            s.wavelength = Py6S.Wavelength(self.wl/1000)
+            s.wavelength = Py6S.Wavelength(self.wl/1000)   
+            
+            
+            
+            
+            
+            ### HERE
+            
+            if band is not None:
+                s.wavelength = band
+            
+            # s.wavelength = Py6S.Wavelength(Py6S.PredefinedWavelengths.S2A_MSI_08)
+            
+            
+            
             s.atmos_profile = self.atm_profile        
         
             s.geometry = Py6S.Geometry.User()
@@ -265,7 +288,7 @@ class Atmosphere(): # wavelength
         
         # percentage in each layer, redistribute total  
         
-        if sum(layers_ot_molecule_new)> 0: # in case of full transparency 
+        if sum(layers_ot_molecule_new)> 0: # no action in case of full transparency 
             relative_mol = layers_ot_molecule_new/np.sum(layers_ot_molecule_new)
             
             # tao_molecule = 0.3
@@ -292,12 +315,23 @@ class Atmosphere(): # wavelength
 
 
     # Extract aerosol profile at one wavelength 
-    def _aerosol_wl(self):
+    def _aerosol_wl(self, band):
         # Adapt to aerosol model???
         
         
         s = Py6S.SixS()
-        s.wavelength = Py6S.Wavelength(self.wl/1000)
+        s.wavelength = Py6S.Wavelength(self.wl/1000)   
+        
+        
+        # HERE
+        
+        # s.wavelength = Py6S.Wavelength(Py6S.PredefinedWavelengths.S2A_MSI_08)
+        
+        if band is not None:
+            s.wavelength = band
+        
+        
+        
         s.atmos_profile = self.atm_profile        
     
         s.geometry = Py6S.Geometry.User()
@@ -308,7 +342,17 @@ class Atmosphere(): # wavelength
         s.altitudes.set_target_custom_altitude(0)
         s.altitudes.set_sensor_satellite_level()
         
-        s.aero_profile = AeroProfile.PredefinedType(AeroProfile.Maritime)
+        
+        aerosol_dict = {    "NoAerosols": 0,
+                        "Continental" : 1,
+                        "Maritime" : 2,
+                        "Urban" : 3,
+                        "Desert" : 5,
+                        "BiomassBurning" : 6,
+                        "Stratospheric" : 7}
+        
+        
+        s.aero_profile = AeroProfile.PredefinedType(aerosol_dict[self.aerosol_type])
         s.aot550 = 1
         s.run()
         
@@ -355,13 +399,17 @@ class Atmosphere(): # wavelength
 
         # Divide optical thickness into layers, weighted by concentration at mean heights 
         layers_ot_mie = ot_mie * conc_normalized
-        layers_ot_aerosol = ot_aerosol * conc_normalized
+        layers_ot_aerosol = ot_aerosol * conc_normalized # aerosol absorption
 
         # Normalized scattering phase function
         aerosol_SPF = self.aerosol_SPF
         
+        
+        # print('layers_ot_mie: ' + str(layers_ot_mie))
         # print('layers_ot_aerosol: ' + str(layers_ot_aerosol))
         # print(sum(layers_ot_aerosol))
+  
+    
   
         return layers_ot_mie, layers_ot_aerosol, aerosol_SPF
 
@@ -372,13 +420,13 @@ if __name__=='__main__':
 
     atm_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer) # same as 6S
     aot550 = 0.0
-    aerosol_SPF = 'aerosol_maritime_SPF.csv'
-    aerosol_EXT = 'aerosol_maritime_EXT.csv'
-    aerosol_SSA = 'aerosol_maritime_SSA.csv'
+    # aerosol_SPF = 'aerosol_maritime_SPF.csv'
+    # aerosol_EXT = 'aerosol_maritime_EXT.csv'
+    # aerosol_SSA = 'aerosol_maritime_SSA.csv'
     
 
     # all wavelengths 
-    my_atm = Atmosphere(atm_profile, aot550, aerosol_SPF, n_layers = 1)
+    my_atm = Atmosphere(atm_profile, aot550)
     
     
     # my_atm.wavelength(wl=550,n_layers=10)
@@ -390,10 +438,24 @@ if __name__=='__main__':
 
     
     '''
-
     
-    # 550
-    my_atm_OT, my_SPF  = my_atm.wavelength(wl=720)
+    band = Py6S.Wavelength(Py6S.PredefinedWavelengths.S2A_MSI_08)
+    
+
+
+    my_atm_OT, my_SPF  = my_atm._wavelength(wl=842, band = band)
+    
+    print(sum(my_atm_OT['ot_abs']))
+    print(sum(my_atm_OT['ot_rayleigh']))
+    print(sum(my_atm_OT['ot_scatt']))
+    
+    
+    # my_atm_OT_band, my_SPF_band  = my_atm._wavelength(wl=842) 
+    
+    # sum(my_atm_OT_band['ot_abs'])
+    # sum(my_atm_OT_band['ot_rayleigh'])
+    # sum(my_atm_OT_band['ot_scatt'])    
+    
     
     # my_atm_OT2, my_SPF2  = my_atm.wavelength(wl=950)
     
@@ -401,7 +463,7 @@ if __name__=='__main__':
     
     # my_atm_OT.to_csv('test_atm_profile2.csv', index=False)
     
-    print(sum(my_atm_OT.ot_abs))
+    # print(sum(my_atm_OT.ot_abs))
     
 
     
