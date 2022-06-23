@@ -5,6 +5,10 @@
 # Analyze results 
 
 
+# When with Shadow, the individual reflectance is not reliable, total is
+
+
+
 # Columes: pt_id, movement, type of collision, L_cox-munk, L_whitecap, L_water, L_land, L_rayleigh, L_mie, surface xyz 
 
 # differentiate rayleigh and mie 

@@ -12,7 +12,7 @@ def find_aerosolSPF(aerosol_type,wl):
     # For higher resolution SPF, contact Yulun Wu at yulunwu8@gmail.com
     
     
-    # This supports all 6S-supported aerosol types, the only drawback is 
+    # This supports all 6S-supported aerosol types, the only shortcoming is 
     # you have to run 6S manually to generate the aerosol SPF before 
     # running it in TMart because Tmart uses Py6S and Py6S does not export
     # aerosol SPF
@@ -25,7 +25,7 @@ def find_aerosolSPF(aerosol_type,wl):
     # From 6S code and manual 
     wls = np.array([0.350,0.400,0.412,0.443,0.470,0.488,0.515,0.550,0.590,0.633,0.670,0.694,0.760,0.860,1.240,1.536,1.650,1.950,2.250,3.750]) * 1000
     
-    ### Rows 
+    ### Rows, the angles
     
     angles = np.empty(83, dtype=float)
     

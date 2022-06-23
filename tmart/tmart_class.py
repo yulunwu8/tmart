@@ -16,11 +16,12 @@ import numpy as np
 import time
 from copy import deepcopy
 import math 
+import sys
 
 # from Surface import Surface
 from .tm_sampling import sample_distance2scatter, sample_Lambertian
 from .tm_geometry import dirP_to_coord, linear_distance, dirC_to_dirP, rotation_matrix, angle_3d, dirC_to_coord
-from .tm_intersect import find_atm, intersect_line_DEMtri
+from .tm_intersect import find_atm, intersect_line_DEMtri2
 from .tm_intersect import intersect_line_boundary, reflectance_intersect, reflectance_background, intersect_background
 from .tm_water import find_R_wc, RefraIdx
 
@@ -77,7 +78,7 @@ class Tmart_Class():
         
         self.sensor_coords = None
 
-        self.target_cell = None
+  
         self.sun_dir = None
         self.print_on = False # print switch 
         self.plot_on = False  # don't turn it on for multiprocessing 
@@ -108,8 +109,8 @@ class Tmart_Class():
         
              
         
-    def set_geometry(self,sensor_coords=None,target_cell=None,
-                     sun_dir=[0,0], target_pt_direction=None, pixel=None):
+    def set_geometry(self,sensor_coords=None,
+                     sun_dir=[0,0], target_pt_direction=None, pixel=None, target_coords=None):
         '''Set geometry
         
         Arguments:
@@ -127,27 +128,72 @@ class Tmart_Class():
         '''
         
         
-        ### Sensor coordinates 
+        n_not_none = (sum(x is not None for x in [sensor_coords,pixel,target_coords]))
         
-        # pixel based 
-        if sensor_coords==None:
+        if n_not_none != 1: sys.exit('only one of sensor_coords,pixel,target_coords should be provided')
+        
+        
+        
+        ### Sensor coordinates, take one of the three inputs 
+        
+        # direct input 
+        if sensor_coords is not None:
+            if sensor_coords[0]==sensor_coords[1]: sensor_coords[1]=sensor_coords[1]+0.0001
+            self.sensor_coords = np.array(sensor_coords)            
             
+            
+        # pixel based     
+        elif pixel is not None:          
             self.pixel_elevation = self.Surface.DEM[pixel[0],pixel[1]]
             
+            # distance from target to sensor 
+            # it's negative because target_pt_direction is larger than 90
             dist_120000 = (120_000 - self.pixel_elevation) / np.cos(target_pt_direction[0]/180*np.pi) 
             self.sensor_coords = dirP_to_coord(dist_120000, target_pt_direction)
             self.pixel = pixel
             
-        # direct input 
-        else:
-            if sensor_coords[0]==sensor_coords[1]: sensor_coords[1]=sensor_coords[1]+0.0001
-            self.sensor_coords = np.array(sensor_coords)
-        
-        # Target cell: [x1,y1,x2,y2]
-        if target_cell==None:  # default 1, 1???
-            self.target_cell = [0,0,1000,1000] # calculate using cell_size!!!
-        else:
-            self.target_cell = [0,0,1000,1000] # calculate using cell_size!!!
+            
+        # target_coords, assume height 120km
+        elif target_coords is not None:      
+            if target_coords[0]==target_coords[1]: target_coords[1]=target_coords[1]+0.0001
+            
+            # target_coords is 2d, target_coords3d includes elevation
+            target_coords3d = intersect_line_DEMtri2(np.array(target_coords + [120_000]), 
+                                                      np.array(target_coords + [0]), 
+                                                      self.Surface.DEM_triangulated)
+            
+            # If there is triangle intersection 
+            if target_coords3d.shape[0] > 0:
+                
+                # closest intersection # There seems to be only 1?
+                target_coords3d_chosen = target_coords3d.iloc[target_coords3d.linear_distance.idxmin()] 
+                
+                # print(target_coords3d)
+                q_collision = target_coords3d_chosen.tolist()[0:3]  
+                q_elevation = q_collision[2]
+   
+            # background 
+            else:
+                q_collision = np.array(target_coords + [self.Surface.bg_elevation])  
+                q_elevation = q_collision[2]
+            
+            dist_120000 = (120_000 - q_elevation) / np.cos(target_pt_direction[0]/180*np.pi) 
+            self.sensor_coords = dirP_to_coord(dist_120000, target_pt_direction) + q_collision
+            
+            # print ('dist_120000: ' +str(dist_120000))
+            # print ('target_pt_direction: ' +str(target_pt_direction))
+            # print ('dirP_to_coord(dist_120000, target_pt_direction): ' +str(dirP_to_coord(dist_120000, target_pt_direction)))
+            # print ('q_collision: ' +str(q_collision))
+            # print ('self.sensor_coords: ' +str(self.sensor_coords))
+
+            # sys.exit('test')
+
+        else: 
+            sys.exit('only one of sensor_coords,pixel,target_coords should be provided')
+            
+
+
+
             
         # Lock photon initial direction 
         self.target_pt_direction = target_pt_direction   # Make it a function of self.target_cell!!!
