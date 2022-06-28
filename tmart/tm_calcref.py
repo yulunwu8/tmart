@@ -48,7 +48,7 @@ def calc_ref(df, n_photon = None):
     
     
     dfpd = pd.DataFrame(data=df, columns = ['pt_id', 'movement', 'type_collision', 'L_coxmunk', 
-                                            'L_whitecap', 'L_water', 'L_land', 'L_rayleigh', 'L_mie','x','y','z'])
+                                            'L_whitecap', 'L_water', 'L_land', 'L_rayleigh', 'L_mie','x','y','z','shadowed'])
        
     
     dfpd.pt_id =        pd.to_numeric( dfpd.pt_id)
@@ -62,6 +62,7 @@ def calc_ref(df, n_photon = None):
     dfpd.x =            pd.to_numeric( dfpd.x)
     dfpd.y =            pd.to_numeric( dfpd.y)
     dfpd.z =            pd.to_numeric( dfpd.z)
+    dfpd.shadowed =     pd.to_numeric( dfpd.shadowed)
     
     dfpd['env'] = 0 # 1 is environment reflectance 
     
@@ -122,9 +123,12 @@ def calc_ref(df, n_photon = None):
         if not moves.is_monotonic_increasing: # check if sorted 
             sys.exit('pt movement has to be sorted')
         
+        
+        # Find the move with W, L or Ws collision, then add all after to them and stop the loop
+        
         for move in moves:
     
-            # move = 6
+            # move = 0
             
             pt_movement = copy(pt[pt.movement == move]) # entire row 
             
@@ -138,15 +142,26 @@ def calc_ref(df, n_photon = None):
                 if sum( pt.iloc[move,4:7]) == 0: # if surface is black 
                     break
                 
-                pt.iloc[move+1:,3:9] # all below
-                sum_after = np.sum(pt.iloc[move+1:,3:9].values)
+                # pt.iloc[move+1:,3:9] # all below
                 
+                ### Old way before introducing shadow
+                # sum_after = np.sum(pt.iloc[move+1:,3:9].values)
+                
+                pt_mov_after = pt.iloc[move+1:,:]
+                pt_mov_after_nonShadow = pt_mov_after[pt_mov_after.shadowed==0]
+                sum_after = np.sum(pt_mov_after_nonShadow.iloc[:,3:9].values)
+                
+                
+                # total of the single row
                 total = pt_movement.L_whitecap.values[0] + pt_movement.L_water.values[0] + pt_movement.L_land.values[0]
                 
                 # ratio 
                 r_wc = pt_movement.L_whitecap.values[0] / total 
                 r_water = pt_movement.L_water.values[0] / total
                 r_land = pt_movement.L_land.values[0] / total 
+                
+                # We calculate ratio before setting 'total' to 0
+                if pt_movement.shadowed.values[0] == 1: total = 0
                 
                 total_new = total + sum_after
             
@@ -166,11 +181,19 @@ def calc_ref(df, n_photon = None):
             if t_c=='Ws':    
                 # print('Adding all after to L_coxmunk')
                 
-
-                sum_after = np.sum(pt.iloc[move+1:,3:9].values)    
+                ### Old way
+                # sum_after = np.sum(pt.iloc[move+1:,3:9].values)    
                 
+                pt_mov_after = pt.iloc[move+1:,:]
+                pt_mov_after_nonShadow = pt_mov_after[pt_mov_after.shadowed==0]
+                sum_after = np.sum(pt_mov_after_nonShadow.iloc[:,3:9].values)          
                 
-                pt_movement.L_coxmunk = pt_movement.L_coxmunk.values[0] + sum_after
+                if pt_movement.shadowed.values[0] == 1: 
+                    total = 0
+                else:
+                    total = pt_movement.L_coxmunk.values[0]
+                
+                pt_movement.L_coxmunk = total + sum_after
                 
                 if move>0: pt_movement.env = 1
                 
@@ -217,10 +240,6 @@ def calc_ref(df, n_photon = None):
     return R_output
     
      
-    
-
-
-
 
 
 

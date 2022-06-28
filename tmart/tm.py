@@ -63,7 +63,7 @@ class Tmart(Tmart_Class):
                          self.Surface.bg_isWater[0]==0 and self.Surface.bg_isWater[1]==0)
         
         # A numpy array to collect information 
-        pt_stat = np.empty((0,12))     
+        pt_stat = np.empty((0,13))     
         
         
         ### For loop: photon movements 
@@ -447,7 +447,8 @@ class Tmart(Tmart_Class):
             ###### Local estimates 
             
             # Every movement has a row of local_est
-            # Columes: pt_id, movement, type of collision, L_cox-munk, L_whitecap, L_water, L_land, L_rayleigh, L_mie, surface xyz 
+            # Columes: pt_id, movement, type of collision, L_cox-munk, L_whitecap, L_water, L_land, L_rayleigh, L_mie, surface xyz, shadowed 
+            # Type of collision: W (water leaving), Ws (water specular), L (land), M (mie), R (Rayleigh)
             
             
             if_shadow = False
@@ -456,21 +457,24 @@ class Tmart(Tmart_Class):
                 
                 if self.shadow: if_shadow = self.detect_shadow(q_collision)
                     
-                if if_shadow:
-                    local_est = [pt_id, movement,'Shadow',0,0,0,0,0,0] + q_collision
+                ### not using this anymore, cause trouble in RTM calculation 
+                # if if_shadow: 
+                #     local_est = [pt_id, movement,'Shadow',0,0,0,0,0,0] + q_collision
                 
                 # Water
-                elif q_collision_isWater==1:
+                if q_collision_isWater==1:
                     
                     le_water = self.local_est_water(pt_weight, pt_direction_op_C, q_collision, 
                                                     q_collision_N_polar, R_specular, q_collision_ref, R_surf)
-                    local_est = [pt_id, movement,tpye_collision] + le_water + [0,0,0] + q_collision
+                    local_est = [pt_id, movement,tpye_collision] + le_water + [0,0,0] + q_collision + [0]
                         
                 # Land 
                 else: 
                     le_land = self.local_est_land(q_collision, pt_weight)
-                    local_est = [pt_id, movement,'L',0,0,0] + le_land + [0,0] + q_collision
+                    local_est = [pt_id, movement,'L',0,0,0] + le_land + [0,0] + q_collision + [0]
                 
+                
+                if if_shadow: local_est[12] = 1
                 
                 if self.print_on: print("local_est: " + str(local_est))
                 pt_stat = np.vstack([pt_stat, local_est])     
@@ -480,15 +484,15 @@ class Tmart(Tmart_Class):
                 
                 if self.shadow: if_shadow = self.detect_shadow(q_collision)
                     
-                if if_shadow:
-                    local_est = [pt_id, movement,'Shadow',0,0,0,0,0,0] + q_collision.tolist() 
-                    # tolist because q_collision comes from q1, which is a numpy array
+                ### same as above
+                # if if_shadow: 
+                #     local_est = [pt_id, movement,'Shadow',0,0,0,0,0,0] + q_collision.tolist() 
+                #     # tolist because q_collision comes from q1, which is a numpy array
                     
-                else:
+                le_scatt = self.local_est_scat(pt_direction_op_C, q_collision, pt_weight, ot_mie, ot_rayleigh)
+                local_est = [pt_id, movement,type_scat,0,0,0,0] + le_scatt + [0, 0, 0] + [0]
                 
-                    le_scatt = self.local_est_scat(pt_direction_op_C, q_collision, pt_weight, ot_mie, ot_rayleigh)
-    
-                    local_est = [pt_id, movement,type_scat,0,0,0,0] + le_scatt + [0, 0, 0]
+                if if_shadow: local_est[12] = 1
                 
                 if self.print_on: print("local_est: " + str(local_est))
                 pt_stat = np.vstack([pt_stat, local_est])            

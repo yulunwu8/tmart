@@ -353,7 +353,7 @@ class Tmart_Class():
     # Distribute runs to processors     
     def _run(self,part_count):
     
-        pts_stat = np.empty([0,12])
+        pts_stat = np.empty([0,13])
         # pts_stat = np.empty([0,2]) 
         
         for i in part_count:
