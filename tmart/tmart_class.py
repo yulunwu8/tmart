@@ -56,6 +56,8 @@ class Tmart_Class():
 
     * ``Surface`` -- Surface object from the Surface module.
     * ``Atmosphere`` -- Atmosphere object from the Atmosphere module.
+    * ``shadow`` -- True or False, whether to test if light is blocked by another surface at a collision. 
+    * ``VROOM`` -- VROOM acceleration. 0: no acceleration. 1: all collisions are directed towards the sun. 
 
     Example usage::
 
@@ -72,9 +74,7 @@ class Tmart_Class():
         
         
         self.shadow = shadow
-        self.VROOM = VROOM # 0: no acceleration. 1: all collisions are directed towards the sun
-            
-            
+        self.VROOM = VROOM 
         
         self.sensor_coords = None
 

@@ -26,7 +26,10 @@ from .tm_OT import find_OT
 # inherit and overwrite _run_single_photon
 class Tmart(Tmart_Class): 
     
-    def _run_single_photon_test(self,pt_id): # test if it's my code that causes multiprocessing not to finish
+    # test if it's my code that causes multiprocessing not to finish
+    # To be deleted 
+    
+    def _run_single_photon_test(self,pt_id): 
         return [1,1]
     
     

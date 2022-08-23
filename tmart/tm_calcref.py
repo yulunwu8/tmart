@@ -22,7 +22,6 @@ from copy import copy
 
 def calc_ref(df, n_photon = None):
     '''Analyze the results of T-Mart and calculate reflectances. 
-    It is possible to seperate specular and water-leaving contributions and seperate aerosol and molecule contributions. Let me know if it's useful.'
     
     Arguments:
 

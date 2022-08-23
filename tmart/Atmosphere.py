@@ -21,7 +21,8 @@ class Atmosphere(): # wavelength
 
     * ``atm_profile`` -- AtmosProfile object from 6S.
     * ``aot550`` -- AOT at 550nm.
-    * ``aerosol_SPF`` -- 'maritime', 'continental' or directory to a CSV file, aerosol scattering phase function. 
+    * ``aerosol_type`` -- 'BiomassBurning', 'Continental', 'Desert', 'Maritime', 'Stratospheric' or 'Urban', as provided by 6S. 
+    * ``wl`` -- central wavelength in nm.
     * ``n_layers`` -- Number of atmosphere layers to use
     * ``aerosol_scale_height`` -- Aerosol scale height in km. Default 2km. 
     * ``no_absorption`` -- Boolean, if yes -> remove all absorption. 
@@ -29,7 +30,7 @@ class Atmosphere(): # wavelength
     * ``specify_abs`` -- Specifiy absorption optical thickness.
     
 
-    Example usage::
+    Example usage:: ### EDIT!!!
 
       atm_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer) 
       aerosol_SPF = 'tmart/ancillary/aerosol_maritime_SPF.csv' 
@@ -41,7 +42,7 @@ class Atmosphere(): # wavelength
     # os.path.join(os.path.dirname(__file__), 'ancillary/aerosol_maritime_SPF.csv')
 
     def __init__(self,atm_profile, aot550 = 0, 
-                 aerosol_type='maritime' , wl = None, 
+                 aerosol_type='Maritime' , wl = None, 
                  n_layers=None, aerosol_scale_height=None, no_absorption = False, specify_ot_rayleigh = -1, specify_abs = -1):
         
         self.atm_profile = atm_profile
