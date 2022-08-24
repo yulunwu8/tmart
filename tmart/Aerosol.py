@@ -17,6 +17,9 @@ def find_aerosolSPF(aerosol_type,wl):
     # running it in TMart because Tmart uses Py6S and Py6S does not export
     # aerosol SPF
     
+    # Currently SPF is interpolated using the central wavelength. Alternatively,
+    # can run 6S and extract the spectually resampled values. 
+    
     
     n_angles = 83
     

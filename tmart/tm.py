@@ -456,6 +456,7 @@ class Tmart(Tmart_Class):
             
             if_shadow = False
             
+            # Reflection 
             if scenario == 1 or scenario == 2: 
                 
                 if self.shadow: if_shadow = self.detect_shadow(q_collision)

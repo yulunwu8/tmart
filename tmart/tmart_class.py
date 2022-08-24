@@ -104,26 +104,30 @@ class Tmart_Class():
         self.water_temperature = 25      
         self.water_refraIdx_wl = None # refractive index of water at this wavelength 
         
-        self.output_flux = False # output irradiance reflectance, direct irradiance and diffuse irradiance on the ground, to be continued 
+        self.output_flux = False # output irradiance reflectance, direct irradiance and diffuse irradiance on the ground, under development 
         
         
              
         
-    def set_geometry(self,sensor_coords=None,
-                     sun_dir=[0,0], target_pt_direction=None, pixel=None, target_coords=None):
-        '''Set geometry
+    def set_geometry(self, sun_dir=[0,0], target_pt_direction=None, sensor_coords=None, pixel=None, target_coords=None):
+        '''Set the sun-target-sensor geometry. Only one of ``sensor_coords``, ``pixel`` and ``target_coords`` is needed. 
         
         Arguments:
-
-        * ``sensor_coords`` -- Where the sensor is, in [X, Y, Z], unit in meters.
+            
         * ``sun_dir`` -- Solar angle, in [Zenith, Azimuth], relative to the target.
-        * ``target_pt_direction`` -- Were to shoot photon from the sensor, AKA viewing angle, in [Zenith, Azimuth], relative to the sensor.
+        * ``target_pt_direction`` -- Where to shoot photon from the sensor, AKA viewing angle, in [Zenith, Azimuth], relative to the sensor.
+        * ``sensor_coords`` -- Where the sensor is, in [X, Y, Z], unit in meters.
+        * ``pixel`` -- The target pixel to shoot photons. Parallel light rays will hit random points within the square pixel. 
+        * ``target_coords`` -- ??? Where the photon will land on the surface, only [X, Y] needed, [Z] is automatically adjusted. 
+
 
         Example usage::
 
           my_tmart.set_geometry(sensor_coords=[51,50,130_000], 
                       target_pt_direction=[180,0],
                       sun_dir=[0,0])
+          
+          ??? Add the two other methods 
 
         '''
         
@@ -138,11 +142,12 @@ class Tmart_Class():
         
         # direct input 
         if sensor_coords is not None:
+            # make sure not to hit the boundary between triangles 
             if sensor_coords[0]==sensor_coords[1]: sensor_coords[1]=sensor_coords[1]+0.0001
             self.sensor_coords = np.array(sensor_coords)            
             
             
-        # pixel based     
+        # pixel based, assume height 120km 
         elif pixel is not None:          
             self.pixel_elevation = self.Surface.DEM[pixel[0],pixel[1]]
             
@@ -272,12 +277,13 @@ class Tmart_Class():
 
 
     # User interface 
-    def run(self, wl, band = None, n_photon=10_000,nc=None, njobs=80, print_on=False, output_flux=False): 
+    def run(self, wl, band = None, n_photon=10_000, nc='auto', njobs=80, print_on=False, output_flux=False): 
         '''Run with multiple processing 
         
         Arguments:
 
         * ``wl`` -- wavelength in nm.
+        * ``band`` -- overwrite ``wl`` with a 6S band object. We still need to specify ``wl`` because it is used in interpolating spectral SPF.
         * ``n_photon`` -- number of photons to use in MC simulation, default 10,000.
         * ``nc`` -- number of CPU cores to use in multiprocessing, default automatic. 
         * ``njobs`` -- dividing the jobs into n portions in multiprocessing, default 80. 
@@ -302,7 +308,7 @@ class Tmart_Class():
         self._init_atm(band)
         
         
-        if nc==None:
+        if nc=='auto':
             nc = cpu_count()
         else:
             nc = nc
@@ -372,12 +378,14 @@ class Tmart_Class():
         return pts_stat
     
     
-    def run_plot(self, wl, band = None, plot_on=True, plot_range=None): 
+    def run_plot(self, wl, band = None, plot_on=True, plot_range=[0,100_000,0,100_000,0,100_000]): 
         '''Run a single photon and plot, print the details of photon movements. 
+        To observe the photon movements, mostly for debugging purposes. 
         
         Arguments:
 
         * ``wl`` -- wavelength in nm.
+        * ``band`` -- overwrite ``wl`` with a 6S band object. We still need to specify ``wl`` because it is used in interpolating spectral SPF.
         * ``plot_on`` -- Boolean, if plot the movements. 
         * ``plot_range`` -- List, [xmin, xmax, ymin, ymax, zmin, zmax]
         
@@ -394,14 +402,11 @@ class Tmart_Class():
         
         print("\n====== Running and Plotting T-Mart Single Photon ======")
         self.wl = wl 
-        self.print_on = True    # Always print
+        self.print_on = True    # Always print the details of photon movements 
         self.plot_on = plot_on  # Default plot, may turn off 
-        if plot_range==None:
-            plot_range = [0,100_000,0,100_000,0,100_000]
         self.plot_range = plot_range
             
         self._init_atm(band)
-        
         
         
         

@@ -15,7 +15,7 @@ from .tm_geometry import rotation_matrix, dirP_to_coord, dirC_to_dirP, angle_3d
 
 import os.path
 
-# whitecap reflectance 
+# Calculate whitecap reflectance 
 def find_R_wc(wl, wind_speed):
     
     # print('wl: '+str(wl))
@@ -93,6 +93,7 @@ def RefraIdx(salinity,temperature,wavelength):
     return n_w
 
 
+# Calculate Fresnel reflectance 
 
 def fresnel(n_w, zenith_i): # incident zenith 
 
@@ -166,7 +167,7 @@ def eta_to_dirP(eta_a_degree, eta_c_degree):
 
 
 
-# basic one 
+# basic one, calculate the probability of having the given slope 
 def cox_munk(slope_along_wind, slope_cross_wind, wind_speed, unit='slope', azi_avg = False):
     '''
     
@@ -371,7 +372,7 @@ def cox_munk(slope_along_wind, slope_cross_wind, wind_speed, unit='slope', azi_a
 
 
 
-# sample a random slope, not related to the sun, correct to X direction  
+# Sample a random slope, not related to the sun, correct to X direction  
 def sample_cox_munk(wind_speed, wind_dir,azi_avg=False):
     '''
     
@@ -467,7 +468,7 @@ def sample_cox_munk(wind_speed, wind_dir,azi_avg=False):
 
 
 
-
+# Calculate the Cox-Munk slope needed to make a specular reflection 
 
 def find_eta_P(pt_direction_op_C,sun_dir,q_collision_N_polar,wind_dir):
     '''
@@ -539,7 +540,7 @@ def find_eta_P(pt_direction_op_C,sun_dir,q_collision_N_polar,wind_dir):
 
 
 
-# Find angle between incident pt_direction and the sun 
+# Find the angle between incident pt_direction and the sun 
 # calculate the normal needed
 
 # needed normal relative to surface normal, taking into account wind direction  
@@ -551,7 +552,7 @@ def find_eta_P(pt_direction_op_C,sun_dir,q_collision_N_polar,wind_dir):
 
 
 
-# Cox-Munk + Fresnel reflectance 
+### Calculate gling reflectance using Cox-Munk + Fresnel reflectance 
 def find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_speed, water_refraIdx_wl, print_on, azi_avg=False):
     '''
     

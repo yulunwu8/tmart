@@ -37,7 +37,8 @@ def calc_ref(df, n_photon = None):
     Example usage::
 
       R = tmart.calc_ref(results)
-      print(R)
+      for k, v in R.items():
+          print(k, '\t ' , v)
 
     '''
     

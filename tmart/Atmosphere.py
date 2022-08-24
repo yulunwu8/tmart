@@ -19,7 +19,7 @@ class Atmosphere(): # wavelength
     
     Arguments:
 
-    * ``atm_profile`` -- AtmosProfile object from 6S.
+    * ``atm_profile`` -- AtmosProfile object from Py6S.
     * ``aot550`` -- AOT at 550nm.
     * ``aerosol_type`` -- 'BiomassBurning', 'Continental', 'Desert', 'Maritime', 'Stratospheric' or 'Urban', as provided by 6S. 
     * ``wl`` -- central wavelength in nm.
@@ -31,6 +31,8 @@ class Atmosphere(): # wavelength
     
 
     Example usage:: ### EDIT!!!
+    
+      from Py6S.Params.atmosprofile import AtmosProfile
 
       atm_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer) 
       aerosol_SPF = 'tmart/ancillary/aerosol_maritime_SPF.csv' 
@@ -51,6 +53,10 @@ class Atmosphere(): # wavelength
         # pick a name and these are loaded automatically 
         
         self.aerosol_type = aerosol_type
+        
+        
+        # SPF is from HERE!!! 
+        
         self.aerosol_SPF = find_aerosolSPF(aerosol_type,wl)
         
         # aerosol_SPF = os.path.join(os.path.dirname(__file__), 'ancillary/aerosolSPF_maritime.csv')
@@ -73,11 +79,16 @@ class Atmosphere(): # wavelength
         self.atm_height = 100
         self.layer_height = self.atm_height/self.n_layers
         
+        
+        
+        # special scenarios 
         self.no_absorption = no_absorption
         self.specify_ot_rayleigh = specify_ot_rayleigh
         self.specify_abs = specify_abs
         
-        
+    
+    ### The main one dealing with wavelength and band 
+    
     # return everything at a single wavelength 
     # supports Aerosol LUT AND 6S wavelengths 
     # A table of OTs at different heights   +    aerosol_SPF
@@ -85,7 +96,7 @@ class Atmosphere(): # wavelength
         
         self.wl = wl
         
-        # Find altitudes of layers 
+        # Find bottom, mean and top altitudes of layers 
         self.layers_alts_bottom = np.linspace(0, self.atm_height - self.layer_height, self.n_layers)  
         self.layers_alts_mean = np.linspace(self.layer_height/2, self.atm_height - self.layer_height/2, self.n_layers)  
         self.layers_alts_top = np.linspace(self.layer_height, self.atm_height , self.n_layers)  
@@ -106,7 +117,7 @@ class Atmosphere(): # wavelength
         # print(sum(test[1]))
         # print(sum(test[0])+ sum(test[1]))
         
-        # Calculate tao in each layer and aerosol scattering phase function 
+        # Calculate tau in each layer and extract the molecular profile at one wavelength 
         layers_ot_molecule, layers_ot_rayleigh = self._atm_profile_wl(band)
         
         # print('\n======= Summary ======')
@@ -176,9 +187,9 @@ class Atmosphere(): # wavelength
 
     
     # Extract the molecular profile at one wavelength 
+    # Return two lists: ot_molecule and ot_rayleigh 
     def _atm_profile_wl(self,band): 
-        
-        # Return two lists 
+
 
         layers_ot_molecule = []
         layers_ot_rayleigh = []
@@ -199,9 +210,6 @@ class Atmosphere(): # wavelength
             
             s = Py6S.SixS()
             s.wavelength = Py6S.Wavelength(self.wl/1000)   
-            
-            
-            
             
             
             ### HERE
