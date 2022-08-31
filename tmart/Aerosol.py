@@ -9,13 +9,8 @@ def find_aerosolSPF(aerosol_type,wl):
     # wl = 3750
     
     # Currently only supporting the default number of angles in 6S
-    # For higher resolution SPF, contact Yulun Wu at yulunwu8@gmail.com
-    
-    
-    # This supports all 6S-supported aerosol types, the only shortcoming is 
-    # you have to run 6S manually to generate the aerosol SPF before 
-    # running it in TMart because Tmart uses Py6S and Py6S does not export
-    # aerosol SPF
+    # For higher angular resolution SPF or mixed aerosols, 
+    # contact Yulun Wu at yulunwu8@gmail.com
     
     # Currently SPF is interpolated using the central wavelength. Alternatively,
     # can run 6S and extract the spectually resampled values. 
@@ -80,10 +75,6 @@ if __name__=='__main__':
     
     test = find_aerosolSPF(aerosol_type,wl)
     print(test)
-
-
-
-
 
 
 

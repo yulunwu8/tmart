@@ -1,15 +1,11 @@
 
 
 
-# calculate OT between two points 
-
-
-
 import pandas as pd
 import numpy as np
 
 
-
+# calculate the optical thickness between two points 
 
 def find_OT(q0,q1,atm_profile):
  

@@ -15,11 +15,11 @@ import os.path
 # Include layered atmosphere, molecules and particles, at all wavelengths  
 
 class Atmosphere(): # wavelength
-    '''Create an Atmosphere object. 
+    '''Create an Atmosphere object. Wavelength independent. 
     
     Arguments:
 
-    * ``atm_profile`` -- AtmosProfile object from Py6S.
+    * ``atm_profile`` -- AtmosProfile object from Py6S. 
     * ``aot550`` -- AOT at 550nm.
     * ``aerosol_type`` -- 'BiomassBurning', 'Continental', 'Desert', 'Maritime', 'Stratospheric' or 'Urban', as provided by 6S. 
     * ``wl`` -- central wavelength in nm.
@@ -44,7 +44,7 @@ class Atmosphere(): # wavelength
     # os.path.join(os.path.dirname(__file__), 'ancillary/aerosol_maritime_SPF.csv')
 
     def __init__(self,atm_profile, aot550 = 0, 
-                 aerosol_type='Maritime' , wl = None, 
+                 aerosol_type='Maritime' , 
                  n_layers=None, aerosol_scale_height=None, no_absorption = False, specify_ot_rayleigh = -1, specify_abs = -1):
         
         self.atm_profile = atm_profile
@@ -57,7 +57,7 @@ class Atmosphere(): # wavelength
         
         # SPF is from HERE!!! 
         
-        self.aerosol_SPF = find_aerosolSPF(aerosol_type,wl)
+        # self.aerosol_SPF = find_aerosolSPF(aerosol_type,wl)
         
         # aerosol_SPF = os.path.join(os.path.dirname(__file__), 'ancillary/aerosolSPF_maritime.csv')
         # self.aerosol_SPF = pd.read_csv(aerosol_SPF) 
@@ -101,34 +101,16 @@ class Atmosphere(): # wavelength
         self.layers_alts_mean = np.linspace(self.layer_height/2, self.atm_height - self.layer_height/2, self.n_layers)  
         self.layers_alts_top = np.linspace(self.layer_height, self.atm_height , self.n_layers)  
         
-        # print (self.layers_alts_bottom)
-        # print (self.layers_alts_mean)
-        # print (self.layers_alts_top)
-        # print (self.layers_alts_top[-1]) # print last one 
-        # print (type(self.layers_alts_top))
-        
-        
-        
-        # test = self._aerosol_wl()
-        # print(test[0])
-        # print(test[1])
-        
-        # print(sum(test[0]))
-        # print(sum(test[1]))
-        # print(sum(test[0])+ sum(test[1]))
-        
         # Calculate tau in each layer and extract the molecular profile at one wavelength 
         layers_ot_molecule, layers_ot_rayleigh = self._atm_profile_wl(band)
         
-        # print('\n======= Summary ======')
-        # print(layers_ot_molecule)
-        # print(layers_ot_rayleigh)
-        # print(sum(layers_ot_molecule))
-        # print(sum(layers_ot_rayleigh))
-        
-        
         # ot_mie is aerosol scattering, ot_aerosol is aerosol absorption 
-        layers_ot_mie, layers_ot_aerosol, aerosol_SPF = self._aerosol_wl(band)
+        layers_ot_mie, layers_ot_aerosol = self._aerosol_wl(band)
+        
+        
+        aerosol_SPF = find_aerosolSPF(self.aerosol_type,wl)
+        
+        
         # print(layers_ot_aerosol)
     
         layers_ot_total_abs = layers_ot_molecule + layers_ot_aerosol
@@ -324,6 +306,7 @@ class Atmosphere(): # wavelength
 
 
     # Extract aerosol profile at one wavelength 
+    # Find the spectral dependence of AOT and then apply it to AOT550
     def _aerosol_wl(self, band):
         # Adapt to aerosol model???
         
@@ -410,8 +393,6 @@ class Atmosphere(): # wavelength
         layers_ot_mie = ot_mie * conc_normalized
         layers_ot_aerosol = ot_aerosol * conc_normalized # aerosol absorption
 
-        # Normalized scattering phase function
-        aerosol_SPF = self.aerosol_SPF
         
         
         # print('layers_ot_mie: ' + str(layers_ot_mie))
@@ -420,7 +401,7 @@ class Atmosphere(): # wavelength
   
     
   
-        return layers_ot_mie, layers_ot_aerosol, aerosol_SPF
+        return layers_ot_mie, layers_ot_aerosol
 
 
 

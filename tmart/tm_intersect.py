@@ -9,7 +9,8 @@ from .tm_geometry import angle_3d, linear_distance
 from copy import copy
 
 
-def find_atm(q0, pt_direction, atm_profile_wl, print_on = False): # Not used 
+# Not used anymore, travel layer by layer 
+def find_atm(q0, pt_direction, atm_profile_wl, print_on = False): 
     # Find a pohton in the atmosphere, retrieve OTs 
     
     # Test if the photon alt is equal to any of the upper boundaries 
@@ -84,9 +85,9 @@ def find_atm(q0, pt_direction, atm_profile_wl, print_on = False): # Not used
 
 
 
-
+# new find_atm two scattering OTs for travelling through multiple layers 
 def find_atm2(atm_profile,q1):
-    # new find_atm two scattering OTs for travelling through multiple layers 
+    
     z = q1[2]/1000
     
     if z < 0:
@@ -117,7 +118,7 @@ def find_atm2(atm_profile,q1):
 
 # Testing intersecting triangles 
 # 2: test boxes first 
-# This one is used in the code because it is faster 
+# This one is used in the code because it is a lot faster 
 
 def intersect_line_DEMtri2(q0, q1, DEM_tri, print_on = False):
     '''
@@ -143,8 +144,10 @@ def intersect_line_DEMtri2(q0, q1, DEM_tri, print_on = False):
     print_on = False 
     
     
-    # First treat all triangles as boxes (max/min XYZ)!!!
-    # Identify boxes intersecting the line first     
+    
+    
+    
+    ### Identify boxes intersecting the line first     
 
     tri_x = DEM_tri[0][:,0] 
     tri_y = DEM_tri[0][:,1] 
@@ -171,6 +174,7 @@ def intersect_line_DEMtri2(q0, q1, DEM_tri, print_on = False):
     q_z_max = q0 + ( (z_max - q0[2]) / pt_direction_c[2] ) * pt_direction_c
     q_z_min = q0 + ( (z_min - q0[2]) / pt_direction_c[2] ) * pt_direction_c
     
+    # First treat all triangles as boxes (max/min XYZ)!!!
     
     box_x_min = min(q_z_max[0],q_z_min[0])
     box_x_max = max(q_z_max[0],q_z_min[0])
@@ -205,7 +209,7 @@ def intersect_line_DEMtri2(q0, q1, DEM_tri, print_on = False):
             
             
         else:
-            if print_on: print('Move along x and y')
+            if print_on: print('Move along both x and y')
             
             # test if intersects the top or bottom of the square
             
@@ -261,46 +265,16 @@ def intersect_line_DEMtri2(q0, q1, DEM_tri, print_on = False):
             intersect = _intersect_line_triangle(q0,q1,p0,p1,p2)
 
             
-            if (intersect is not None): 
-                # print('=======================================================================')
-                # print('q0: '+str(q0))
-                # print('intersect: '+str(intersect))                    
-                
-                # print(q0==intersect)
-                
-                # test 3d_angle error 
-                
-                # if np.all(q0==intersect):
-                #     print('Warning: q0==intersect')
-                
+            if (intersect is not None):             
                 
                 if print_on:
                     print("Line intersecting triangle at: " + str(intersect))
                 
-                '''
-    
-                # calculate normal 
-                A = p1-p0
-                B = p2-p0
-                
-                #suface normal, direction 
-                
-                N = np.array([
-                    A[1] * B[2] - A[2] * B[1], #Nx
-                    A[2] * B[0] - A[0] * B[2], #Ny
-                    A[0] * B[1] - A[1] * B[0]  #Nz
-                    ])
-                '''
-                
-                N = np.cross(p1-p0, p2-p0) #maybe faster than the line above 
+                N = np.cross(p1-p0, p2-p0) 
                 
                 # test normal if in the same direction as the incoming line 
-                if angle_3d(q0,intersect,(intersect + N)) > 90:
-                    # print('Reversing normal direction')
-                    
-                    
-                    
-                    N = -N
+                # if not, reverse normal direction 
+                if angle_3d(q0,intersect,(intersect + N)) > 90: N = -N
                 
                 intersect_tri_temp = pd.DataFrame({
                     # coordinates and direction 
@@ -376,30 +350,10 @@ def intersect_line_DEMtri(q0, q1, DEM_tri, print_on = False): # not used
                     if print_on:
                         print("Line intersecting triangle at: " + str(intersect))
                     
-                    '''
-        
-                    # calculate normal 
-                    A = p1-p0
-                    B = p2-p0
-                    
-                    #suface normal, direction 
-                    
-                    N = np.array([
-                        A[1] * B[2] - A[2] * B[1], #Nx
-                        A[2] * B[0] - A[0] * B[2], #Ny
-                        A[0] * B[1] - A[1] * B[0]  #Nz
-                        ])
-                    '''
-                    
                     N = np.cross(p1-p0, p2-p0) #maybe faster than the line above 
                     
 
-                    if angle_3d(q0,intersect,N) > 90:
-                        # print('Reversing normal direction')
-                        
-                        
-                        
-                        N = -N
+                    if angle_3d(q0,intersect,N) > 90: N = -N
                     
                     intersect_tri_temp = pd.DataFrame({
 
