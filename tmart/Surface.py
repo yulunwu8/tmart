@@ -120,40 +120,6 @@ class Surface():
         
         
         
-    def _info(self): # print all the information 
-    
-        # to be continued...
-    
-        print("\n------- Displaying Information -------")
-    
-        print("\n=== DEM ")
-        print(self.DEM)
-        
-        print("\n=== reflectance ")
-        print(self.reflectance)
-        
-        print("\n=== isWater ")
-        print(self.isWater)
-        
-        print("\n=== cell_size ")
-        print(self.cell_size)
-        
-        print("\n=== bg_coords ")
-        print(self.bg_coords)
-        
-        print("\n=== bg_elevation ")
-        print(self.bg_elevation)
-        
-        print("\n=== bg_ref ")
-        print(self.bg_ref)
-        
-        print("\n=== bg_isWater ")
-        print(self.bg_isWater)
-        
-        # print("\n=== DEM_triangulated ")
-        # print(self.DEM_triangulated)
-        
-        
     # Two Reflectance Surfaces and if water 
     def set_background(self,bg_ref=None, bg_isWater=None, bg_elevation=None, bg_coords=None):
         '''Set background information, 1 or 2 background surfaces can be set;

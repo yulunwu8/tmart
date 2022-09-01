@@ -48,7 +48,7 @@ def _track_job(job, update_interval=2):
 
 
 
-# A class that we are going to overwrite with additional info (see tm.py)
+# A class that is overwritten by tm.py
 class Tmart_Class():
     '''Create a Tmart object. 
     
