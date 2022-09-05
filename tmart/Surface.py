@@ -56,10 +56,6 @@ class spectral_surface():
 
 
 
-
-
-
-
 class Surface(): 
     '''Create an Atmosphere object. 
     
