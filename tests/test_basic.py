@@ -58,7 +58,7 @@ my_surface.set_background(bg_ref        = [0.1,0.1], # background reflectance
 # Atmophere profile comes from 6S
 atm_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer) 
 aerosol_type = 'Maritime' 
-aot550 = 0.03
+aot550 = 0
 
 # Synthesize an atmosphere object     
 my_atm = tmart.Atmosphere(atm_profile, aot550, aerosol_type)

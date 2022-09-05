@@ -4,12 +4,12 @@
 
 
 
-from .Surface import Surface, spectral_surface
+from .Surface import Surface, SpectralSurface
 from .Atmosphere import Atmosphere
 
 # from .tm import Tmart
 
-from .tmart import Tmart
+from .Tmart import Tmart
 
 
 from .tm_calcref import calc_ref 

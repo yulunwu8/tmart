@@ -30,7 +30,7 @@ from .tm_geometry import dirP_to_coord, linear_distance, dirC_to_dirP, rotation_
 from .tm_intersect import find_atm, intersect_line_DEMtri2
 from .tm_intersect import intersect_line_boundary, reflectance_intersect, reflectance_background, intersect_background
 from .tm_water import find_R_wc, RefraIdx
-from .tmart2 import Tmart2
+from .Tmart2 import Tmart2
 
 
 

@@ -8,7 +8,7 @@ from scipy.interpolate import interp1d
 import os.path
 
 
-class spectral_surface():
+class SpectralSurface():
     '''Create an object to capture the spectral reflectance of surfaces when looping wavelengths.
     
     Arguments:
@@ -79,11 +79,6 @@ class Surface():
 
     '''
     
-    # add water, wavelength, function 
-    # add DEM/reflectance not the same coordinates - Use DEM, find reflectance from image
-    # add background ref and elevation 
-    # orientation and azimuthal angle 
-    
     def __init__(self,DEM,reflectance,isWater,cell_size,alignPixels=True):
         self.DEM = DEM
         self.reflectance = reflectance
@@ -95,8 +90,7 @@ class Surface():
         if self.DEM.shape != self.reflectance.shape:
             print('WARNING: DEM and reflectance images do not have the same shape')
 
-
-        # Has to run self.set_background
+        # Background parameters that can be modified using object.set_background function
         self.bg_ref = None
         self.bg_isWater = None
         self.bg_elevation = None         
@@ -181,6 +175,8 @@ class Surface():
     def _triangulate_DEM(self):
         
         '''
+        Make two sets of three dimensional triangles to model the surface. 
+        
         Parameters
         ----------
         DEM : np array
@@ -200,7 +196,6 @@ class Surface():
         
         alignPixels=self.alignPixels
         
-        
         if self.bg_elevation is None:
             print("====== WARNING: DEM not triangulated because of missing background elevation ======")
         else:
@@ -212,11 +207,8 @@ class Surface():
             else: # pad one layer on each side 
                 DEM = np.pad(self.DEM,((1,1),(1,1)),'constant',constant_values = (self.bg_elevation,self.bg_elevation))
             
-            
-            
             # cell_size 
             CZ = self.cell_size 
-            
             
             ref_tri_p1 = np.array([
                 # x
@@ -267,10 +259,7 @@ class Surface():
                 ref_tri_p4[0] = ref_tri_p4[0] - CZ/2
                 ref_tri_p4[1] = ref_tri_p4[1] - CZ/2
                 
-            
-            
             ref_tri1 = np.array([ref_tri_p1, ref_tri_p2, ref_tri_p3])
-            
             ref_tri2 = np.array([ref_tri_p1, ref_tri_p4, ref_tri_p3])
             
             self.DEM_triangulated = [ref_tri1,ref_tri2]
