@@ -24,7 +24,7 @@ class Atmosphere(): # wavelength
     * ``aerosol_type`` -- 'BiomassBurning', 'Continental', 'Desert', 'Maritime', 'Stratospheric' or 'Urban', as provided by 6S. 
     * ``wl`` -- central wavelength in nm.
     * ``n_layers`` -- Number of atmosphere layers to use
-    * ``aerosol_scale_height`` -- Aerosol scale height in km. Default 2km. 
+    * ``AEROSOL_SCALE_HEIGHT`` -- Aerosol scale height in km. Default 2km. 
     * ``no_absorption`` -- Boolean, if yes -> remove all absorption. 
     * ``specify_ot_rayleigh`` -- Specify rayleigh optical thickness.
     * ``specify_abs`` -- Specifiy absorption optical thickness.
@@ -45,7 +45,7 @@ class Atmosphere(): # wavelength
 
     def __init__(self,atm_profile, aot550 = 0, 
                  aerosol_type='Maritime' , 
-                 n_layers=None, aerosol_scale_height=None, no_absorption = False, specify_ot_rayleigh = -1, specify_abs = -1):
+                 n_layers=20, AEROSOL_SCALE_HEIGHT=2, no_absorption = False, specify_ot_rayleigh = -1, specify_abs = -1):
         
         self.atm_profile = atm_profile
         self.aot550 = aot550
@@ -64,22 +64,16 @@ class Atmosphere(): # wavelength
 
         
         # Default 20 layers 
-        if n_layers is None:
-            self.n_layers = 20
-        else:
-            self.n_layers = n_layers
+        self.n_layers = n_layers
         
         # Default aerosol scale height is 2km
-        if aerosol_scale_height is None:
-            self.aerosol_scale_height = 2
-        else:
-            self.aerosol_scale_height = aerosol_scale_height        
+        self.aerosol_scale_height = AEROSOL_SCALE_HEIGHT
+     
         
         # atm is always 100km thick in total, following 6S 
         self.atm_height = 100
         self.layer_height = self.atm_height/self.n_layers
-        
-        
+
         
         # special scenarios 
         self.no_absorption = no_absorption
@@ -101,14 +95,18 @@ class Atmosphere(): # wavelength
         self.layers_alts_mean = np.linspace(self.layer_height/2, self.atm_height - self.layer_height/2, self.n_layers)  
         self.layers_alts_top = np.linspace(self.layer_height, self.atm_height , self.n_layers)  
         
+        # print('layers_alts_bottom' + str(self.layers_alts_bottom))
+        
         # Calculate tau in each layer and extract the molecular profile at one wavelength 
         layers_ot_molecule, layers_ot_rayleigh = self._atm_profile_wl(band)
         
+        
         # ot_mie is aerosol scattering, ot_aerosol is aerosol absorption 
         layers_ot_mie, layers_ot_aerosol = self._aerosol_wl(band)
-        
+
         
         aerosol_SPF = find_aerosolSPF(self.aerosol_type,wl)
+        
         
         
         # print(layers_ot_aerosol)
@@ -160,6 +158,7 @@ class Atmosphere(): # wavelength
             pass
         else:
             atm_OT['ot_abs'] = self.specify_abs               
+                
         
         
         return atm_OT, aerosol_SPF
@@ -171,6 +170,8 @@ class Atmosphere(): # wavelength
     # Extract the molecular profile at one wavelength 
     # Return two lists: ot_molecule and ot_rayleigh 
     def _atm_profile_wl(self,band): 
+        
+        
 
 
         layers_ot_molecule = []
@@ -245,6 +246,7 @@ class Atmosphere(): # wavelength
             
         # print('layers_ot_molecule: ' + str(layers_ot_molecule))
         # print('layers_ot_rayleigh: ' + str(layers_ot_rayleigh))
+        
         
         
         # Convert 0-10, 0-20... to 0-10, 10-20...

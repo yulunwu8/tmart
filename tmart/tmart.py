@@ -2,6 +2,12 @@
 
 
 
+# Replacing tmart_class
+
+
+
+
+
 # T-MART: Topography-adjusted Monte-Carlo Adjacency-effect Radiative Transfer code  
 
 
@@ -24,14 +30,9 @@ from .tm_geometry import dirP_to_coord, linear_distance, dirC_to_dirP, rotation_
 from .tm_intersect import find_atm, intersect_line_DEMtri2
 from .tm_intersect import intersect_line_boundary, reflectance_intersect, reflectance_background, intersect_background
 from .tm_water import find_R_wc, RefraIdx
+from .tmart2 import Tmart2
 
 
-# plotting 
-import matplotlib
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-from mpl_toolkits.mplot3d import axes3d
-from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 
 
@@ -49,7 +50,7 @@ def _track_job(job, update_interval=2):
 
 
 # A class that is overwritten by tm.py
-class Tmart_Class():
+class Tmart(Tmart2):
     '''Create a Tmart object. 
     
     Arguments:
@@ -197,8 +198,6 @@ class Tmart_Class():
             sys.exit('only one of sensor_coords,pixel,target_coords should be provided')
             
 
-
-
             
         # Lock photon initial direction 
         self.target_pt_direction = target_pt_direction   # Make it a function of self.target_cell!!!
@@ -206,6 +205,7 @@ class Tmart_Class():
         
         # Sun direction 
         self.sun_dir = sun_dir # [zenith, azimuthal]        
+        
         
     def set_wind(self,wind_speed=10,wind_azi_avg=True,wind_dir=0): 
         '''Set wind speed and direction. 
@@ -227,6 +227,7 @@ class Tmart_Class():
         self.wind_dir = wind_dir
         self.wind_azi_avg = wind_azi_avg
         
+        
     def set_water(self,water_salinity=0,water_temperature=25): # default 0/1000 and 25C
         '''Set water salinity and temperature. 
         
@@ -243,27 +244,16 @@ class Tmart_Class():
         self.water_salinity = water_salinity
         self.water_temperature = water_temperature
         
-    def _info(self): # to be continued...
-    
-    
-        print("\n------- Displaying Information -------")
-
-        print("\n=== sensor_coords ")
-        print(self.sensor_coords)    
-        
-        print("\n=== target_cell ")
-        print(self.target_cell)  
-        
-        print("\n=== sun_dir ")
-        print(self.sun_dir)  
 
 
     def _init_atm(self,band): 
         
-        if self.sensor_coords is None:
+        if self.sensor_coords is None: # Edit!!!
             print ("WARNING: geometry missing, set_geometry before you run")
         else:
+            
             self.atm_profile_wl, self.aerosol_SPF_wl = self.Atmosphere._wavelength(self.wl,band)
+            
             self.F_wc_wl, self.R_wc_wl = find_R_wc(wl=self.wl, wind_speed = self.wind_speed)
             self.water_refraIdx_wl = RefraIdx(self.water_salinity,self.water_temperature,self.wl)
             # self.water_refraIdx_wl = 1.34
@@ -405,9 +395,8 @@ class Tmart_Class():
         self.print_on = True    # Always print the details of photon movements 
         self.plot_on = plot_on  # Default plot, may turn off 
         self.plot_range = plot_range
-            
+
         self._init_atm(band)
-        
         
         
         ### Extract stats from results??? 
@@ -415,214 +404,6 @@ class Tmart_Class():
         return self._run_single_photon(0)
     
     
-    # A single photon run, is overwritten in tm.py
-    def _run_single_photon(self):
-        return None
-
-
-    # finds OT between TOA and z
-    
-    def _local_est_OT(self,q_collision): 
-        # print('OT_abs of entire atm: {}'.format(sum(self.atm_profile_wl.ot_abs)))
-        
-        # Altitude of the collision point  
-        z = q_collision[2]
- 
-        # Find all layers whose bottoms are equal to or higher than z, panda series Boolean 
-        alts_higher = np.array(self.atm_profile_wl.Alt_bottom *1000 >= z)
-        # print ('alts_higher: ' +str(alts_higher))
-        
-        
-
-        # Calculate OTs in layers above, capital is output 
-        OT_out = (sum(self.atm_profile_wl.ot_abs[alts_higher]) +  
-                      sum(self.atm_profile_wl.ot_rayleigh[alts_higher]) + 
-                      sum(self.atm_profile_wl.ot_mie[alts_higher]) )   
-        # print ('OT_abs_out, sum of all above: ' +str(OT_abs_out))
-
-
-        # boolean if equal 
-        alts_equal = np.array( self.atm_profile_wl.Alt_bottom * 1000 == z )
-        # print ('alts_equal: ' +str(alts_equal))
-        # print ('sum alts_equal: ' +str(sum(alts_equal)))
-        
-        if sum(alts_equal): 
-            # print('Find euqal altitude')
-            pass
-        else: # Alternative: find the layer where Z is in, find OT_remain_ratio...
-            # print('No equal altitudes, calculating remaining OT_abs')
-            
-            # calculate top altitudes - collision altitude
-            alts_diff = (self.atm_profile_wl.Alt_top - z/1000)
-            # print ('alts_diff: ' +str(alts_diff))
-            
-            alts_diff_positive_min = alts_diff[alts_diff>0].min()
-            # print ('alts_diff_positive_min: ' +str(alts_diff_positive_min))
-            
-            
-            # edited 
-            alts_diff_positive_min_idx = alts_diff[alts_diff>0].idxmin()
-            # print ('alts_diff_positive_min_idx: ' +str(alts_diff_positive_min_idx))   
-            
-            height = self.atm_profile_wl.Alt_top[alts_diff_positive_min_idx] - self.atm_profile_wl.Alt_bottom[alts_diff_positive_min_idx]
-            
-            
-            OT_remain_ratio = alts_diff_positive_min / height
-            # print ('OT_remain_ratio: ' +str(OT_remain_ratio))            
-            
-            
-            
-            
-            OT_layer = (self.atm_profile_wl.ot_abs[alts_diff_positive_min_idx] + 
-                        self.atm_profile_wl.ot_rayleigh[alts_diff_positive_min_idx] + 
-                        self.atm_profile_wl.ot_mie[alts_diff_positive_min_idx]  ) 
-            
-            # OT_layer = (self.atm_profile_wl.ot_scatt[alts_diff_positive_min_idx]  ) # test         
-            
-            
-            # print ('ot_abs: ' +str(ot_abs))
-            
-            OT_abs_remain = OT_layer * OT_remain_ratio 
-            # print ('OT_abs_remain: ' +str(OT_abs_remain))
-            
-            OT_out = OT_out + OT_abs_remain
-        return OT_out
-
-
-    def _local_est_OT_temp(self,q_collision):
-        
-        pass
-
-
-
-
-    def _plot(self,q0,q1, scenario, intersect_tri_chosen=None, rotated=None, q_collision_N=None, specular_on=False, rotated_cm=None):
-        fig = plt.figure()
-        ax = Axes3D(fig, auto_add_to_figure=False)
-        fig.add_axes(ax)
-        
-        #ax.invert_xaxis()
-        
-        
-        # ax.set_xlim(0, 100_000 * 1) 
-        # ax.set_ylim(100_000 * 1, 0 )
-        # ax.set_zlim(0, 100_000 * 1 )   
-        
-        ax.set_xlim(self.plot_range[0],self.plot_range[1]) 
-        ax.set_ylim(self.plot_range[3],self.plot_range[2])
-        ax.set_zlim(self.plot_range[4],self.plot_range[5])   
-        
-        
-        ax.set_xlabel('X axis (m)')
-        ax.set_ylabel('Y axis (m)')
-        ax.set_zlabel('Z axis (m)')
-        
-        
-        # Plotting DEM_tri
-        for tri in self.Surface.DEM_triangulated:
-            for row in range (0, tri.shape[2]):
-                for col in range (0, tri.shape[3]):
-                    # print (row, col)
-            
-                    p0 = tri[0,:,row,col] 
-                    p1 = tri[1,:,row,col]
-                    p2 = tri[2,:,row,col]
-                    
-                    plot_tri = [p0,p1,p2]
-                    
-                    plot_tri = np.array([p0,p1,p2])
-                    
-                    
-                    # print("------")
-                    # print('plot_tri: ' + str(plot_tri))
-                    
-                    p_centre = (p0 + p1 + p2)/3
-                    # print('p_centre: ' + str(p_centre))
-                    
-                    q_collision_ref = reflectance_intersect(p_centre, self.Surface.reflectance, 
-                                                            self.Surface.cell_size, self.Surface.bg_ref, 
-                                                            self.Surface.bg_coords)    
-                    # print('q_collision_ref: ' + str(q_collision_ref))
-                    
-                    if q_collision_ref>1: q_collision_ref=1
-                    if q_collision_ref<0: q_collision_ref=0
-                    
-                    
-                    poly = Poly3DCollection(plot_tri,
-                                #facecolors='ivory',
-                                facecolors=str(q_collision_ref),
-                                linewidths=0.3,
-                                edgecolors='black',
-                                alpha=0.9
-                                )
-                    ax.add_collection3d(poly)
-        
-
-        x=[q0[0],q1[0]]
-        y=[q0[1],q1[1]]
-        z=[q0[2],q1[2]]
-        
-        cols = ['cyan','paleturquoise','honeydew','mistyrose','tomato','red']
-        # cols = ['cyan','paleturquoise','honeydew','blue','blue','blue']
-        n_cols = 6
-        
-        for i in range(n_cols):
-            ax.plot([x[0] + (x[1]-x[0]) /n_cols *i  ,  x[0] + (x[1]-x[0])/n_cols*(i+1)],
-                    [y[0] + (y[1]-y[0]) /n_cols *i  ,  y[0] + (y[1]-y[0])/n_cols*(i+1)],
-                    zs=[z[0] + (z[1]-z[0]) /n_cols *i  ,  z[0] + (z[1]-z[0])/n_cols*(i+1)],
-                    color=cols[i],
-                    zorder=100)
-
-        if scenario==1:
-            
-            # Manual length of the other two lines 
-            my_length = 35000
-            # my_length = 1
-            
-            
-            if self.print_on: print ("\nPlotting triangle collision")
-        
-            triangle = intersect_tri_chosen.tolist()
-            
-            # convert normal_direction to normal_coordinates
-            if specular_on:
-                color_normal = 'blue'
-                triangle[3:6] = dirC_to_coord(rotated_cm,triangle[0:3],my_length)
-            else:
-                color_normal = 'lime'
-                triangle[3:6] = dirC_to_coord(triangle[3:6],triangle[0:3],my_length)
-                
-            # normal 
-            ax.plot([triangle[0] , triangle[3]],
-                    [triangle[1] ,  triangle[4]],
-                    zs=[triangle[2] ,  triangle[5]],
-                    color = color_normal,
-                    zorder=100
-                    )
-            
-            # reflected direction 
-            reflected_viz_q1 = triangle[0:3] + rotated*35000
-            # print('==============================')
-            # print(reflected_viz_q1)
-            
-
-            # new pt_direction 
-            
-            ax.plot([triangle[0] , reflected_viz_q1[0]],
-                    [triangle[1] ,  reflected_viz_q1[1]],
-                    zs=[triangle[2] ,  reflected_viz_q1[2]],
-                    color = 'orange',
-                    zorder=100
-                    )
-            
-            if self.print_on: print("Angle between normal and new pt_direction is: " + 
-                                    str(angle_3d(rotated,[0,0,0],q_collision_N)))
-        
-    
-        # Plot atmospheres to the same extend as the surface 
-        
-        plt.show()
-
 
 
 
