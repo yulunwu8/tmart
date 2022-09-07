@@ -6,52 +6,31 @@
 
 
 
+# T-MART: Topography-adjusted Monte-Carlo Adjacency-effect Radiative Transfer code
 
-
-# T-MART: Topography-adjusted Monte-Carlo Adjacency-effect Radiative Transfer code  
-
-
-
-
-
-import random
-from multiprocessing import Pool, cpu_count
+from multiprocessing import cpu_count
 from pathos.multiprocessing import ProcessingPool
-# import tqdm
 import numpy as np
 import time
-from copy import deepcopy
-import math 
 import sys
 
-# from Surface import Surface
-from .tm_sampling import sample_distance2scatter, sample_Lambertian
-from .tm_geometry import dirP_to_coord, linear_distance, dirC_to_dirP, rotation_matrix, angle_3d, dirC_to_coord
-from .tm_intersect import find_atm, intersect_line_DEMtri2
-from .tm_intersect import intersect_line_boundary, reflectance_intersect, reflectance_background, intersect_background
+# tmart dependencies 
+from .tm_geometry import dirP_to_coord 
+from .tm_intersect import intersect_line_DEMtri2
 from .tm_water import find_R_wc, RefraIdx
 from .Tmart2 import Tmart2
 
 
-
-
-
+# Track progress in multiprocessing
 def _track_job(job, update_interval=2):
-    '''
-    Track progress in multiprocessing 
-
-    '''
-    
     while job._number_left > 0:
         print("Tasks remaining = {0}".format(job._number_left * job._chunksize))
         time.sleep(update_interval)
 
 
-
-
-# A class that is overwritten by tm.py
+# The main object in TMart
 class Tmart(Tmart2):
-    '''Create a Tmart object. 
+    '''Create a Tmart object that does radiative transfer modelling. 
     
     Arguments:
 
@@ -68,18 +47,12 @@ class Tmart(Tmart2):
     
     def __init__(self, Surface, Atmosphere, shadow = False, VROOM = 0):
 
-        
-        
         self.Surface = Surface
         self.Atmosphere = Atmosphere
-        
-        
         self.shadow = shadow
         self.VROOM = VROOM 
         
         self.sensor_coords = None
-
-  
         self.sun_dir = None
         self.print_on = False # print switch 
         self.plot_on = False  # don't turn it on for multiprocessing 
@@ -88,16 +61,18 @@ class Tmart(Tmart2):
         self.pixel = None
         self.pixel_elevation = None
         
+        # Atmosphere
         self.wl = None
         self.atm_profile_wl = None # single wavelength 
         self.aerosol_SPF_wl = None 
         
-        
+        # Wind
         self.wind_speed = 10 # default 10 m/s
         self.wind_azi_avg = True # azimuthally averaged cox munk
         self.wind_dir = 0 # default azimuthal, 0 means UPWIND along x-axis
             # AKA the direction where wind comes from 
            
+        # Water
         self.F_wc_wl = None # fraction of sea surface covered by whitecaps 
         self.R_wc_wl = None # whitecap reflectance at this wavelength
         
@@ -105,6 +80,7 @@ class Tmart(Tmart2):
         self.water_temperature = 25      
         self.water_refraIdx_wl = None # refractive index of water at this wavelength 
         
+        # In development 
         self.output_flux = False # output irradiance reflectance, direct irradiance and diffuse irradiance on the ground, under development 
         
         
@@ -178,30 +154,20 @@ class Tmart(Tmart2):
                 q_collision = target_coords3d_chosen.tolist()[0:3]  
                 q_elevation = q_collision[2]
    
-            # background 
+            # Background collision
             else:
                 q_collision = np.array(target_coords + [self.Surface.bg_elevation])  
                 q_elevation = q_collision[2]
             
             dist_120000 = (120_000 - q_elevation) / np.cos(target_pt_direction[0]/180*np.pi) 
             self.sensor_coords = dirP_to_coord(dist_120000, target_pt_direction) + q_collision
-            
-            # print ('dist_120000: ' +str(dist_120000))
-            # print ('target_pt_direction: ' +str(target_pt_direction))
-            # print ('dirP_to_coord(dist_120000, target_pt_direction): ' +str(dirP_to_coord(dist_120000, target_pt_direction)))
-            # print ('q_collision: ' +str(q_collision))
-            # print ('self.sensor_coords: ' +str(self.sensor_coords))
-
-            # sys.exit('test')
 
         else: 
             sys.exit('only one of sensor_coords,pixel,target_coords should be provided')
             
-
             
         # Lock photon initial direction 
-        self.target_pt_direction = target_pt_direction   # Make it a function of self.target_cell!!!
-        # Actually 2 values, one based on the cell, other specify 
+        self.target_pt_direction = target_pt_direction   
         
         # Sun direction 
         self.sun_dir = sun_dir # [zenith, azimuthal]        
@@ -257,13 +223,6 @@ class Tmart(Tmart2):
             self.F_wc_wl, self.R_wc_wl = find_R_wc(wl=self.wl, wind_speed = self.wind_speed)
             self.water_refraIdx_wl = RefraIdx(self.water_salinity,self.water_temperature,self.wl)
             # self.water_refraIdx_wl = 1.34
-            
-            
-            # test modifying atm. 
-            # self.atm_profile_wl.ot_abs = 0.0000001
-            # self.atm_profile_wl.ot_rayleigh = 0.3601303
-            
-            
 
 
     # User interface 
@@ -326,11 +285,6 @@ class Tmart(Tmart2):
         pool = ProcessingPool(processes=nc)
         time.sleep(0.5)
         
-        
-        # old
-        # results = pool.amap(self._run,part_count).get() # Async
-        
-        
         # manual print 
         results_temp = pool.amap(self._run,part_count) # Async
         
@@ -338,10 +292,6 @@ class Tmart(Tmart2):
             _track_job(results_temp)
         
         results = results_temp.get()
-        # time.sleep(1)
-
-        
-        # pool.close() # only map needs this, amap is good
 
         return results 
 
@@ -350,20 +300,14 @@ class Tmart(Tmart2):
     def _run(self,part_count):
     
         pts_stat = np.empty([0,13])
-        # pts_stat = np.empty([0,2]) 
         
         for i in part_count:
             
             if self.print_on:
                 print("\n---------- Running Photon " + str(i) + " ----------")
             
-
-            
             pt_stat = self._run_single_photon(i)
-            # pt_stat = self._run_single_photon_test(i) # test if it's my code that causes multiprocessing not to finish
-            
             pts_stat = np.vstack([pts_stat, pt_stat])
-
       
         return pts_stat
     
@@ -395,11 +339,7 @@ class Tmart(Tmart2):
         self.print_on = True    # Always print the details of photon movements 
         self.plot_on = plot_on  # Default plot, may turn off 
         self.plot_range = plot_range
-
         self._init_atm(band)
-        
-        
-        ### Extract stats from results??? 
         
         return self._run_single_photon(0)
     

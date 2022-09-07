@@ -267,60 +267,6 @@ class Atmosphere():
 
 
 
-if __name__=='__main__':
-
-
-    atm_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer) # same as 6S
-    aot550 = 0.0
-    # aerosol_SPF = 'aerosol_maritime_SPF.csv'
-    # aerosol_EXT = 'aerosol_maritime_EXT.csv'
-    # aerosol_SSA = 'aerosol_maritime_SSA.csv'
-    
-
-    # all wavelengths 
-    my_atm = Atmosphere(atm_profile, aot550)
-    
-    
-    # my_atm.wavelength(wl=550,n_layers=10)
-        
-    '''
-    
-    my_atm.wavelength(wl=500)
-    
-
-    
-    '''
-    
-    band = Py6S.Wavelength(Py6S.PredefinedWavelengths.S2A_MSI_08)
-    
-
-
-    my_atm_OT, my_SPF  = my_atm._wavelength(wl=842, band = band)
-    
-    print(sum(my_atm_OT['ot_abs']))
-    print(sum(my_atm_OT['ot_rayleigh']))
-    print(sum(my_atm_OT['ot_scatt']))
-    
-    
-    # my_atm_OT_band, my_SPF_band  = my_atm._wavelength(wl=842) 
-    
-    # sum(my_atm_OT_band['ot_abs'])
-    # sum(my_atm_OT_band['ot_rayleigh'])
-    # sum(my_atm_OT_band['ot_scatt'])    
-    
-    
-    # my_atm_OT2, my_SPF2  = my_atm.wavelength(wl=950)
-    
-    # my_atm_OT2, my_SPF2  = my_atm.wavelength(wl=550,aerosol_scale_height=10, n_layers=20)
-    
-    # my_atm_OT.to_csv('test_atm_profile2.csv', index=False)
-    
-    # print(sum(my_atm_OT.ot_abs))
-    
-
-    
-    
-
 
 
 

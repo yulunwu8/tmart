@@ -8,6 +8,7 @@ from .tm_geometry import dirP_to_coord, rotation_matrix, dirC_to_dirP
 from scipy.interpolate import interp1d
 
 
+# Not used anymore
 def sample_distance2scatter(ot_aerosol,ot_rayleigh,layer_height, pr):
     
     ot_sum = ot_aerosol + ot_rayleigh
@@ -55,7 +56,7 @@ def sample_Lambertian():
     return [coord, [zenith, azimuthal]] # a list of two lists, coord & direction 
 
 
-
+# Importance sampling 
 def weight_impSampling(ot_mie,ot_rayleigh,angle_impSampling,aerosol_SPF, print_on=False): 
     
     # sum of scattering 

@@ -18,15 +18,14 @@
 
 import numpy as np
 import pandas as pd
-from copy import deepcopy
 import random
-import math, sys
+import math
 from scipy.interpolate import interp1d
 
-from .tm_sampling import sample_distance2scatter, sample_Lambertian, sample_scattering, weight_impSampling, weight_impSampling2
-from .tm_geometry import dirP_to_coord, linear_distance, dirC_to_dirP, rotation_matrix, angle_3d, dirC_to_coord
+from .tm_sampling import sample_Lambertian, sample_scattering, weight_impSampling
+from .tm_geometry import dirP_to_coord, dirC_to_dirP, rotation_matrix, angle_3d, dirC_to_coord
 from .tm_intersect import find_atm2, intersect_line_DEMtri2
-from .tm_intersect import intersect_line_boundary, reflectance_intersect, reflectance_background, intersect_background
+from .tm_intersect import reflectance_intersect, reflectance_background, intersect_background
 from .tm_water import fresnel, sample_cox_munk, find_R_cm
 
 from .tm_move import pt_move
@@ -35,10 +34,8 @@ from .tm_OT import find_OT
 
 
 # plotting 
-import matplotlib
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-from mpl_toolkits.mplot3d import axes3d
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 
@@ -464,8 +461,6 @@ class Tmart2():
             '''
             
             
-            
-             
             
             ###### Local estimates 
             
