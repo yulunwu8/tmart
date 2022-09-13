@@ -529,7 +529,7 @@ def reflectance_background(q_collision,bg_ref, bg_coords):
 
 def intersect_background(q0,q1,bg_elevation):
     '''
-    Find the X, Y of q0-q1 at Z 
+    Find the XYZ of q0-q1 at Z 
 
     '''
 
@@ -538,7 +538,7 @@ def intersect_background(q0,q1,bg_elevation):
     x = q0[0] - ((q0[0]-q1[0])) * ratio
     y = q0[1] - ((q0[1]-q1[1])) * ratio
 
-    return [x,y]
+    return [x,y,bg_elevation]
 
 
 # test if line intersects atm boundaries 

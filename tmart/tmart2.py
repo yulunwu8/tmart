@@ -5,7 +5,7 @@
 
 # function as second page 
 
-
+# Overall control of photon movement
 
 
 
@@ -164,60 +164,62 @@ class Tmart2():
                 
                 rotated_cm = None
                 
+                # Find triangle with the shortest distance and the exact collision point
                 intersect_tri_chosen = intersect_tri.iloc[intersect_tri.linear_distance.idxmin()] 
-                
                 q_collision = intersect_tri_chosen.tolist()[0:3]  
                 
                 if self.print_on: print('q_collision: ' + str(q_collision))    
                 
-                # re-calculate absorption 
+                # Re-calculate absorption 
                 tao_abs = find_OT(q0,q_collision,atm_profile)
                 tao_abs = tao_abs / abs(math.cos(pt_direction[0]/180*math.pi))  
                 
-                q_collision[2] = q_collision[2] + 0.01 #avoid intersecting again
-                q_collision_N = intersect_tri_chosen.tolist()[3:6] #direction of normal 
+                # Avoid intersecting again
+                q_collision[2] = q_collision[2] + 0.01 
+                
+                # Direction of normal to the triangle 
+                q_collision_N = intersect_tri_chosen.tolist()[3:6] 
                 q_collision_N_polar = dirC_to_dirP(q_collision_N)
                 
                 if self.print_on:
                     print("\nNormal to collision: " + str(q_collision_N))
                     print("Normal to collision polar: " + str(q_collision_N_polar))                
                 
+                # Find the reflectance at the collision point 
                 q_collision_ref = reflectance_intersect(q_collision, self.Surface.reflectance, 
                                                         self.Surface.cell_size, self.Surface.bg_ref, 
                                                         self.Surface.bg_coords)
                 if self.print_on: print("q_collision_ref: " + str(q_collision_ref))    
                 
-                
-                
             
                 ### If water --> there is a chance of specular reflectance             
-                # Chance determined by Fresnel, pt_weight stays as 1
-                # use pt_direction, q_collision_N and Cox-Munk to calculate the new pt_direction 
+                # Chance is determined by Fresnel, pt_weight stays as 1
+                # Use pt_direction, q_collision_N and Cox-Munk to calculate the new pt_direction 
                 
+                # Test if it's water at the collision point 
                 q_collision_isWater = reflectance_intersect(q_collision, self.Surface.isWater, 
                                                             self.Surface.cell_size, self.Surface.bg_isWater, 
                                                             self.Surface.bg_coords)    
-                
                 if self.print_on: print('\nq_collision_isWater: '+str(q_collision_isWater))
                 
     
-                
-                # if chance, switch on 
+                # By default, non-specular. If chance, switch on 
                 specular_on = False
                 
-                # if water, calculate Fresnel reflectance and if specular reflection   
+                # If water, calculate Fresnel reflectance and if specular reflection   
                 # q_collision_ref is now R0+
                 if q_collision_isWater == 1:
                     
+                    # Opposite to pt_direction in XYZ coordinates, only for isWater scenarios 
+                    pt_direction_op_C = np.negative(dirP_to_coord(1, pt_direction)) 
+                    
+                    # If an impossible angle (CM does it sometimes), re-randomize
                     in_angle = 100 # just an impossible incident angle 
-                    pt_direction_op_C = np.negative(dirP_to_coord(1, pt_direction)) # opposite to pt_direction Coordinates, only for isWater scenarios 
+                    while in_angle>90: 
                     
-
-                    
-                    while in_angle>90: # if an impossible angle (CM does it sometimes), re-randomize
-                    
-                        # Use Cox-munk to draw a normal
-                        random_cox_munk = sample_cox_munk(self.wind_speed, self.wind_dir)
+                        # Use Cox-munk to draw a normal, output polar coordinates 
+                        random_cox_munk = sample_cox_munk(self.wind_speed, self.wind_dir, self.wind_azi_avg)
+                        
                         axis = [math.cos((q_collision_N_polar[1]+90)*math.pi/180),
                                 math.cos(q_collision_N_polar[1]*math.pi/180),
                                 0] 
@@ -229,14 +231,13 @@ class Tmart2():
                         # incident angle to calculate Fresnel reflectance 
                         in_angle = angle_3d(rotated_cm, [0,0,0], pt_direction_op_C)
                         
-
-                    
+                    # Specular reflectance                     
                     R_specular = fresnel(self.water_refraIdx_wl, in_angle)
-                    # R_specular = fresnel_test(in_angle, rotated_cm, pt_direction) # testing version, for in_angles > 90
                     
-                    R_surf = self.R_wc_wl + (1-self.F_wc_wl) * R_specular # total surface reflectance
+                    # Total surface reflectance
+                    R_surf = self.R_wc_wl + (1-self.F_wc_wl) * R_specular 
                     
-                    # modify reflectance, use the original one as R0+ in the absence of white caps 
+                    # Modify reflectance, use the original one as R0+ in the absence of white caps 
                     # '(1-self.F_wc_wl) * q_collision_ref' is R0+ in the presence of white caps 
                     q_collision_ref = R_surf + (1-self.F_wc_wl) * q_collision_ref
                     
@@ -255,11 +256,10 @@ class Tmart2():
                         print('R_surf: ' + str(R_surf))
                         print('specular_on: ' + str(specular_on))
                         print("Modified q_collision_ref: " + str(q_collision_ref))  
-                        
-                        
+                          
                 pt_weight = pt_weight * q_collision_ref
                  
-                # if water and specular 
+                # If water and specular 
                 if q_collision_isWater == 1 and specular_on:
                     if self.print_on: print('\n==Specular reflection==')  
                     
@@ -270,8 +270,10 @@ class Tmart2():
                     pt_direction = dirC_to_dirP(rotated)[0:2]
                     tpye_collision = 'Ws' # water specular
                     
-                # else lambertian 
+                # Else lambertian 
                 else: 
+                    
+                    # Sample a direction and tilt it to the surface normal 
     
                     random_lambertian = sample_Lambertian()
     
@@ -283,7 +285,6 @@ class Tmart2():
                     
                     # 000 at the bottom, axis on top, clockwise move
                     rotated = np.dot(rotation_matrix(axis, theta), random_lambertian[0])
-                    
                     
                     pt_direction = dirC_to_dirP(rotated)[0:2]
                     tpye_collision = 'W'  # water lambertian 
@@ -301,55 +302,50 @@ class Tmart2():
              
             elif scenario == 2:
                 
-                
-                rotated, rotated_cm, intersect_tri_chosen, q_collision_N = None, None, None, None # for plotting, not used 
-            
+                # For plotting, not used 
+                rotated, rotated_cm, intersect_tri_chosen, q_collision_N = None, None, None, None 
                 q_collision_N_polar = [0,0] 
                 
                 
-                q_collision = intersect_bg + [self.Surface.bg_elevation]    
+                q_collision = intersect_bg 
                 if self.print_on: print('q_collision: ' + str(q_collision))  
                 
                 # re-calculate absorption 
                 tao_abs = find_OT(q0,q_collision,atm_profile)
                 tao_abs = tao_abs / abs(math.cos(pt_direction[0]/180*math.pi))                
                   
-                
-                q_collision[2] = q_collision[2] + 0.01 #avoid intersecting again
+                # Avoid intersecting again
+                q_collision[2] = q_collision[2] + 0.01 
     
-                # reflectance of the background at the collision point 
+                # Reflectance of the background at the collision point 
                 q_collision_ref = reflectance_background(q_collision,self.Surface.bg_ref, self.Surface.bg_coords)
                 if self.print_on:
                     print ('\nOut of the padded DEM')
                     print("q_collision_ref: " + str(q_collision_ref))
                 
-                # if water 
+                # Test if it's water at the collision point 
                 q_collision_isWater = reflectance_intersect(q_collision, self.Surface.isWater, 
                                                             self.Surface.cell_size, self.Surface.bg_isWater, 
                                                             self.Surface.bg_coords)    
                 if self.print_on: print('\nq_collision_isWater: '+str(q_collision_isWater))                    
                 specular_on = False
                 
-                # if water, calculate Fresnel reflectance and if specular reflection   
+                # If water, calculate Fresnel reflectance and if specular reflection   
                 # q_collision_ref is now R0-
                 if q_collision_isWater == 1:
                     
+                    # Opposite to pt_direction in XYZ coordinates, only for isWater scenarios 
+                    pt_direction_op_C = np.negative(dirP_to_coord(1, pt_direction)) 
+                                        
+                    # If an impossible angle (CM does it sometimes), re-randomize
                     in_angle = 100 # just an impossible incident angle 
-                    pt_direction_op_C = np.negative(dirP_to_coord(1, pt_direction)) # opposite to pt_direction Coordinates, only for isWater scenarios 
-                    
-                    
-
-                    
                     while in_angle>90: 
+                        
                         # Use Cox-munk to draw a normal, no need for rotation
-                        random_cox_munk = sample_cox_munk(self.wind_speed, self.wind_dir)
+                        random_cox_munk = sample_cox_munk(self.wind_speed, self.wind_dir, self.wind_azi_avg)
                                        
                         # incident angle to calculate Fresnel reflectance 
                         in_angle = angle_3d(random_cox_munk, [0,0,0], pt_direction_op_C)
-                        
-
-                        
-                    
                     
                     R_specular = fresnel(self.water_refraIdx_wl, in_angle)
                     R_surf = self.R_wc_wl + (1-self.F_wc_wl) * R_specular # total surface reflectance
@@ -360,7 +356,6 @@ class Tmart2():
                     # if chance (R_specular) out of q_collision_ref, siwtch on specular_on
                     specular_on = random.uniform(0,q_collision_ref) < R_specular
       
-                    
                     if self.print_on: 
                         print('random_cox_munk: ' + str(random_cox_munk))
                         print('Incident angle: ' + str(in_angle))
@@ -370,7 +365,6 @@ class Tmart2():
                         print('R_surf: ' + str(R_surf))
                         print('specular_on: ' + str(specular_on))   
                         print("Modified q_collision_ref: " + str(q_collision_ref))  
-                
                 
                 pt_weight = pt_weight * q_collision_ref   
                 
@@ -607,6 +601,7 @@ class Tmart2():
 
     def local_est_land(self, q_collision, pt_weight): 
     
+        # Direct transmittance 
         OT = self._local_est_OT(q_collision)
         OT = OT / math.cos(self.sun_dir[0]/180*math.pi)
         T = math.exp(-OT)
@@ -627,11 +622,11 @@ class Tmart2():
         
         # Cox-Munk and Fresnel, this one tells us nothing about the actual flux reflectance!!!  
         R_cm = find_R_cm(pt_direction_op_C, self.sun_dir, q_collision_N_polar, 
-                         self.wind_dir, self.wind_speed, self.water_refraIdx_wl, self.print_on)
+                         self.wind_dir, self.wind_speed, self.water_refraIdx_wl, self.print_on, self.wind_azi_avg)
         
         R_cm = (1-self.F_wc_wl) * R_cm # remove whitecaps from cox-munk reflection 
         
-        
+        # Dicrect transmittance 
         OT = self._local_est_OT(q_collision)
         OT = OT / math.cos(self.sun_dir[0]/180*math.pi)
         T = math.exp(-OT)

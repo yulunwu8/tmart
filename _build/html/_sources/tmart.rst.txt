@@ -4,7 +4,7 @@ Parameters
 Tmart Class
 -------------------------
 
-.. automodule:: tmart.tmart_class
+.. automodule:: tmart.Tmart
    :members:
    :undoc-members:
    :show-inheritance:

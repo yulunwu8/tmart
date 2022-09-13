@@ -211,16 +211,20 @@ class Tmart(Tmart2):
         self.water_temperature = water_temperature
         
 
-
+    # Initiate a wavelength- or band-specific atmosphere, whitecaps properties and water refractive index 
     def _init_atm(self,band): 
         
         if self.sensor_coords is None: # Edit!!!
             print ("WARNING: geometry missing, set_geometry before you run")
         else:
             
+            # Atmospheric profile and aerosol SPF
             self.atm_profile_wl, self.aerosol_SPF_wl = self.Atmosphere._wavelength(self.wl,band)
             
+            # Fraction and reflectance of whitecaps 
             self.F_wc_wl, self.R_wc_wl = find_R_wc(wl=self.wl, wind_speed = self.wind_speed)
+            
+            # Water refractive index 
             self.water_refraIdx_wl = RefraIdx(self.water_salinity,self.water_temperature,self.wl)
             # self.water_refraIdx_wl = 1.34
 

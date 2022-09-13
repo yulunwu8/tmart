@@ -376,7 +376,6 @@ def cox_munk(slope_along_wind, slope_cross_wind, wind_speed, unit='slope', azi_a
 def sample_cox_munk(wind_speed, wind_dir,azi_avg=False):
     '''
     
-
     Parameters
     ----------
     wind_speed : TYPE
@@ -417,7 +416,7 @@ def sample_cox_munk(wind_speed, wind_dir,azi_avg=False):
         
         # print(cm_max)
         
-        cm_rand = cm_calc +1 # just to create it and make it bigger than calc 
+        cm_rand = cm_calc +1 # just to create it and make it greater than calc 
         
         while cm_calc < cm_rand:
         
@@ -578,7 +577,7 @@ def find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_sp
     '''
 
     # find eta relative to q_collision_N_polar, wind-corrected 
-    # the needed angle from CM
+    # the needed angle for CM
     eta_P = find_eta_P(pt_direction_op_C,sun_dir,q_collision_N_polar,wind_dir)
     if print_on: print('\neta_P, needed CM slopes in polar: '+str(eta_P))
     
