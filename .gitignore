@@ -11,3 +11,4 @@ _static/
 _templates/
 __pycache__/
 files/
+*.xlsx
