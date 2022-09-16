@@ -34,7 +34,7 @@ band = None
 
 
 wl = 400
-WATER = 1
+WATER = 0
 
 
 

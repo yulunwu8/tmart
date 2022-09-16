@@ -649,9 +649,8 @@ class Tmart2():
         return local_est.tolist()
            
     
+    # If the path between a point and the sun is blocked 
     def detect_shadow(self, q_collision):
-        
-
         
         dist_120000 = (120_000 - q_collision[2]) / np.cos(self.sun_dir[0]/180*np.pi) 
         q_sun = dirP_to_coord(dist_120000, self.sun_dir) + q_collision
@@ -661,7 +660,6 @@ class Tmart2():
         if_shadow = intersect_tri.shape[0] > 0
         
         if self.print_on: print ('\nif_shadow: ' +str(if_shadow))
-        
         
         return if_shadow
         

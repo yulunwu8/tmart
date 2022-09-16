@@ -9,81 +9,6 @@ from .tm_geometry import angle_3d, linear_distance
 from copy import copy
 
 
-# Not used anymore, travel layer by layer 
-def find_atm(q0, pt_direction, atm_profile_wl, print_on = False): 
-    # Find a pohton in the atmosphere, retrieve OTs 
-    
-    # Test if the photon alt is equal to any of the upper boundaries 
-    equal_top = np.array( q0[2]/1000 == atm_profile_wl.Alt_top )
-      
-    # At boundary 
-    if sum(equal_top): 
-    
-        atm_index = np.where(equal_top )[0].astype(int)[0]
-        
-        # Look at moving direction, if moving up, choose the layer above 
-        if pt_direction[0]<90:  
-            atm_index = atm_index + 1
-        elif pt_direction[0]==90: 
-            print("\n====== WARNING: photon cannot travel horizontally at a boundary ======")  
-            atm_index = None
-        
-        if print_on:
-            print('\nPhoton alt at a boundary, atm_index: ' + str(atm_index))
-        
-        ot_abs = float(atm_profile_wl.iloc[atm_index].ot_abs)
-        ot_rayleigh = float(atm_profile_wl.iloc[atm_index].ot_rayleigh)
-        ot_mie = float(atm_profile_wl.iloc[atm_index].ot_mie)        
-        
-        
-    # Not at boundary   
-    else:
-        
-        above_bottom = np.array( q0[2]/1000 > atm_profile_wl.Alt_bottom )
-        below_top = np.array( q0[2]/1000 < atm_profile_wl.Alt_top )    
-        
-        above_or_below = above_bottom & below_top
-        
-        # if print_on:
-        #     print('\n Above_bottom: ')
-        #     print(above_bottom)
-        #     print('\n Below_top: ')
-        #     print(below_top)
-        #     print('\n Above_or_below: ')
-        #     print(above_or_below)
-
-        # Within a layer 
-        if sum(above_or_below): 
-            
-            atm_index = np.where(above_bottom & below_top)[0].astype(int)[0]
-            
-            if print_on:
-                print('\nPhoton alt within a layer, atm_index: ' + str(atm_index))
-            
-            ot_abs = float(atm_profile_wl.iloc[atm_index].ot_abs)
-            ot_rayleigh = float(atm_profile_wl.iloc[atm_index].ot_rayleigh)
-            ot_mie = float(atm_profile_wl.iloc[atm_index].ot_mie)
-
-        # Not at boundary nor within a layer 
-        else: 
-            # Above all layers 
-            if q0[2]/1000 > np.max(atm_profile_wl.Alt_top):
-                
-                if print_on:
-                    print ("\nPhoton alt is above max, setting OTs as 0 ")
-                    
-                ot_abs, ot_rayleigh, ot_mie = 0, 0, 0
-            
-            # Unknown 
-            else:
-                print("====== WARNING: error locating photon in the atm ======")  
-                
-    if print_on:
-        print("ot_abs: {:.2e}, ot_rayleigh: {:.2e}, ot_mie: {:.2e}".format(ot_abs, ot_rayleigh, ot_mie))
-    
-    return ot_abs, ot_rayleigh, ot_mie
-
-
 
 # new find_atm two scattering OTs for travelling through multiple layers 
 def find_atm2(atm_profile,q1):
@@ -142,9 +67,6 @@ def intersect_line_DEMtri2(q0, q1, DEM_tri, print_on = False):
     
     # Manual switch 
     print_on = False 
-    
-    
-    
     
     
     ### Identify boxes intersecting the line first     
@@ -297,83 +219,6 @@ def intersect_line_DEMtri2(q0, q1, DEM_tri, print_on = False):
     return intersect_tri
 
 
-
-
-# Testing intersecting triangles, this function is not used 
-def intersect_line_DEMtri(q0, q1, DEM_tri, print_on = False): # not used 
-    '''
-
-    Parameters
-    ----------
-    q0 : list
-        starting point of the line.
-    q1 : list
-        ending point.
-    DEM_tri : list
-        a list of numpy arrays.
-
-    Returns
-    -------
-    intersect_tri : pandas dataframe
-        collision coordinates, direction normal to the surface
-        and linear distance to the starting point.
-
-    '''
-    
-    # Manual switch 
-    print_on = False 
-    
-     
-
-    # intersecting triangles 
-    intersect_tri = pd.DataFrame() 
-    
-    for tri in DEM_tri: 
-    
-        for row in range (0, tri.shape[2]):
-            for col in range (0, tri.shape[3]):
-                #print (row, col)
-        
-                p0 = tri[0,:,row,col] 
-                p1 = tri[1,:,row,col]
-                p2 = tri[2,:,row,col]
-                
-                # Extract coordinates of intersection if exists 
-                intersect = _intersect_line_triangle(q0,q1,p0,p1,p2)
-                
-
-                
-                
-                if (intersect is not None): 
-                    
-                    
-                    if print_on:
-                        print("Line intersecting triangle at: " + str(intersect))
-                    
-                    N = np.cross(p1-p0, p2-p0) #maybe faster than the line above 
-                    
-
-                    if angle_3d(q0,intersect,N) > 90: N = -N
-                    
-                    intersect_tri_temp = pd.DataFrame({
-
-                        'X': [intersect[0]],
-                        'Y': [intersect[1]],
-                        'Z': [intersect[2]],
-                        'N_X': [N[0]],
-                        'N_Y': [N[1]],
-                        'N_Z': [N[2]]
-                        })
-                    
-                    intersect_tri_temp['linear_distance'] = linear_distance(
-                        intersect_tri_temp.iloc[0,0:3].tolist(), 
-                        q0)
-                    
-                    # intersect_tri = intersect_tri.append(intersect_tri_temp) # append to concat on Feb 4, 2022
-                    intersect_tri = pd.concat([intersect_tri,intersect_tri_temp])
-      
-    intersect_tri.reset_index(drop=True, inplace=True)
-    return intersect_tri
 
 
 
@@ -658,7 +503,151 @@ def intersect_line_boundary(q0,q1,atm_profile,print_on=False):
 
 
 
+'''
+# Not used anymore, travel layer by layer 
+def find_atm(q0, pt_direction, atm_profile_wl, print_on = False): 
+    # Find a pohton in the atmosphere, retrieve OTs 
+    
+    # Test if the photon alt is equal to any of the upper boundaries 
+    equal_top = np.array( q0[2]/1000 == atm_profile_wl.Alt_top )
+      
+    # At boundary 
+    if sum(equal_top): 
+    
+        atm_index = np.where(equal_top )[0].astype(int)[0]
+        
+        # Look at moving direction, if moving up, choose the layer above 
+        if pt_direction[0]<90:  
+            atm_index = atm_index + 1
+        elif pt_direction[0]==90: 
+            print("\n====== WARNING: photon cannot travel horizontally at a boundary ======")  
+            atm_index = None
+        
+        if print_on:
+            print('\nPhoton alt at a boundary, atm_index: ' + str(atm_index))
+        
+        ot_abs = float(atm_profile_wl.iloc[atm_index].ot_abs)
+        ot_rayleigh = float(atm_profile_wl.iloc[atm_index].ot_rayleigh)
+        ot_mie = float(atm_profile_wl.iloc[atm_index].ot_mie)        
+        
+        
+    # Not at boundary   
+    else:
+        
+        above_bottom = np.array( q0[2]/1000 > atm_profile_wl.Alt_bottom )
+        below_top = np.array( q0[2]/1000 < atm_profile_wl.Alt_top )    
+        
+        above_or_below = above_bottom & below_top
+        
+        # if print_on:
+        #     print('\n Above_bottom: ')
+        #     print(above_bottom)
+        #     print('\n Below_top: ')
+        #     print(below_top)
+        #     print('\n Above_or_below: ')
+        #     print(above_or_below)
 
+        # Within a layer 
+        if sum(above_or_below): 
+            
+            atm_index = np.where(above_bottom & below_top)[0].astype(int)[0]
+            
+            if print_on:
+                print('\nPhoton alt within a layer, atm_index: ' + str(atm_index))
+            
+            ot_abs = float(atm_profile_wl.iloc[atm_index].ot_abs)
+            ot_rayleigh = float(atm_profile_wl.iloc[atm_index].ot_rayleigh)
+            ot_mie = float(atm_profile_wl.iloc[atm_index].ot_mie)
+
+        # Not at boundary nor within a layer 
+        else: 
+            # Above all layers 
+            if q0[2]/1000 > np.max(atm_profile_wl.Alt_top):
+                
+                if print_on:
+                    print ("\nPhoton alt is above max, setting OTs as 0 ")
+                    
+                ot_abs, ot_rayleigh, ot_mie = 0, 0, 0
+            
+            # Unknown 
+            else:
+                print("====== WARNING: error locating photon in the atm ======")  
+                
+    if print_on:
+        print("ot_abs: {:.2e}, ot_rayleigh: {:.2e}, ot_mie: {:.2e}".format(ot_abs, ot_rayleigh, ot_mie))
+    
+    return ot_abs, ot_rayleigh, ot_mie
+'''
+
+
+
+
+
+'''
+# Testing intersecting triangles, this function is not used 
+def intersect_line_DEMtri(q0, q1, DEM_tri, print_on = False): # not used 
+
+    # Parameters
+    # ----------
+    # q0 : list
+    #     starting point of the line.
+    # q1 : list
+    #     ending point.
+    # DEM_tri : list
+    #     a list of numpy arrays.
+
+    # Returns
+    # -------
+    # intersect_tri : pandas dataframe
+    #     collision coordinates, direction normal to the surface
+    #     and linear distance to the starting point.
+    
+    # intersecting triangles 
+    intersect_tri = pd.DataFrame() 
+    
+    for tri in DEM_tri: 
+    
+        for row in range (0, tri.shape[2]):
+            for col in range (0, tri.shape[3]):
+                #print (row, col)
+        
+                p0 = tri[0,:,row,col] 
+                p1 = tri[1,:,row,col]
+                p2 = tri[2,:,row,col]
+                
+                # Extract coordinates of intersection if exists 
+                intersect = _intersect_line_triangle(q0,q1,p0,p1,p2)
+                if (intersect is not None): 
+                    
+                    
+                    if print_on:
+                        print("Line intersecting triangle at: " + str(intersect))
+                    
+                    N = np.cross(p1-p0, p2-p0) #maybe faster than the line above 
+                    
+
+                    if angle_3d(q0,intersect,N) > 90: N = -N
+                    
+                    intersect_tri_temp = pd.DataFrame({
+
+                        'X': [intersect[0]],
+                        'Y': [intersect[1]],
+                        'Z': [intersect[2]],
+                        'N_X': [N[0]],
+                        'N_Y': [N[1]],
+                        'N_Z': [N[2]]
+                        })
+                    
+                    intersect_tri_temp['linear_distance'] = linear_distance(
+                        intersect_tri_temp.iloc[0,0:3].tolist(), 
+                        q0)
+                    
+                    # intersect_tri = intersect_tri.append(intersect_tri_temp) # append to concat on Feb 4, 2022
+                    intersect_tri = pd.concat([intersect_tri,intersect_tri_temp])
+      
+    intersect_tri.reset_index(drop=True, inplace=True)
+    return intersect_tri
+'''
 
 
 
