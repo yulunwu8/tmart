@@ -1,2 +1,0 @@
-# tmart
-A private repository.

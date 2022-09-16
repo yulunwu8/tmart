@@ -1,8 +1,0 @@
-tmart all modules 
-=================
-
-.. toctree::
-   :maxdepth: 4
-
-   conf
-   tmart
