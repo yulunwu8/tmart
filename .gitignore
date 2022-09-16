@@ -1,3 +1,11 @@
 # ignore
 .DS_Store
 *.DS_Store
+_build/.DS_Store
+.DS_Store
+build/
+tmart.egg-info/
+dist/
+_build/
+_static/
+_templates/
