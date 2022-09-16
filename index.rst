@@ -17,8 +17,6 @@ Welcome to T-Mart's documentation!
    docu
 
 
-   DEM_shadow
-
 
 
 

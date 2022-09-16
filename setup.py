@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="tmart",                     # This is the name of the package
-    version="1.0.0",                        # The initial release version
+    version="1.0.1",                        # The initial release version
     author="Yulun Wu",                     # Full name of the author
     description="Radiative transfer modelling of the adjacency effect in aquatic remote sensing",
     long_description=long_description,      # Long description read from the the readme file
@@ -15,11 +15,11 @@ setuptools.setup(
     include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: xxx",
         "Operating System :: OS Independent",
     ],                                      # Information to filter the project on PyPi website
     python_requires='>=3.6',                # Minimum version requirement of the package
     # py_modules=["tmart"],             # Name of the python package
     # package_dir={'':'tmart/'},     # Directory of the source code of the package
-    install_requires=[]                     # Install other dependencies if any
+    license_files=('license'),
+    install_requires=['Py6S','numpy','pandas','scipy','pathos','matplotlib']  # Install other dependencies if any
 )
