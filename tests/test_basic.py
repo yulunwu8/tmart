@@ -34,14 +34,14 @@ band = Py6S.Wavelength(Py6S.PredefinedWavelengths.S2A_MSI_08)
 band = None
 
 
-wl = 400
+wl = 470
 
 
 ### DEM and reflectance ###
 
 # Three same-size numpy arrays are needed
 image_DEM = np.array([[0,0],[0,0]]) # in meters
-image_reflectance = np.array([[0.1,0.1],[0.1,0.1]]) # unitless     
+image_reflectance = np.array([[0.0314,0.0314],[0.0314,0.0314]]) # unitless     
 image_isWater = np.zeros(image_DEM.shape) # 1 is water, 0 is land
 image_isWater = np.array([[1,1],[1,1]])
 
@@ -54,8 +54,8 @@ my_surface = tmart.Surface(DEM = image_DEM,
 
 # Set background information, 1 or 2 background surfaces can be set;
 # If 2: the first background is the one closer to [0,0]
-my_surface.set_background(bg_ref        = [0.1,0.1], # background reflectance
-                          bg_isWater    = [1,1], # if is water
+my_surface.set_background(bg_ref        = 0.0314, # background reflectance
+                          bg_isWater    = 1, # if is water
                           bg_elevation  = 0, # elevation of both background
                           bg_coords     = [[0,0],[10,10]]) # a line dividing two background                                    
 
@@ -75,7 +75,7 @@ my_atm = tmart.Atmosphere(atm_profile, aot550, aerosol_type)
 
 # Make a T-Mart object and modify wind and water parameters 
 my_tmart = tmart.Tmart(Surface = my_surface, Atmosphere= my_atm, shadow=False)
-my_tmart.set_wind(wind_speed=5, wind_dir=0)
+my_tmart.set_wind(wind_speed=10, wind_dir=0)
 my_tmart.set_water(water_salinity=35, water_temperature=20)
 
 

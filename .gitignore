@@ -12,3 +12,4 @@ _templates/
 __pycache__/
 files/
 *.xlsx
+tmart/__pycache__/
