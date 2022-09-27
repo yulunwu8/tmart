@@ -100,19 +100,28 @@ class Tmart(Tmart2):
         Arguments:
             
         * ``sun_dir`` -- Solar angle, in [Zenith, Azimuth], relative to the target.
-        * ``target_pt_direction`` -- Where to shoot photon from the sensor, AKA viewing angle, in [Zenith, Azimuth], relative to the sensor.
+        * ``target_pt_direction`` -- Photon's initial moving direction', AKA viewing angle, in [Zenith, Azimuth], relative to the sensor.
         * ``sensor_coords`` -- Where the sensor is, in [X, Y, Z], unit in meters.
         * ``pixel`` -- The target pixel to shoot photons. Parallel light rays will hit random points within the square pixel. 
-        * ``target_coords`` -- ??? Where the photon will land on the surface, only [X, Y] needed, [Z] is automatically adjusted. 
+        * ``target_coords`` -- Where the photon will land on the surface, only [X, Y] needed, [Z] is automatically adjusted. 
 
 
         Example usage::
 
           my_tmart.set_geometry(sensor_coords=[51,50,130_000], 
-                      target_pt_direction=[180,0],
-                      sun_dir=[0,0])
+                                target_pt_direction=[180,0],
+                                sun_dir=[0,0])
           
-          ??? Add the two other methods 
+          # sensor_coords can be replaced by pixel or target_coords
+          
+          my_tmart.set_geometry(target_pt_direction=[170,0],
+                                target_coords=[15,10], 
+                                sun_dir=[0,0])        
+
+          my_tmart.set_geometry(target_pt_direction=[170,0],
+                                pixel=[1,1], 
+                                sun_dir=[0,0])     
+
 
         '''
         
