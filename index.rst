@@ -11,10 +11,10 @@ Welcome to T-Mart's documentation!
    :caption: Contents:
    
    overview
-   instruction
+   ins_basic
+   ins_advanced
 
    tmart
-   docu
 
 
 

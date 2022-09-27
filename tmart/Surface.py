@@ -19,20 +19,25 @@ import os.path
 
 
 class SpectralSurface():
-    '''Create an object to capture the spectral reflectance of surfaces when looping wavelengths.
+    '''Create an object to capture the spectral reflectance of surfaces when looping wavelengths. This can be used as input to reflectance in the Surface object.
     
     Arguments:
 
-    * ``land_cover`` -- Text, currently support soil (general), vegetation (general), water (general), water_chl1 ([chla]=1).
+    * ``land_cover`` -- Text, currently support 'soil', 'vegetation', 'water' and 'water_chl1' ([chla]=1).
     
 
     Example usage::
 
       # Create object
-      water = tmart.spectral_surface('water_chl1')
+      water = tmart.SpectralSurface('water_chl1')
       
       # Find spectral reflectance at 400nm
       water.wl(400)
+      
+      # Create a spectral surface in a numpy array 
+      wl = 400 # your variable in a loop
+      np.full((2, 2), water.wl(wl))
+      
 
     '''
     def __init__(self,land_cover):
@@ -47,7 +52,7 @@ class SpectralSurface():
             wavelength = df.wl.to_numpy() * 1000
             value = df.value.to_numpy() /100
             
-            self.f = interp1d(wavelength, value, kind='cubic')
+            self.f = interp1d(wavelength, value) # , kind='cubic')
         
         except: 
             print('Warning: failed to open ' + str(file_name))
@@ -142,7 +147,7 @@ class Surface():
 
         '''
 
-        # default: average reflectance, average elevation, no water 
+        # default: average reflectance, elevation 0, no water 
   
         
         # Reflectances of 2 background surfaces, first surface close to [0,0]
@@ -154,7 +159,6 @@ class Surface():
             self.bg_ref = [bg_ref,bg_ref]
         
         # isWater list 
-
         if bg_isWater==None: # default, not water 
             self.bg_isWater = [0,0]
         elif isinstance(bg_isWater,list): # if list, take it 
@@ -163,10 +167,9 @@ class Surface():
             self.bg_isWater = [bg_isWater,bg_isWater]
         
         
-        
         # Elevation of the background surfaces, has to be the same 
         if bg_elevation==None:
-            self.bg_elevation = np.average(self.DEM) # default average elevation
+            self.bg_elevation = 0
         else:
             self.bg_elevation = bg_elevation
         

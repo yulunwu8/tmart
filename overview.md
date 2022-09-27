@@ -9,29 +9,64 @@ This code models the radiative transfer in a 3D atmosphere-ocean system. In addi
 - Land is assumed to be Lambertian. The topography of land is modelled by triangulating the pixels of an input DEM. 
 - Water has three reflectance properties: 1) water-leaving reflectance, 2) white-caps and 3) surface reflectance (sky glint and sun glint). 1 and 2 are assumed to be Lambertian, 3 is calculated through Cox&Munk slope statistics. 
 
-Yulun Wu | March 13, 2022 | Requested by Liquid Geomatics | For any questions, please email ywu146@uottawa.ca
+T-Mart is essentially a Monte-Carlo solver for 6S, taking in the same inputs but with 3D capabilities. 
+
+Users are assumed to have basic understanding of numpy arrays and radiative transfer.
+
+Yulun Wu | September 21, 2022 | Requested by Liquid Geomatics | For any questions, please email ywu146@uottawa.ca
 
 ## Required Libraries
 
-T-Mart is written in Python 3, and it requires: Py6S, matplotlib, pathos, multiprocessing, numpy, pandas.
+T-Mart is written in Python 3, and it requires Py6S, numpy, pandas, scipy, pathos, and matplotlib.
+
+
+## Installation 
+
+1 - Create a conda environment and activate it: 
+```
+conda create --name tmart python=3.9
+conda activate tmart
+```
+2 - Install dependencies: 
+```
+conda install -c conda-forge Py6S numpy pandas scipy pathos matplotlib
+```
+3 - Install tmart: 
+```
+pip3 install tmart
+```
 
 
 ## Input
 
-**Essential**
+**Essential inputs**
 
 - Wavelength: wavelength in nm.
 - Surface: 
-	- DEM: Digital Elevation Model, the elevation of pixels in this run.
+	- DEM: Digital Elevation Model, the elevation of pixels in a run.
 	- Cell size: the width and length of each pixel. 
-	- Reflectance: reflectance of land or water-leaving reflectance of water, Lambertian. 
-	- is_water: which pixels are water pixels. 
+	- Reflectance: reflectance of land or water-leaving reflectance of water, assumed to be Lambertian. 
+	- is_water: specify which pixels are water pixels. 
 	- Background information: the elevation and reflectance of the background beyond the range of the pixels.
 
 - Atmosphere profile: choose from Py6S. 
 
-- n_photon: number of photons used in each run, default 1000. Recommend 10,000 to 100,000.
+- n_photon: number of photons used in each run, default 10,000. A greater value (e.g., 100,000) makes the run slower but with higher accuracy.
 - Geometry: photon starting position, solar angle, viewing angle. 
+- 
+
+**Optional inputs**
+
+- Atmosphere 
+ 	- AOT550: aerosol optical thickness at 550nm.
+	- Aerosol model: choose from Py6S
+	- Aerosol scale height: default 2 km.
+	- n_layers: number of atmospheric layers: default 10. Having more layers may slightly increases the computation time
+- Wind: wind speed and direction 
+- Water salinity: in unit of parts per thousand, default 0.
+- Water temperature: in Celsius, default 25.
+
+
 
 **Geometry**
  
@@ -40,17 +75,6 @@ T-Mart is written in Python 3, and it requires: Py6S, matplotlib, pathos, multip
  
 ![Geometry](files/geometry.png)
 
-
-**Optional**
-
-- Atmosphere 
- 	- AOT550: aerosol optical thickness at 550nm.
-	- Aerosol_SPF: normalized aerosol scattering phase function.
-	- Aerosol scale height: default 2 km.
-	- n_layers: number of atmospheric layers: default 10. Having more layers may slightly increase the computation time
-- Wind speed
-- Water salinity: in unit of parts per thousand, default 0.
-- Water temperature: in Celsius, default 25.
 
 
 
@@ -63,7 +87,7 @@ Reflectances (definitions following 6S):
 - Environmental reflectance 
 - Direct reflectance
 
-
+Environmental and direct reflectances can be further divided into contributions from water-leaving, water-specular, water-whitecap and land reflectances. 
 
 
 

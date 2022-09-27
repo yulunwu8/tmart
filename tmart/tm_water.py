@@ -21,7 +21,12 @@ import random
 import math
 import numpy as np
 import pandas as pd 
-from .tm_geometry import rotation_matrix, dirP_to_coord, dirC_to_dirP, angle_3d
+
+
+if __name__=='__main__':
+    from tm_geometry import rotation_matrix, dirP_to_coord, dirC_to_dirP, angle_3d
+else:
+    from .tm_geometry import rotation_matrix, dirP_to_coord, dirC_to_dirP, angle_3d
 
 
 import os.path
@@ -436,26 +441,26 @@ def sample_cox_munk(wind_speed, wind_dir,azi_avg=False):
 
 
 
-# # test cox_munk reflectance 
-# if __name__=='__main__':
+# test cox_munk reflectance 
+if __name__=='__main__':
 
-#     pt_direction = [120,10] # essentially sensor viewing angle 
+    pt_direction = [180,0] # essentially sensor viewing angle 
+    sun_dir = [0,0]
     
-#     pt_direction_op_C = np.negative(dirP_to_coord(1, pt_direction))
+    
+    pt_direction_op_C = np.negative(dirP_to_coord(1, pt_direction))
     
     
-#     sun_dir = [50,0]
+    q_collision_N_polar = [0, 0]
+    water_refraIdx_wl = 1.34
     
-#     q_collision_N_polar = [0, 0]
-#     water_refraIdx_wl = 1.34
+    wind_dir = 0
+    wind_speed = 10 
+    print('=== original ===')  
+    test = find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_speed,water_refraIdx_wl, print_on=True)
     
-#     wind_dir = 270
-#     wind_speed = 5    
-#     print('=== original ===')  
-#     test = find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_speed,water_refraIdx_wl, print_on=True)
-    
-#     print('\n=== azi_avg ===')  
-#     test = find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_speed,water_refraIdx_wl, print_on=True, azi_avg=True)
+    print('\n=== azi_avg ===')  
+    test = find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_speed,water_refraIdx_wl, print_on=True, azi_avg=True)
 
 
 

@@ -18,7 +18,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="tmart",                     # This is the name of the package
-    version="1.1.0",                        # The initial release version
+    version="1.2.0",                        # The initial release version
     author="Yulun Wu",                     # Full name of the author
     description="Radiative transfer modelling of the adjacency effect in aquatic remote sensing",
     long_description=long_description,      # Long description read from the the readme file

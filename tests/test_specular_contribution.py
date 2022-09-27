@@ -43,8 +43,8 @@ band = Py6S.Wavelength(Py6S.PredefinedWavelengths.S2A_MSI_08)
 band = None
 
 
-wl = 400
-WATER = 0
+wl = 460
+WATER = 1
 
 
 

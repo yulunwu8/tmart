@@ -34,22 +34,26 @@ class Atmosphere():
     * ``aot550`` -- AOT at 550nm.
     * ``aerosol_type`` -- 'BiomassBurning', 'Continental', 'Desert', 'Maritime', 'Stratospheric' or 'Urban', as provided by 6S. 
     * ``wl`` -- central wavelength in nm.
-    * ``n_layers`` -- Number of atmosphere layers to use
+    * ``n_layers`` -- Number of atmosphere layers to use. Default 20. 
     * ``AEROSOL_SCALE_HEIGHT`` -- Aerosol scale height in km. Default 2km. 
     * ``no_absorption`` -- Boolean, if yes -> remove all absorption. 
     * ``specify_ot_rayleigh`` -- Specify rayleigh optical thickness, only for testing.
     * ``specify_abs`` -- Specifiy absorption optical thickness, only for testing. 
     
 
-    Example usage:: ### EDIT!!!
+    Example usage:: 
     
       from Py6S.Params.atmosprofile import AtmosProfile
 
+      # Atmophere profile comes from 6S
       atm_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer) 
-      aerosol_SPF = 'tmart/ancillary/aerosol_maritime_SPF.csv' 
+      aerosol_type = 'Maritime' 
       aot550 = 0.1
-      my_atm = tmart.Atmosphere(atm_profile, aot550, aerosol_SPF)
-
+      n_layers = 20
+      aerosol_scale_height = 2 # Unless you have a reason, don't change this
+        
+      # Synthesize an atmosphere object    
+      my_atm = tmart.Atmosphere(atm_profile, aot550, aerosol_type, n_layers, aerosol_scale_height)
     '''
 
     def __init__(self,atm_profile, aot550 = 0, 

@@ -194,6 +194,7 @@ class Tmart(Tmart2):
           
           my_tmart.set_wind(wind_speed=5)
           my_tmart.set_wind(wind_speed=5, wind_azi_avg = False, wind_dir=0)
+          my_tmart.set_wind(wind_speed=5, wind_azi_avg = True)
           
         '''
         
@@ -292,7 +293,6 @@ class Tmart(Tmart2):
         print('sun_dir: ' + str(self.sun_dir))
         print("=====================================")
         
-        # nc = 16
 
         pool = ProcessingPool(processes=nc)
         time.sleep(0.5)
@@ -304,6 +304,7 @@ class Tmart(Tmart2):
             _track_job(results_temp)
         
         results = results_temp.get()
+        results = np.vstack(results)
 
         return results 
 

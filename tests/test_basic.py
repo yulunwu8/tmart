@@ -66,10 +66,11 @@ my_surface.set_background(bg_ref        = 0.0314, # background reflectance
 atm_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer) 
 aerosol_type = 'Maritime' 
 aot550 = 0
+n_layers = 20
+aerosol_scale_height = 2 # Unless you have a reason, don't change this
 
-# Synthesize an atmosphere object     
-my_atm = tmart.Atmosphere(atm_profile, aot550, aerosol_type)
-
+# Synthesize an atmosphere object    
+my_atm = tmart.Atmosphere(atm_profile, aot550, aerosol_type, n_layers, aerosol_scale_height)
 
 ### Running T-Mart ###
 
@@ -102,7 +103,7 @@ results = my_tmart.run(wl=wl, band=band, n_photon=n_photon,nc= 10,njobs= 100)
 results = np.vstack(results)
 
 # Calculate reflectances using recorded photon information 
-R = tmart.calc_ref(results)
+R = tmart.calc_ref(results, detail=True)
 for k, v in R.items():
     print(k, '     ' , v)
 
