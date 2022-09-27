@@ -13,7 +13,11 @@ In addition to the radiative transfer solver, there are three components in the 
 
 Many of T-Mart's input are from Py6S. Users are assumed to have basic understanding of numpy arrays and radiative transfer. 
 
-Yulun Wu | September 21, 2022 | ywu146@uottawa.ca
+Home page: <a href="https://github.com/yulunwu8/tmart" target="_blank">https://github.com/yulunwu8/tmart</a>
+
+Yulun Wu | September 21, 2022 | [yulunwu8@gmail.com](mailto:yulunwu8@gmail.com)
+
+
 
 ## Required Libraries
 
