@@ -144,7 +144,11 @@ Note that because T-Mart runs wavelength by wavelength and Monte-Carlo solvers a
 
 ## 3D Surfaces 
 
-To simulate non-flat surfaces, all we need to do is to have non-zero values in the DEM array. Users can import DEMs from rasters through geo-processing packages such as GDAL. 
+To simulate non-flat surfaces, all we need to do is to have non-zero values in the DEM array. Users can import DEMs from rasters through geo-processing packages such as GDAL. For example, 
+
+```python
+image_DEM = np.array([[30_000,20_000],[5_000,10_000]]) # in meters
+```
 
 You can visualize the surface in a single-photon run before calculating the reflective properties of the entire system in a multi-photon run: 
 
@@ -215,8 +219,7 @@ To be updated.
 
 ## Useful Information 
 
-The following two dataframes completely describe the wavelength-specific atmosphere in T-Mart. 
-
+The following two dataframes completely describe the atmosphere at a single wavelength in T-Mart. 
 
 
 ```python
@@ -231,6 +234,7 @@ my_atm_profile = my_tmart.atm_profile_wl
 # The aerosol scattering phase function
 my_aerosol_SPF = my_tmart.aerosol_SPF_wl
 ```
+
 
 The columns of the atmosphere profile:
 

@@ -60,7 +60,7 @@ class SpectralSurface():
         
     def wl(self,wavelength):
         '''
-        See above.
+        Specify the wavelength of interest in nm and returns the reflectance of the surface. 
         '''
         
         reflectance = self.f(wavelength).item()
@@ -72,7 +72,7 @@ class SpectralSurface():
 
 
 class Surface(): 
-    '''Create an Atmosphere object. 
+    '''Create an Surface object. 
     
     Arguments:
 

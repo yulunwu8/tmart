@@ -1,8 +1,8 @@
-# TMart: Topography-adjusted Monte-carlo Adjacency-effect Radiative Transfer Code
+# T-Mart: Topography-adjusted Monte-carlo Adjacency-effect Radiative Transfer Code
 
 ## Description 
 
-TMart solves the radiative transfer in a 3D ocean-atmosphere system through a Monte-Carlo approach. TMart features arbitrary surface models which allow simulations of the adjacnecy effect in aquatic remote sensing. 
+T-Mart solves the radiative transfer in a 3D ocean-atmosphere system through a Monte-Carlo approach. T-Mart features arbitrary surface models which allow simulations of the adjacnecy effect in aquatic remote sensing. 
 
 
 ## Links
