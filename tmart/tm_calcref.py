@@ -20,7 +20,7 @@ import pandas as pd
 import sys
 from copy import copy
 
-def calc_ref(df, n_photon = None, detail = False):
+def calc_ref(df, n_photon = None, detail = False, total_only = False):
     '''Analyze the results of T-Mart and calculate reflectances. 
     
     Arguments:
@@ -29,6 +29,7 @@ def calc_ref(df, n_photon = None, detail = False):
     * ``n_photon`` -- Specify the number of photons in the run when firing the photon upwards. 
        * If not specified, the number of unique pt_id will be used. This can lead to errors when photons were fired upwards because some photons will not have pt_id.
     * ``detail`` -- differentiate coxmunk, whitecap, water-leaving and land contributions
+    * ``total_only`` -- only return total TOA reflectance, this is much faster but gives less details. 
     
     Output:
 
@@ -68,8 +69,20 @@ def calc_ref(df, n_photon = None, detail = False):
     if n_photon == None:
         n_photon = unique_pt_id.shape[0]
     
+    
+    ### Total reflectance only 
+    
+    if total_only:
+        R_total = np.sum(dfpd.L_coxmunk) + np.sum(dfpd.L_whitecap) + np.sum(dfpd.L_water) + np.sum(dfpd.L_land) + np.sum(dfpd.L_rayleigh) + np.sum(dfpd.L_mie) 
+        R_total = R_total / n_photon
+        return R_total
+    
+
+    
+    ### Differentiate atm, dir and env reflectances 
+    
     # Number of unique pt_id
-    pt_id_counts = dfpd.pt_id.value_counts()
+    pt_id_counts = dfpd.pt_id.value_counts()   
     
     # Isolate those that only have one pt_id to speed up calculation 
     pt_ids_1 = pt_id_counts.index[pt_id_counts == 1].tolist()
@@ -209,6 +222,10 @@ def calc_ref(df, n_photon = None, detail = False):
     return R_output
     
      
+
+
+
+
 
 
 
