@@ -80,8 +80,12 @@ class Tmart2():
             q0 = self.sensor_coords + [pixel_x,pixel_y,self.pixel_elevation]
             
         
-        # Initial moving direction of the photon, 改成 function！！！！！！
-        pt_direction = self.target_pt_direction
+        # Initial moving direction of the photon
+        
+        if self.target_pt_direction == 'lambertian_up': 
+            pt_direction = sample_Lambertian()[1]
+        else:
+            pt_direction = self.target_pt_direction
         
         pt_weight = 1_000_000
         
@@ -390,7 +394,8 @@ class Tmart2():
                     
                 # else lambertian 
                 else: 
-                    pt_direction = dirC_to_dirP(sample_Lambertian()[0])[0:2]
+                    # pt_direction = dirC_to_dirP(sample_Lambertian()[0])[0:2] # the line below can be faster???
+                    pt_direction = sample_Lambertian()[1]
                     tpye_collision = 'W'
                         
                 if self.print_on: print("pt_weight before absorption: " + str(pt_weight))               
