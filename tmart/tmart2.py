@@ -26,12 +26,13 @@
 # T-MART: Topography-adjusted Monte-Carlo Adjacency-effect Radiative Transfer code  
 
 
-
+import sys
 import numpy as np
 import pandas as pd
 import random
 import math
 from scipy.interpolate import interp1d
+from copy import copy
 
 from .tm_sampling import sample_Lambertian, sample_scattering, weight_impSampling
 from .tm_geometry import dirP_to_coord, dirC_to_dirP, rotation_matrix, angle_3d, dirC_to_coord
@@ -44,7 +45,7 @@ from .tm_OT import find_OT
 
 
 
-# plotting 
+# Plotting 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
@@ -52,11 +53,9 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 
 
-# inherit and overwrite _run_single_photon
+# The class is overwritten in Tmart 
 class Tmart2(): 
 
-    
-    
     def _run_single_photon_test(self,pt_id): 
         return [1,1]
     
@@ -100,8 +99,8 @@ class Tmart2():
                          self.Surface.bg_ref[0]==0 and self.Surface.bg_ref[1]==0 and 
                          self.Surface.bg_isWater[0]==0 and self.Surface.bg_isWater[1]==0)
         
-        # A numpy array to collect information 
-        pt_stat = np.empty((0,13))     
+        # A numpy array to collect information, here 14 columns, local_estimate has 14 too, output only 13
+        pt_stat = np.empty((0,14))     
         
         
         ### For loop: photon movements 
@@ -478,7 +477,7 @@ class Tmart2():
             ###### Local estimates 
             
             # Every movement has a row of local_est
-            # Columes: pt_id, movement, type of collision, L_cox-munk, L_whitecap, L_water, L_land, L_rayleigh, L_mie, surface xyz, shadowed 
+            # Columes: pt_id, movement, L_cox-munk, L_whitecap, L_water, L_land, L_rayleigh, L_mie, surface xyz, shadowed, if_env, type of collision
             # Type of collision: W (water leaving), Ws (water specular), L (land), M (mie), R (Rayleigh)
             
             
@@ -486,6 +485,11 @@ class Tmart2():
             
             # Reflection 
             if scenario == 1 or scenario == 2: 
+                
+                if movement == 0:
+                    is_env = 0
+                else: # move>0 means at least one atmospheric scattering happened
+                    is_env = 1
                 
                 if self.shadow: if_shadow = self.detect_shadow(q_collision)
                     
@@ -498,17 +502,19 @@ class Tmart2():
                     
                     le_water = self.local_est_water(pt_weight, pt_direction_op_C, q_collision, 
                                                     q_collision_N_polar, R_specular, q_collision_ref, R_surf)
-                    local_est = [pt_id, movement,tpye_collision] + le_water + [0,0,0] + q_collision + [0]
+                    local_est = [pt_id, movement] + le_water + [0,0,0] + q_collision + [0,is_env,tpye_collision]
                         
                 # Land 
                 else: 
                     le_land = self.local_est_land(q_collision, pt_weight)
-                    local_est = [pt_id, movement,'L',0,0,0] + le_land + [0,0] + q_collision + [0]
+                    local_est = [pt_id, movement,0,0,0] + le_land + [0,0] + q_collision + [0,is_env,'L']
                 
                 
-                if if_shadow: local_est[12] = 1
+                if if_shadow: local_est[11] = 1
                 
                 if self.print_on: print("local_est: " + str(local_est))
+
+                
                 pt_stat = np.vstack([pt_stat, local_est])     
                 
             # Scattering 
@@ -522,12 +528,15 @@ class Tmart2():
                 #     # tolist because q_collision comes from q1, which is a numpy array
                     
                 le_scatt = self.local_est_scat(pt_direction_op_C, q_collision, pt_weight, ot_mie, ot_rayleigh)
-                local_est = [pt_id, movement,type_scat,0,0,0,0] + le_scatt + [0, 0, 0] + [0]
                 
-                if if_shadow: local_est[12] = 1
+                local_est = [pt_id, movement,0,0,0,0] + le_scatt + q_collision.tolist() + [0,0,type_scat]
+                
+                if if_shadow: local_est[11] = 1
                 
                 if self.print_on: print("local_est: " + str(local_est))
+                
                 pt_stat = np.vstack([pt_stat, local_est])            
+            
             
             
             
@@ -543,7 +552,8 @@ class Tmart2():
                 
                 else: 
                     self._plot(q0, q_collision, scenario)
-                      
+           
+
         
             # Exit if out 
             if out:
@@ -559,14 +569,99 @@ class Tmart2():
             q0 = q_collision
         
         
+        # edit pt_stat here 
+        if pt_stat.shape[0] > 1:
+            pt_stat = self._diff_ref(pt_stat)
+            
+        else: 
+            
+            pt_stat = pt_stat[:,0:13].astype(float)
+        
         # return np.array([surface_irradiance]) # for surface_irradiance 
         return pt_stat
+    
 
-
+    # Differentiate reflectances
+    def _diff_ref (self,pt_stat):
+        
+        pt_stat_num = pt_stat[:,0:13].astype(float)
+        
+        moves = pt_stat_num[:,1].astype(int)
+        
+        if not np.all(np.diff(moves) > 0): # check if sorted 
+            sys.exit('pt movement has to be sorted')
+            
+        pt_stat_output = np.empty((0,13))   
+            
+        for move in moves:
+            
+            # Entire row 
+            pt_movement = copy( pt_stat_num[move == moves,:] )
+            
+            # Type of collision 
+            t_c = pt_stat[pt_stat[:,1] == str(move), 13].item()
+            
+            if t_c=='W' or t_c=='L':
+                # Adding all after to L_whitecap, L_water, L_land
+                
+                # Total lambertian in a single row 
+                total = np.sum(pt_movement[0][3:6])
+                
+                # If surface is black, quit loop to speed up calculation 
+                if total == 0: 
+                    break
+        
+                # Identify all movements after that contribute to this 
+                pt_mov_after = pt_stat_num[move+1:,:]
+                pt_mov_after_nonShadow = pt_mov_after[pt_mov_after[:,11]==0]
+                sum_after = np.sum(pt_mov_after_nonShadow[:,2:8])
+              
+                # Ratios: whitecap, water and land 
+                r_wc    = pt_movement[0][3]/ total 
+                r_water = pt_movement[0][4]/ total 
+                r_land  = pt_movement[0][5]/ total 
+                
+                # We calculate ratio before setting shadowed 'total' to 0
+                if pt_movement[0][11] == 1: total = 0
+                
+                total_new = total + sum_after
+            
+                pt_movement[0][3] = total_new * r_wc
+                pt_movement[0][4] = total_new * r_water
+                pt_movement[0][5] = total_new * r_land
+                
+                # Add to the main numpy array 
+                pt_stat_output = np.vstack([pt_stat_output, pt_movement])
+                
+                break 
+            
+            elif t_c=='Ws':    
+                # Adding all after to L_coxmunk
+                
+                pt_mov_after = pt_stat_num[move+1:,:]
+                pt_mov_after_nonShadow = pt_mov_after[pt_mov_after[:,11]==0]
+                sum_after = np.sum(pt_mov_after_nonShadow[:,2:8])       
+                
+                if pt_movement[0][11] == 1: 
+                    total = 0
+                else:
+                    total = pt_movement[0][2]
+                
+                pt_movement[0][2] = total + sum_after
+                
+                
+                pt_stat_output = np.vstack([pt_stat_output, pt_movement])
+                
+                break         
+                
+            # If rayleigh or mie 
+            pt_stat_output = np.vstack([pt_stat_output, pt_movement])
+            
+        return pt_stat_output
+        
 
 
     def local_est_scat(self,pt_direction_op_C,q_collision, pt_weight, ot_mie, ot_rayleigh):
-        
         
         # calculate remaining Transmittance 
         OT = self._local_est_OT(q_collision)
@@ -594,17 +689,12 @@ class Tmart2():
         # print('rayleigh_c: ' + str(rayleigh_c))
         rayleigh_c = rayleigh_c * (ot_rayleigh/ot_scattering)
         # print('rayleigh_c2: ' + str(rayleigh_c))
-        
-        
-        # This function should be built-in in the object to run faster !!!
     
         # mie
         df_angle = self.aerosol_SPF_wl.Angle.to_numpy()
         df_value = self.aerosol_SPF_wl.Value.to_numpy()
         f2 = interp1d(df_angle, df_value, kind='cubic')
         mie = f2(angle_scattering).item()
-        
-        
         
         mie_c = mie / math.cos(self.sun_dir[0]/180*math.pi) / 4 # / math.pi   
         mie_c = mie_c * (ot_mie/ot_scattering)
@@ -634,7 +724,6 @@ class Tmart2():
     def local_est_water(self, pt_weight, pt_direction_op_C, q_collision, q_collision_N_polar, R_specular, q_collision_ref, R_surf):   
         
         # q_collision_ref is modified here
-        
         
         R_wc = self.R_wc_wl
         
@@ -682,9 +771,6 @@ class Tmart2():
         
         return if_shadow
         
-        
-
-
 
     # finds OT between TOA and z
     
@@ -735,8 +821,6 @@ class Tmart2():
             
             OT_remain_ratio = alts_diff_positive_min / height
             # print ('OT_remain_ratio: ' +str(OT_remain_ratio))            
-            
-            
             
             
             OT_layer = (self.atm_profile_wl.ot_abs[alts_diff_positive_min_idx] + 

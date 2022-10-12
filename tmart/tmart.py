@@ -291,9 +291,8 @@ class Tmart(Tmart2):
         
         n = n_photon
         
-        
+        # Split all photon IDs into numpy arrays 
         part_count = [n/njobs for i in range(njobs)]
-        
         part_count = np.array_split(range(n_photon), njobs)
         
         
