@@ -101,7 +101,7 @@ class Tmart(Tmart2):
             
         * ``sun_dir`` -- Solar angle, in [Zenith, Azimuth], relative to the target.
         * ``target_pt_direction`` -- Photon's initial moving direction', AKA viewing angle, in [Zenith, Azimuth], relative to the sensor. 
-            * Alternative input: 'lambertian_up'. This can only be used with ``sensor_coords``. The initial direction will be a random direction up following a Lambertian distribution for each of the photons. This is used in calculating irradiance.  
+            * Alternative input: 'lambertian_up' or 'lambertian_down'. This can only be used with ``sensor_coords``. The initial direction will be a random direction up following a Lambertian distribution for each of the photons. This is used in calculating irradiance.  
         * ``sensor_coords`` -- Where the sensor is, in [X, Y, Z], unit in meters.
         * ``pixel`` -- The target pixel to shoot photons. Parallel light rays will hit random points within the square pixel. 
         * ``target_coords`` -- Where the photon will land on the surface, only [X, Y] needed, [Z] is automatically adjusted. 

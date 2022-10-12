@@ -84,6 +84,9 @@ class Tmart2():
         
         if self.target_pt_direction == 'lambertian_up': 
             pt_direction = sample_Lambertian()[1]
+        elif self.target_pt_direction == 'lambertian_down': 
+            pt_direction = sample_Lambertian()[1]
+            pt_direction[0] = pt_direction[0] + 90
         else:
             pt_direction = self.target_pt_direction
         
