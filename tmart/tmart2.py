@@ -235,7 +235,13 @@ class Tmart2():
                     while in_angle>90: 
                     
                         # Use Cox-munk to draw a normal, output polar coordinates 
-                        random_cox_munk = sample_cox_munk(self.wind_speed, self.wind_dir, self.wind_azi_avg)
+                        random_cox_munk = sample_cox_munk(self.wind_speed, self.wind_dir)
+                        
+                        # Azimuthally averaged sampling 
+                        if self.wind_azi_avg:
+                            random_cox_munk2 = sample_cox_munk(self.wind_speed, self.wind_dir+90)
+                            random_cox_munk = (random_cox_munk + random_cox_munk2) / 2
+                        
                         
                         axis = [math.cos((q_collision_N_polar[1]+90)*math.pi/180),
                                 math.cos(q_collision_N_polar[1]*math.pi/180),
@@ -359,7 +365,12 @@ class Tmart2():
                     while in_angle>90: 
                         
                         # Use Cox-munk to draw a normal, no need for rotation
-                        random_cox_munk = sample_cox_munk(self.wind_speed, self.wind_dir, self.wind_azi_avg)
+                        random_cox_munk = sample_cox_munk(self.wind_speed, self.wind_dir)
+                        
+                        # Azimuthally averaged sampling 
+                        if self.wind_azi_avg:
+                            random_cox_munk2 = sample_cox_munk(self.wind_speed, self.wind_dir+90)
+                            random_cox_munk = (random_cox_munk + random_cox_munk2) / 2                        
                                        
                         # incident angle to calculate Fresnel reflectance 
                         in_angle = angle_3d(random_cox_munk, [0,0,0], pt_direction_op_C)
@@ -642,7 +653,7 @@ class Tmart2():
                 pt_mov_after_nonShadow = pt_mov_after[pt_mov_after[:,11]==0]
                 sum_after = np.sum(pt_mov_after_nonShadow[:,2:8])       
                 
-                if pt_movement[0][11] == 1: 
+                if pt_movement[0][11] == 1: # shadow
                     total = 0
                 else:
                     total = pt_movement[0][2]
@@ -723,14 +734,21 @@ class Tmart2():
       
     def local_est_water(self, pt_weight, pt_direction_op_C, q_collision, q_collision_N_polar, R_specular, q_collision_ref, R_surf):   
         
-        # q_collision_ref is modified here
-        
         R_wc = self.R_wc_wl
-        
         
         # Cox-Munk and Fresnel, this one tells us nothing about the actual flux reflectance!!!  
         R_cm = find_R_cm(pt_direction_op_C, self.sun_dir, q_collision_N_polar, 
-                         self.wind_dir, self.wind_speed, self.water_refraIdx_wl, self.print_on, self.wind_azi_avg)
+                         self.wind_dir, self.wind_speed, self.water_refraIdx_wl, self.print_on)
+        
+        # Average = (regular + wind 90 degrees) / 2
+        if self.wind_azi_avg:
+            if self.print_on: print ('\nSampling R_cm again...')
+            
+            R_cm2 = find_R_cm(pt_direction_op_C, self.sun_dir, q_collision_N_polar, 
+                              self.wind_dir + 90, self.wind_speed, self.water_refraIdx_wl, self.print_on)
+            R_cm = (R_cm + R_cm2) / 2
+            
+        
         
         R_cm = (1-self.F_wc_wl) * R_cm # remove whitecaps from cox-munk reflection 
         

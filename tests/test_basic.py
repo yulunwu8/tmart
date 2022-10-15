@@ -25,8 +25,8 @@ from Py6S.Params.atmosprofile import AtmosProfile
 import Py6S
 
 # Band 2 of Sentinel-2A and its central wavelength
-band = Py6S.Wavelength(Py6S.PredefinedWavelengths.S2A_MSI_02)
-wl = 490 
+band = None
+wl = 800 
 
 ### DEM and reflectance ###
 
@@ -55,7 +55,7 @@ my_surface.set_background(bg_ref        = [0.1,0.1], # background reflectance
 # Atmophere profile comes from 6S
 atm_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer) 
 aerosol_type = 'Maritime' 
-aot550 = 0.1
+aot550 = 0.0
 n_layers = 20
 aerosol_scale_height = 2 # Unless you have a reason, don't change this
 
@@ -77,7 +77,7 @@ my_tmart.set_geometry(sensor_coords=[51,50,130_000],
                       sun_dir=[0,0])
 
 # Number of photons
-n_photon = 100_000
+n_photon = 10_000
 
 results = my_tmart.run(wl=wl, band=band, n_photon=n_photon)
 # Calculate reflectances using recorded photon information 

@@ -200,7 +200,6 @@ my_tmart.set_geometry(sensor_coords=[51,50,130_000],
 # Run and plot on a separate window
 %matplotlib qt
 results = my_tmart.run_plot(wl=wl, plot_on=True, plot_range=[0,100_000,0,100_000,0,100_000])
-results = np.vstack(results)
 
 # Calculate reflectances using recorded photon information 
 R = tmart.calc_ref(results)

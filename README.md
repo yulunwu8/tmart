@@ -67,7 +67,6 @@ my_tmart.set_geometry(sensor_coords=[51,50,130_000],
                       sun_dir=[0,0])
 
 results = my_tmart.run(wl=wl, band=None, n_photon=10_000,nc= 10,njobs= 100)
-results = np.vstack(results)
 
 # Calculate reflectances using recorded photon information 
 R = tmart.calc_ref(results)

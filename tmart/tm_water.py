@@ -164,7 +164,7 @@ def eta_to_dirP(eta_a_degree, eta_c_degree):
 
 
 # Basic Cox-Munk, calculate the probability of having the given slope 
-def cox_munk(slope_along_wind, slope_cross_wind, wind_speed, unit='slope', azi_avg = False):
+def cox_munk(slope_along_wind, slope_cross_wind, wind_speed, unit='slope'):
     '''
     
     Parameters
@@ -196,34 +196,27 @@ def cox_munk(slope_along_wind, slope_cross_wind, wind_speed, unit='slope', azi_a
     else:
         print('Warning: unit unknown in calculating cox_munk probability')
         return None
+   
     
-    if azi_avg: 
-        sigma_a_2 = 2.54 * 10**-3 * wind_speed # along-wind direction 
-        sigma_c_2 = 2.54 * 10**-3 * wind_speed # cross-wind direction 
-        eta = Z_y / math.sqrt(sigma_a_2) # along wind
-        xi = Z_x / math.sqrt(sigma_c_2) # cross wind
-        cm_exp = math.exp(-0.5 * (xi**2 + eta**2))
+    # Slope variances 
+    sigma_a_2 = 3.16 * 10**-3 * wind_speed # along-wind direction 
+    sigma_c_2 = 1.92 * 10**-3 * wind_speed + 0.003 # cross-wind direction 
     
-    else: 
-        # Slope variances 
-        sigma_a_2 = 3.16 * 10**-3 * wind_speed # along-wind direction 
-        sigma_c_2 = 1.92 * 10**-3 * wind_speed + 0.003 # cross-wind direction 
-        
-        # Normalized slope 
-        eta = Z_y / math.sqrt(sigma_a_2) # along wind
-        xi = Z_x / math.sqrt(sigma_c_2) # cross wind
-        
-        # Cox-Munk distribution 
-        c21 = 0.01 - 0.0086*wind_speed
-        c03 = 0.04 - 0.033*wind_speed
-        c40 = 0.40
-        c22 = 0.12
-        c04 = 0.23
-        
-        cm_exp = math.exp(-0.5 * (xi**2 + eta**2)) * (
-            1 - 0.5*c21*(xi**2 - 1)*eta - (1/6)*c03*(eta**3 - 3*eta) +
-            (1/24)*c40 * (xi**4 - 6*xi**2 + 3) + (1/4) * c22 *(xi**2 - 1)*(eta**2 - 1) + 
-            (1/24)*c04*(eta**4 - 6*eta**2 + 3) )
+    # Normalized slope 
+    eta = Z_y / math.sqrt(sigma_a_2) # along wind
+    xi = Z_x / math.sqrt(sigma_c_2) # cross wind
+    
+    # Cox-Munk distribution 
+    c21 = 0.01 - 0.0086*wind_speed
+    c03 = 0.04 - 0.033*wind_speed
+    c40 = 0.40
+    c22 = 0.12
+    c04 = 0.23
+    
+    cm_exp = math.exp(-0.5 * (xi**2 + eta**2)) * (
+        1 - 0.5*c21*(xi**2 - 1)*eta - (1/6)*c03*(eta**3 - 3*eta) +
+        (1/24)*c40 * (xi**4 - 6*xi**2 + 3) + (1/4) * c22 *(xi**2 - 1)*(eta**2 - 1) + 
+        (1/24)*c04*(eta**4 - 6*eta**2 + 3) )
     
     p = cm_exp / (2 * math.pi * math.sqrt(sigma_a_2) * math.sqrt(sigma_c_2)) # correcpond to value corrected 
     if p < 0: p = 0
@@ -268,6 +261,7 @@ def find_eta_P(pt_direction_op_C,sun_dir,q_collision_N_polar,wind_dir):
     angle_specular = dirC_to_dirP(middle_c)
     angle_specular_c = dirP_to_coord(1,angle_specular[0:2])
     
+    
     # Angle = normal + cox-munk
     # So we solve for cox-munk by (angle - normal) 
     
@@ -276,10 +270,11 @@ def find_eta_P(pt_direction_op_C,sun_dir,q_collision_N_polar,wind_dir):
             0] 
     
     theta = q_collision_N_polar[0]*math.pi/180 
+    # angle_specular_c around axis, clockwise by theta
     rotated = np.dot(rotation_matrix(axis, theta), angle_specular_c)
     rotated_p = dirC_to_dirP(rotated)
     
-    # Correct for wind direction 
+    # Correct for wind direction, this is for sampling only 
     rotated_p[1] = rotated_p[1] + wind_dir
     if rotated_p[1] >=360:
         rotated_p[1] = rotated_p[1] - 360
@@ -297,7 +292,7 @@ def find_eta_P(pt_direction_op_C,sun_dir,q_collision_N_polar,wind_dir):
 # Multipied by Cox-Munk intensity 
 
 ### Calculate gling reflectance using Cox-Munk + Fresnel reflectance 
-def find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_speed, water_refraIdx_wl, print_on, azi_avg=False):
+def find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_speed, water_refraIdx_wl, print_on):
     '''
     
 
@@ -317,8 +312,6 @@ def find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_sp
         DESCRIPTION.
     print_on : TYPE
         DESCRIPTION.
-    azi_avg : TYPE, optional
-        DESCRIPTION. The default is False.
 
     Returns
     -------
@@ -354,7 +347,7 @@ def find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_sp
     # Surface normal is right between the two because of CM
     angle_pt_sun = angle_3d(dirP_to_coord(1,sun_dir), [0,0,0], pt_direction_op_C)
     R_specular = fresnel(water_refraIdx_wl, angle_pt_sun/2)
-    p_cox_munk = cox_munk(eta_a, eta_c, wind_speed,unit='slope',azi_avg=azi_avg) 
+    p_cox_munk = cox_munk(eta_a, eta_c, wind_speed,unit='slope') 
     
     solar_zenith = sun_dir[0] /180 * math.pi
     
@@ -381,7 +374,7 @@ def find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_sp
 
 
 # Sample a random slope, not related to the sun, correct to X direction  
-def sample_cox_munk(wind_speed, wind_dir,azi_avg=False):
+def sample_cox_munk(wind_speed, wind_dir):
     '''
     
     Parameters
@@ -409,7 +402,7 @@ def sample_cox_munk(wind_speed, wind_dir,azi_avg=False):
             
             eta_a_degree = -i # make it downwind
             eta_c_degree = 0
-            cm_calc = cox_munk(eta_a_degree, eta_c_degree, wind_speed, unit='degree',azi_avg = azi_avg) 
+            cm_calc = cox_munk(eta_a_degree, eta_c_degree, wind_speed, unit='degree') 
 
             if cm_calc >= cm_max:
                 cm_max = cm_calc
@@ -423,7 +416,7 @@ def sample_cox_munk(wind_speed, wind_dir,azi_avg=False):
         while cm_calc < cm_rand:
             eta_a_degree = random.uniform(-90,90)    
             eta_c_degree = random.uniform(-90,90)    
-            cm_calc = cox_munk(eta_a_degree, eta_c_degree, wind_speed, unit='degree',azi_avg = azi_avg)
+            cm_calc = cox_munk(eta_a_degree, eta_c_degree, wind_speed, unit='degree')
             cm_rand = random.uniform(0,cm_max) 
         
         L = eta_to_dirP(eta_a_degree, eta_c_degree)
@@ -440,12 +433,15 @@ def sample_cox_munk(wind_speed, wind_dir,azi_avg=False):
 
 
 
-
 # test cox_munk reflectance 
 if __name__=='__main__':
 
-    pt_direction = [180,0] # essentially sensor viewing angle 
-    sun_dir = [0,0]
+    pt_direction = [150,90] # essentially sensor viewing angle 
+    sun_dir = [30.88,0]
+    
+    
+    # pt_direction = [180,0] # essentially sensor viewing angle 
+    # sun_dir = [40,0]
     
     
     pt_direction_op_C = np.negative(dirP_to_coord(1, pt_direction))
@@ -455,12 +451,12 @@ if __name__=='__main__':
     water_refraIdx_wl = 1.34
     
     wind_dir = 0
-    wind_speed = 10 
+    wind_speed = 5
     print('=== original ===')  
     test = find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_speed,water_refraIdx_wl, print_on=True)
     
-    print('\n=== azi_avg ===')  
-    test = find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_speed,water_refraIdx_wl, print_on=True, azi_avg=True)
+    print('\n=== wind_dir 90 ===')  
+    test = find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir+90, wind_speed,water_refraIdx_wl, print_on=True)
 
 
 

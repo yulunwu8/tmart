@@ -206,6 +206,7 @@ def intersect_line_DEMtri2(q0, q1, DEM_tri, print_on = False):
                 
                 # test normal if in the same direction as the incoming line 
                 # if not, reverse normal direction 
+                
                 if angle_3d(q0,intersect,(intersect + N)) > 90: N = -N
                 
                 intersect_tri_temp = pd.DataFrame({
