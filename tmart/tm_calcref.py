@@ -51,16 +51,21 @@ def calc_ref(df, n_photon = None, detail = False):
     # 6 L_rayleigh, 7 L_mie, 8 9 10 surface xyz, 11 shadowed, 12 if_env
     
     
-    df[:,0]
+    
     
     if n_photon == None:
         n_photon = np.unique(df[:,0]).shape[0]
     
-    df[:,6:8]
     
-    df[:,12] == 1
+    # Keep only the non-shaded ones 
+    df = df[df[:,11] == 0,:]
     
-    df[df[:,12] == 1 ,2:6] # if_env and all surface reflectance 
+    
+    
+    # df[:,0]
+    # df[:,6:8]
+    # df[:,12] == 1
+    # df[df[:,12] == 1 ,2:6] # if_env and all surface reflectance 
     
     
     R_atm = np.sum(df[:,6:8]) / n_photon

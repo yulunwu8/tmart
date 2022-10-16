@@ -587,6 +587,7 @@ class Tmart2():
         else: 
             
             pt_stat = pt_stat[:,0:13].astype(float)
+            
         
         # return np.array([surface_irradiance]) # for surface_irradiance 
         return pt_stat
