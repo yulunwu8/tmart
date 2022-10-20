@@ -580,14 +580,7 @@ class Tmart2():
             q0 = q_collision
         
         
-        # edit pt_stat here 
-        if pt_stat.shape[0] > 1:
-            pt_stat = self._diff_ref(pt_stat)
-            
-        else: 
-            
-            pt_stat = pt_stat[:,0:13].astype(float)
-            
+        pt_stat = self._diff_ref(pt_stat)
         
         # return np.array([surface_irradiance]) # for surface_irradiance 
         return pt_stat

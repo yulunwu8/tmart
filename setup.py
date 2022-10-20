@@ -18,9 +18,9 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="tmart",                     # This is the name of the package
-    version="1.2.8",                       
+    version="1.2.9",                       
     author="Yulun Wu",                     # Full name of the author
-    description="Radiative transfer modelling of the adjacency effect in aquatic remote sensing",
+    description="Radiative transfer modelling for aquatic remote sensing",
     long_description=long_description,      # Long description read from the the readme file
     long_description_content_type="text/markdown",
     # packages=setuptools.find_packages(),    # List of all python modules to be installed

@@ -58,9 +58,7 @@ def calc_ref(df, n_photon = None, detail = False):
     
     
     # Keep only the non-shaded ones 
-    df = df[df[:,11] == 0,:]
-    
-    
+    # df = df[df[:,11] == 0,:]
     
     # df[:,0]
     # df[:,6:8]
