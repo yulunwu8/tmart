@@ -165,8 +165,8 @@ def intersect_line_DEMtri2(q0, q1, DEM_tri, print_on = False):
             crossing_x = np.logical_or(crossing_upper,crossing_lower) 
             
             
-            crossing_left = np.logical_and(tri_y_min < y_itcp_x_min, y_itcp_x_min < tri_y_max)
-            crossing_right = np.logical_and(tri_y_min < y_itcp_x_max, y_itcp_x_min < y_itcp_x_max)
+            crossing_left  = np.logical_and(tri_y_min < y_itcp_x_min, y_itcp_x_min < tri_y_max)
+            crossing_right = np.logical_and(tri_y_min < y_itcp_x_max, y_itcp_x_min < tri_y_max)
             crossing_y = np.logical_or(crossing_left,crossing_right) 
             
             

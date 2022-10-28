@@ -25,8 +25,8 @@ from Py6S.Params.atmosprofile import AtmosProfile
 import Py6S
 
 # Band 2 of Sentinel-2A and its central wavelength
-band = None
-wl = 800 
+band = Py6S.Wavelength(Py6S.PredefinedWavelengths.S2A_MSI_08)
+wl = 833 
 
 ### DEM and reflectance ###
 
