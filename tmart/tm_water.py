@@ -121,7 +121,7 @@ def fresnel(n_w, zenith_i): # incident zenith
         sin_zenith_i = math.sin( zenith_i/ (180/math.pi))
         zenith_t = math.asin((n_i/n_t)* sin_zenith_i) * (180/math.pi)
         
-        # Convert to radian, units for R 
+        # Convert to radian
         z_i = zenith_i/ (180/math.pi)
         z_t = zenith_t/ (180/math.pi)
         
@@ -198,12 +198,12 @@ def cox_munk(slope_along_wind, slope_cross_wind, wind_speed, unit='slope'):
    
     
     # Slope variances 
-    sigma_a_2 = 3.16 * 10**-3 * wind_speed # along-wind direction 
     sigma_c_2 = 1.92 * 10**-3 * wind_speed + 0.003 # cross-wind direction 
+    sigma_a_2 = 3.16 * 10**-3 * wind_speed # along-wind direction, u in the 1954 paper 
     
     # Normalized slope 
-    eta = Z_y / math.sqrt(sigma_a_2) # along wind
     xi = Z_x / math.sqrt(sigma_c_2) # cross wind
+    eta = Z_y / math.sqrt(sigma_a_2) # along wind
     
     # Cox-Munk distribution 
     c21 = 0.01 - 0.0086*wind_speed
@@ -290,7 +290,7 @@ def find_eta_P(pt_direction_op_C,sun_dir,q_collision_N_polar,wind_dir):
 # Find fresnel reflectance 
 # Multipied by Cox-Munk intensity 
 
-### Calculate gling reflectance using Cox-Munk + Fresnel reflectance 
+### Calculate glint reflectance using Cox-Munk + Fresnel reflectance 
 def find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_speed, water_refraIdx_wl, print_on):
     '''
     
@@ -432,32 +432,45 @@ def sample_cox_munk(wind_speed, wind_dir):
 
 
 
-# test cox_munk reflectance 
+# # test cox_munk reflectance 
+# if __name__=='__main__':
+
+#     pt_direction = [150,0] # essentially sensor viewing angle 
+#     sun_dir = [35,0]
+    
+    
+#     # pt_direction = [180,0] # essentially sensor viewing angle 
+#     # sun_dir = [40,0]
+    
+    
+#     pt_direction_op_C = np.negative(dirP_to_coord(1, pt_direction))
+    
+    
+#     q_collision_N_polar = [0, 0]
+#     water_refraIdx_wl = 1.34
+    
+#     wind_dir = 0
+#     wind_speed = 5
+#     print('=== original ===')  
+#     test = find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_speed,water_refraIdx_wl, print_on=True)
+    
+#     print('\n=== wind_dir 90 ===')  
+#     test = find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir+90, wind_speed,water_refraIdx_wl, print_on=True)
+
+#     print('\n=== wind_dir 180 ===')  
+#     test = find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir+180, wind_speed,water_refraIdx_wl, print_on=True)
+
+
+
+# test Quan and Fry
+
 if __name__=='__main__':
-
-    pt_direction = [150,90] # essentially sensor viewing angle 
-    sun_dir = [30.88,0]
+    salinity = 35
+    temperature = 20
+    wavelength = 1600
     
-    
-    # pt_direction = [180,0] # essentially sensor viewing angle 
-    # sun_dir = [40,0]
-    
-    
-    pt_direction_op_C = np.negative(dirP_to_coord(1, pt_direction))
-    
-    
-    q_collision_N_polar = [0, 0]
-    water_refraIdx_wl = 1.34
-    
-    wind_dir = 0
-    wind_speed = 5
-    print('=== original ===')  
-    test = find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_speed,water_refraIdx_wl, print_on=True)
-    
-    print('\n=== wind_dir 90 ===')  
-    test = find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir+90, wind_speed,water_refraIdx_wl, print_on=True)
-
-
+    test = RefraIdx(salinity,temperature,wavelength)
+    print(test)
 
 
 

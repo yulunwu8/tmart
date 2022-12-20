@@ -43,11 +43,10 @@ from Py6S.Params.atmosprofile import AtmosProfile
 # Specify wavelength in nm
 wl = 400
 
-# DEM and reflectance ###
+### DEM and reflectance ###
 image_DEM = np.array([[0,0],[0,0]]) # in meters
 image_reflectance = np.array([[0.1,0.1],[0.1,0.1]]) # unitless     
 image_isWater = np.zeros(image_DEM.shape) # 1 is water, 0 is land
-image_isWater = np.array([[1,1],[1,1]])
 
 # Synthesize a surface object
 my_surface = tmart.Surface(DEM = image_DEM,
@@ -66,7 +65,7 @@ my_tmart.set_geometry(sensor_coords=[51,50,130_000],
                       target_pt_direction=[180,0],
                       sun_dir=[0,0])
 
-results = my_tmart.run(wl=wl, band=None, n_photon=10_000,nc= 10,njobs= 100)
+results = my_tmart.run(wl=wl, band=None, n_photon=10_000)
 
 # Calculate reflectances using recorded photon information 
 R = tmart.calc_ref(results)
@@ -75,7 +74,7 @@ for k, v in R.items():
 
 ```
 
-Output should be similar to below: 
+Output should be similar to this: 
 
 ```
 ========= Initiating T-Mart =========
@@ -91,11 +90,11 @@ Tasks remaining = 72
 Tasks remaining = 42
 Tasks remaining = 12
 =====================================
-Calculating reflectances...
-R_atm       0.12576169910706145
-R_dir       0.11418041191253057
-R_env       0.013670152459801528
-R_total       0.25361226347939353
+Calculating radiative properties...
+R_atm       0.12760589889823587
+R_dir       0.06046419017201067
+R_env       0.012888590547129805
+R_total       0.20095867961737635
 
 ```
 

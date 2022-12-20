@@ -114,7 +114,7 @@ class Surface():
         # Triangulated DEM, two sets of three dimensional triangles 
         self.DEM_triangulated = None
         
-        self.set_background() # test March 12, 2022
+        self.set_background() # tested March 12, 2022
         self._triangulate_DEM()
         
         self.x_min = np.min(self.DEM_triangulated[0][:,0,:,:])
