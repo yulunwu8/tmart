@@ -16,26 +16,26 @@ User guide: <a href="https://tmart-rtm.github.io" target="_blank">https://tmart-
 
 1 - Create a conda environment and activate it: 
 
-```
+```bash
 conda create --name tmart python=3.9
 conda activate tmart
 ```
 
 2 - Install dependencies: 
 
-```
+```bash
 conda install -c conda-forge Py6S numpy pandas scipy pathos matplotlib
 ```
 
 3 - Install tmart: 
 
-```
+```bash
 pip3 install tmart
 ```
 
 ## Test Run
 
-```
+```python
 import tmart
 import numpy as np
 from Py6S.Params.atmosprofile import AtmosProfile
