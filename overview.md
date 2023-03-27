@@ -17,7 +17,9 @@ Home page: <a href="https://github.com/yulunwu8/tmart" target="_blank">https://g
 
 Yulun Wu | September 21, 2022 | [yulunwu8@gmail.com](mailto:yulunwu8@gmail.com)
 
+## Publication
 
+Wu, Y., Knudby, A., & Lapen, D. (2023). Topography-Adjusted Monte Carlo Simulation of the Adjacency Effect in Remote Sensing of Coastal and Inland Waters. *Journal of Quantitative Spectroscopy and Radiative Transfer*, 108589. <a href="https://doi.org/10.1016/j.jqsrt.2023.108589" target="_blank">https://doi.org/10.1016/j.jqsrt.2023.108589</a>
 
 ## Required Libraries
 

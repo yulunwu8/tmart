@@ -81,6 +81,7 @@ class Atmosphere():
         self.specify_ot_rayleigh = specify_ot_rayleigh
         self.specify_abs = specify_abs
         
+        
     
     ### The main one dealing with wavelength and band 
     

@@ -853,7 +853,9 @@ class Tmart2():
 
 
 
-    def _plot(self,q0,q1, scenario, intersect_tri_chosen=None, rotated=None, q_collision_N=None, specular_on=False, rotated_cm=None):
+    def _plot(self,q0,q1, scenario, intersect_tri_chosen=None, rotated=None, q_collision_N=None, specular_on=False, rotated_cm=None, linewidth=2.5):
+        
+        
         fig = plt.figure()
         ax = Axes3D(fig, auto_add_to_figure=False)
         fig.add_axes(ax)
@@ -908,7 +910,7 @@ class Tmart2():
                     poly = Poly3DCollection(plot_tri,
                                 #facecolors='ivory',
                                 facecolors=str(q_collision_ref),
-                                linewidths=0.3,
+                                linewidths=0.5,
                                 edgecolors='black',
                                 alpha=0.9
                                 )
@@ -928,12 +930,13 @@ class Tmart2():
                     [y[0] + (y[1]-y[0]) /n_cols *i  ,  y[0] + (y[1]-y[0])/n_cols*(i+1)],
                     zs=[z[0] + (z[1]-z[0]) /n_cols *i  ,  z[0] + (z[1]-z[0])/n_cols*(i+1)],
                     color=cols[i],
-                    zorder=100)
+                    zorder=100, 
+                    linewidth = linewidth)
 
         if scenario==1:
             
             # Manual length of the other two lines 
-            my_length = 35000
+            my_length = 50_000
             # my_length = 1
             
             
@@ -954,11 +957,12 @@ class Tmart2():
                     [triangle[1] ,  triangle[4]],
                     zs=[triangle[2] ,  triangle[5]],
                     color = color_normal,
-                    zorder=100
+                    zorder=100,
+                    linewidth = linewidth
                     )
             
             # reflected direction 
-            reflected_viz_q1 = triangle[0:3] + rotated*35000
+            reflected_viz_q1 = triangle[0:3] + rotated * 33_000
             # print('==============================')
             # print(reflected_viz_q1)
             
@@ -969,7 +973,8 @@ class Tmart2():
                     [triangle[1] ,  reflected_viz_q1[1]],
                     zs=[triangle[2] ,  reflected_viz_q1[2]],
                     color = 'orange',
-                    zorder=100
+                    zorder=100,
+                    linewidth = linewidth
                     )
             
             if self.print_on: print("Angle between normal and new pt_direction is: " + 

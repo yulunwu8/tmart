@@ -139,8 +139,7 @@ class Tmart(Tmart2):
         if sensor_coords is not None:
             # make sure not to hit the boundary between triangles 
             if sensor_coords[0]==sensor_coords[1]: sensor_coords[1]=sensor_coords[1]+0.0001
-            self.sensor_coords = np.array(sensor_coords)            
-            
+            self.sensor_coords = np.array(sensor_coords)          
             
         # pixel based, assume height 120km 
         elif pixel is not None:          

@@ -6,6 +6,7 @@ _build/.DS_Store
 build/
 tmart.egg-info/
 dist/
+tests_private/
 _build/
 _static/
 _templates/
