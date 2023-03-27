@@ -107,8 +107,5 @@ R_total       0.20095867961737635
 ## Other
 
 
-<<<<<<< HEAD
 For questions and suggestions (which I'm always open to!), please email Yulun at [yulunwu8@gmail.com](mailto:yulunwu8@gmail.com)
-=======
-For questions and suggestions (which I'm always open to!), please email [yulunwu8@gmail.com](mailto:yulunwu8@gmail.com)
->>>>>>> 935c35af7c7b55245970784cd1bcec1fd0d7b9bf
+
