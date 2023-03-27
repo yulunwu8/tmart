@@ -20,26 +20,26 @@ Wu, Y., Knudby, A., & Lapen, D. (2023). Topography-Adjusted Monte Carlo Simulati
 
 1 - Create a conda environment and activate it: 
 
-```
+```bash
 conda create --name tmart python=3.9
 conda activate tmart
 ```
 
 2 - Install dependencies: 
 
-```
+```bash
 conda install -c conda-forge Py6S numpy pandas scipy pathos matplotlib
 ```
 
 3 - Install tmart: 
 
-```
+```bash
 pip3 install tmart
 ```
 
 ## Test Run
 
-```
+```python
 import tmart
 import numpy as np
 from Py6S.Params.atmosprofile import AtmosProfile
@@ -107,4 +107,8 @@ R_total       0.20095867961737635
 ## Other
 
 
+<<<<<<< HEAD
 For questions and suggestions (which I'm always open to!), please email Yulun at [yulunwu8@gmail.com](mailto:yulunwu8@gmail.com)
+=======
+For questions and suggestions (which I'm always open to!), please email [yulunwu8@gmail.com](mailto:yulunwu8@gmail.com)
+>>>>>>> 935c35af7c7b55245970784cd1bcec1fd0d7b9bf
