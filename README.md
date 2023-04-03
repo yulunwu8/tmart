@@ -2,7 +2,7 @@
 
 ## Description 
 
-T-Mart solves the radiative transfer in a 3D ocean-atmosphere system through a Monte-Carlo approach. T-Mart features arbitrary surface models which allow simulations of the adjacnecy effect in aquatic remote sensing. 
+T-Mart solves the radiative transfer in a 3D ocean-atmosphere system through a Monte-Carlo approach. T-Mart features arbitrary surface models which allow simulating and correcting for the adjacnecy effect in aquatic remote sensing. 
 
 
 ## Links
