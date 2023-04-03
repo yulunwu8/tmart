@@ -13,6 +13,7 @@ Welcome to T-Mart's documentation!
    overview
    ins_basic
    ins_advanced
+   ins_aec
 
    tmart
 

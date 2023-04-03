@@ -1,4 +1,4 @@
-# Instruction - Advanced
+# Instruction - Advanced Modelling
 
 This page introduces spectral and 3D radiative-transfer calculations. 
 

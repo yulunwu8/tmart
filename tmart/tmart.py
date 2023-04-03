@@ -248,7 +248,7 @@ class Tmart(Tmart2):
 
 
     # User interface 
-    def run(self, wl, band = None, n_photon=10_000, nc='auto', njobs=80, print_on=False, output_flux=False): 
+    def run(self, wl, band = None, n_photon=10_000, nc='auto', njobs=100, print_on=False, output_flux=False): 
         '''Run with multiple processing 
         
         Arguments:

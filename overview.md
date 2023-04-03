@@ -7,15 +7,15 @@ T-Mart solves the radiative transfer in a 3D ocean-atmosphere system through a M
 
 In addition to the radiative transfer solver, there are three components in the code: atmosphere, water and land: 
 
-- The atmosphere consists of layers with various scattering and absorbing properties.  
-- Land is assumed to be Lambertian. The topography of land is modelled by triangulating the pixels of an input DEM. 
-- Water has three reflectance properties: 1) water-leaving reflectance, 2) white-caps and 3) glint reflectance. 1 and 2 are assumed to be Lambertian, 3 is calculated through Cox&Munk slope statistics. 
+- The atmosphere consists of layers with various scattering and absorbing properties and shares the same atmosphere and aerosol databases with 6S.  
+- Land is treated as Lambertian. The topography of land is modelled by triangulating the pixels of an input DEM. 
+- Water has three components: 1) water-leaving reflectance, 2) white-caps and 3) glint reflectance. 1 and 2 are assumed to be Lambertian, 3 is calculated through Cox-Munk slope statistics. 
 
 Many of T-Mart's input are from Py6S. Users are assumed to have basic understanding of numpy arrays and radiative transfer. 
 
 Home page: <a href="https://github.com/yulunwu8/tmart" target="_blank">https://github.com/yulunwu8/tmart</a>
 
-Yulun Wu | September 21, 2022 | [yulunwu8@gmail.com](mailto:yulunwu8@gmail.com)
+Yulun Wu | April 2, 2023 | [yulunwu8@gmail.com](mailto:yulunwu8@gmail.com)
 
 ## Publication
 
@@ -23,7 +23,7 @@ Wu, Y., Knudby, A., & Lapen, D. (2023). Topography-Adjusted Monte Carlo Simulati
 
 ## Required Libraries
 
-T-Mart is written in Python 3, and it requires Py6S, numpy, pandas, scipy, pathos, and matplotlib.
+T-Mart is written in Python 3, and it requires Py6S, numpy, pandas, scipy, pathos, matplotlib, and netCDF4.
 
 
 ## Installation 
@@ -33,10 +33,12 @@ T-Mart is written in Python 3, and it requires Py6S, numpy, pandas, scipy, patho
 conda create --name tmart python=3.9
 conda activate tmart
 ```
+
 2 - Install dependencies: 
 ```
-conda install -c conda-forge Py6S numpy pandas scipy pathos matplotlib
+conda install -c conda-forge Py6S numpy pandas scipy pathos matplotlib netCDF4
 ```
+
 3 - Install tmart: 
 ```
 pip3 install tmart

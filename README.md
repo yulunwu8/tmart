@@ -28,7 +28,7 @@ conda activate tmart
 2 - Install dependencies: 
 
 ```bash
-conda install -c conda-forge Py6S numpy pandas scipy pathos matplotlib
+conda install -c conda-forge Py6S numpy pandas scipy pathos matplotlib netCDF4
 ```
 
 3 - Install tmart: 

@@ -1,4 +1,4 @@
-# Instruction - Basic
+# Instruction - Basic Modelling
 
 We start with a simple setting. I will introduce new functions as we go, and have a 'put-together' code at the end. 
 
