@@ -39,5 +39,5 @@ setuptools.setup(
     # py_modules=["tmart"],             # Name of the python package
     # package_dir={'':'tmart/'},     # Directory of the source code of the package
     license_files=('license.txt'),
-    install_requires=['Py6S','numpy','pandas','scipy','pathos','matplotlib']  # Install other dependencies if any
+    install_requires=['Py6S','numpy','pandas','scipy','pathos','matplotlib','netCDF4']  # Install other dependencies if any
 )
