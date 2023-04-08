@@ -2,7 +2,7 @@
 #
 # Copyright 2022 Yulun Wu.
 #
-# TMart is free software: you can redistribute it and/or modify
+# T-Mart is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
@@ -45,7 +45,7 @@ def calc_ref(df, n_photon = None, detail = False):
     '''
     
     print('=====================================')
-    print('Calculating radiative properties...')
+    print('Calculating radiometric quantities...')
     
     # Columes: 0 pt_id, 1 movement, 2 L_cox-munk, 3 L_whitecap, 4 L_water, 5 L_land, 
     # 6 L_rayleigh, 7 L_mie, 8 9 10 surface xyz, 11 shadowed, 12 if_env

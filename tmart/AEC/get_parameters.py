@@ -2,7 +2,7 @@
 #
 # Copyright 2023 Yulun Wu.
 #
-# TMart is free software: you can redistribute it and/or modify
+# T-Mart is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
@@ -10,7 +10,7 @@
 
 ### Derive AE correction parameters 
 
-def get_parameters(n_photon = 10_000, SR_avg = 1, wl = 833, band = None, 
+def get_parameters(n_photon = 10_000, SR_avg = 0.5, wl = 833, band = None, 
         target_pt_direction=[180,0], sun_dir=[0,0], 
         atm_profile = None, 
         aerosol_type = 'Maritime', aot550 = 0.2, 
