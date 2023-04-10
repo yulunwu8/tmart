@@ -40,7 +40,7 @@ def reflectance_correction(image, wl_RC,
     # Aerosol 
     if aerosol_type == 'Maritime':
         aerosol_profile = s.aero_profile = AeroProfile.PredefinedType(AeroProfile.Maritime)
-    elif aeaerosol_type == 'Continental':
+    elif aerosol_type == 'Continental':
         aerosol_profile = s.aero_profile = AeroProfile.PredefinedType(AeroProfile.Continental)
     else:
         sys.exit('Unrecgnized aerosol type')
@@ -87,7 +87,7 @@ def reflectance_correction(image, wl_RC,
     max_correction = correction.min()
     max_correction_percent = str(round((1 - max_correction)*100, 2))
     
-    print('Reflectance correction, maximum change: ' + max_correction_percent + '%')
+    print('Maximum change: ' + max_correction_percent + '%')
     
     
     return image_out

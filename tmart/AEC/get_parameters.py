@@ -112,26 +112,31 @@ def get_parameters(n_photon = 10_000, SR_avg = 0.5, wl = 833, band = None,
 
 
 
-'''
+
 
 if __name__ == "__main__":
    
     import Py6S
+    import sys
+    
+    sys.path.append('/Users/yw/Desktop/tmart')
     import tmart
 
-    wl = 833
-    band = Py6S.Wavelength(Py6S.PredefinedWavelengths.S2A_MSI_08)
-    aerosol_type = 'Continental'
-    aot550 = 0.28
+    wl = 433
+    # band = Py6S.Wavelength(Py6S.PredefinedWavelengths.S2A_MSI_08)
+    aerosol_type = 'Maritime'
+    aot550 = 0.05
     
-    test = tmart.AEC.get_parameters(wl = wl, band = band,
+    test = tmart.AEC.get_parameters(wl = wl, SR_avg=1 ,n_photon = 100_000,
                                     aerosol_type = aerosol_type, aot550 = aot550,
                                     cell_size = 200,
                                     window_size=5)
     
-    print(test)
-    test2 = test['conv_window_1']
-    
+    # print(test)
+    test1 = test['conv_window_1']
+
+
+'''
 
 ### Test AEC
 
