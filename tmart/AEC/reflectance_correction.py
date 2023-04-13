@@ -13,12 +13,17 @@
 from Py6S import *
 
 def reflectance_correction(image, wl_RC, 
-                           tm_vza, tm_vaa, tm_sza, tm_saa, 
+                           tm_vza = 0, tm_vaa = 0, tm_sza = 0, tm_saa = 0, 
                            atm_profile = None, 
                            aerosol_type = 'Maritime', aot550 = 0):
     
     import numpy as np
     import sys
+    
+    
+    # An unknown bug of 6S unable to handle 551nm
+    if wl_RC == 0.551: wl_RC = 0.55
+    
     
     mean_image = np.mean(image)
     
@@ -84,13 +89,35 @@ def reflectance_correction(image, wl_RC,
     
     image_out = image * correction
     
+    
+    
     max_correction = correction.min()
+    
+    # max_correction = np.nanmin(correction)
+    
     max_correction_percent = str(round((1 - max_correction)*100, 2))
     
     print('Maximum change: ' + max_correction_percent + '%')
     
     
     return image_out
+
+
+
+
+# if __name__ == "__main__":
+#     import numpy as np
+#     import netCDF4 as nc4
+#     file = 'test.nc'
+#     with nc4.Dataset(file, 'r')  as dset:
+#         a_test = dset['rhot_551'][:]
+#     test = reflectance_correction(a_test, 0.551)
+    
+    
+
+    
+
+
 
 
 

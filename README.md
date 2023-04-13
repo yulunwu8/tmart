@@ -2,7 +2,7 @@
 
 ## Description 
 
-T-Mart solves the radiative transfer in a 3D ocean-atmosphere system through a Monte-Carlo approach. T-Mart features arbitrary surface models which allow simulating and correcting for the adjacnecy effect in aquatic remote sensing. 
+T-Mart solves the radiative transfer in a 3D surface-atmosphere system through a Monte-Carlo approach. T-Mart features arbitrary surface models which allow simulating and correcting for the adjacnecy effect in aquatic remote sensing. 
 
 
 ## Links
@@ -106,6 +106,7 @@ R_total       0.20095867961737635
 
 ## Other
 
+T-Mart can calculate reflectances of various units, see Table 1 in Wu et al. (2023). 
 
 For questions and suggestions (which I'm always open to!), please email Yulun at [yulunwu8@gmail.com](mailto:yulunwu8@gmail.com)
 
