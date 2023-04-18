@@ -54,12 +54,13 @@ my_tmart.set_geometry(sensor_coords=[51,50,130_000],
                       target_pt_direction=[180,0],
                       sun_dir=[0,0])
 
-results = my_tmart.run(wl=wl)
-
-# Calculate reflectances using recorded photon information 
-R = tmart.calc_ref(results)
-for k, v in R.items():
-    print(k, '     ' , v)
+if __name__ == "__main__":
+	results = my_tmart.run(wl=wl)
+	
+	# Calculate reflectances using recorded photon information 
+	R = tmart.calc_ref(results)
+	for k, v in R.items():
+	    print(k, '     ' , v)
 ```
 
 The output should be something like: 
@@ -390,11 +391,12 @@ my_tmart.set_geometry(sensor_coords=[51,50,130_000],
 # Number of photons
 n_photon = 10_000
 
-results = my_tmart.run(wl=wl, band=band, n_photon=n_photon)
-# Calculate reflectances using recorded photon information 
-R = tmart.calc_ref(results, detail=True)
-for k, v in R.items():
-    print(k, '     ' , v)
+if __name__ == "__main__":
+	results = my_tmart.run(wl=wl, band=band, n_photon=n_photon)
+	# Calculate reflectances using recorded photon information 
+	R = tmart.calc_ref(results, detail=True)
+	for k, v in R.items():
+	    print(k, '     ' , v)
 ```
 
 

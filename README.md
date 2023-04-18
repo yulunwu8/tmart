@@ -63,18 +63,20 @@ atm_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer)
 aerosol_type = 'Maritime'  
 my_atm = tmart.Atmosphere(atm_profile, aot550 = 0, aerosol_type = 'Maritime'  )
 
-### Running T-Mart ###
+### Create T-Mart Object ###
 my_tmart = tmart.Tmart(Surface = my_surface, Atmosphere= my_atm, shadow=False)
 my_tmart.set_geometry(sensor_coords=[51,50,130_000], 
                       target_pt_direction=[180,0],
                       sun_dir=[0,0])
 
-results = my_tmart.run(wl=wl, band=None, n_photon=10_000)
-
-# Calculate reflectances using recorded photon information 
-R = tmart.calc_ref(results)
-for k, v in R.items():
-    print(k, '     ' , v)
+### Multiprocessing needs to be wrapped in 'if __name__ == "__main__":' for Windows systems. This can be ignored for Linux-based systems. 
+if __name__ == "__main__":
+    results = my_tmart.run(wl=wl, band=None, n_photon=10_000)
+    
+    # Calculate reflectances using recorded photon information 
+    R = tmart.calc_ref(results)
+    for k, v in R.items():
+        print(k, '     ' , v)
 
 ```
 
