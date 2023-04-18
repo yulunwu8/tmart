@@ -69,7 +69,8 @@ my_tmart.set_geometry(sensor_coords=[51,50,130_000],
                       target_pt_direction=[180,0],
                       sun_dir=[0,0])
 
-### Multiprocessing needs to be wrapped in 'if __name__ == "__main__":' for Windows systems. This can be ignored for Linux-based systems. 
+### Multiprocessing needs to be wrapped in 'if __name__ == "__main__":' for Windows systems. 
+### This can be ignored for Linux-based systems. 
 if __name__ == "__main__":
     results = my_tmart.run(wl=wl, band=None, n_photon=10_000)
     
