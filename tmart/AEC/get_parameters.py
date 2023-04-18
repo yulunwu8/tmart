@@ -136,47 +136,6 @@ if __name__ == "__main__":
     test1 = test['conv_window_1']
 
 
-'''
-
-### Test AEC
-
-# image_test = image_reflectance.copy()
-
-image_test = np.full((window_size_x, window_size_y), 0.39378) # unitless    
-
-
-# image_test[:,6:] = 0.5
-
-image_test[5,5] = 0
-
-import scipy.signal
-
-filter_kernel = np.flip(conv_window_1) # it's flipped in convolve by default
-R_conv = scipy.signal.convolve2d(image_test, filter_kernel,
-                              mode='same', boundary='fill', fillvalue=image_test.mean())
-
-
-# print(R_conv)
-
-# centre 
-centre_R_conv = R_conv[int(R_conv.shape[0]/2),int(R_conv.shape[1]/2)]
-print('\ncentre_R_conv:')
-print(centre_R_conv)
-
-
-'''
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

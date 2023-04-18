@@ -69,16 +69,13 @@ def reflectance_correction(image, wl_RC,
     
     list_R_dir
     
-    
     array_R_dir = np.array(list_R_dir)
     array_SR = np.array(list_SR)
     array_ratio = array_R_dir / array_SR
     
     fit_ratio_SR = np.polyfit(array_SR , array_ratio, 2)
     p = np.poly1d(fit_ratio_SR)
-    
     mean_ratio = p(mean_image)
-    
     ratio = p(image)
     
     correction = ratio / mean_ratio
@@ -86,10 +83,7 @@ def reflectance_correction(image, wl_RC,
     # do not correct pixels brighter than mean 
     correction[correction>1] = 1
     
-    
     image_out = image * correction
-    
-    
     
     max_correction = correction.min()
     

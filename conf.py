@@ -33,6 +33,10 @@ release = '1.3.3'
 extensions =  ['sphinx.ext.autodoc','myst_parser']
 
 
+# If true, the current module name will be prepended to all description
+# unit titles (such as .. function::).
+add_module_names = False
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
