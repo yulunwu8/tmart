@@ -1,6 +1,6 @@
-# This file is part of TMart.
+# This file is part of T-Mart.
 #
-# Copyright 2022 Yulun Wu.
+# Copyright 2023 Yulun Wu.
 #
 # T-Mart is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -10,17 +10,9 @@
 
 
 
-
-
 # Replacing tm
-
 # function as second page 
-
 # Overall control of photon movement
-
-
-
-
 
 
 # T-MART: Topography-adjusted Monte-Carlo Adjacency-effect Radiative Transfer code  

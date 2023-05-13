@@ -1,4 +1,4 @@
-# This file is part of TMart.
+# This file is part of T-Mart.
 #
 # Copyright 2023 Yulun Wu.
 #
@@ -16,7 +16,7 @@ def read_PRISMA_vaa(file):
     import h5py
     import numpy as np
 
-    
+    # From Dr. Claudia Giardino, giardino.c@irea.cnr.it
     def view_angles(xPos, yPos, zPos, lon , lat , h=0):
         phiRad = lat * np.pi / 180;
         lamRad = lon * np.pi / 180;
@@ -84,17 +84,6 @@ def read_PRISMA_vaa(file):
     
     return angle
         
-
-
-
-
-
-
-
-
-
-
-
 
 
 
