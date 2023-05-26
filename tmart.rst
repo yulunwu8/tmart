@@ -37,6 +37,15 @@ calcref Function
    :show-inheritance:
 
 
+surface_rho.calculate Function 
+------------------------------
+
+.. automodule:: tmart.surface_rho.calculate
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
 
 
 .. automodule:: tmart

@@ -18,13 +18,13 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="tmart",                     # This is the name of the package
-    version="1.3.5",                       
+    version="1.3.6",                       
     author="Yulun Wu",                     # Full name of the author
     description="Radiative transfer modelling for aquatic remote sensing",
     long_description=long_description,      # Long description read from the the readme file
     long_description_content_type="text/markdown",
     # packages=setuptools.find_packages(),    # List of all python modules to be installed
-    packages = ['tmart','tmart.AEC','tmart.ancillary','tmart.ancillary.aerosolSPF'],
+    packages = ['tmart','tmart.surface_rho','tmart.AEC','tmart.ancillary','tmart.ancillary.aerosolSPF'],
     include_package_data=True,
     classifiers=[
         "Intended Audience :: Science/Research",

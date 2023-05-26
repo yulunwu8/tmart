@@ -18,6 +18,6 @@ from .tm_calcref import calc_ref
 from .tm_geometry import dirP_to_coord
 
 from tmart import AEC
-
+from tmart import surface_rho
 
 

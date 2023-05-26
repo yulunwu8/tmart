@@ -14,6 +14,7 @@ Welcome to T-Mart's documentation!
    ins_basic
    ins_advanced
    ins_aec
+   ins_rho
 
    tmart
 
