@@ -11,7 +11,6 @@ _build/
 _static/
 _templates/
 __pycache__/
-files/
 *.xlsx
 tmart/__pycache__/
 readme.docx
