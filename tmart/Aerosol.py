@@ -16,8 +16,6 @@ import pandas as pd
 import os.path
 
 def find_aerosolSPF(aerosol_type,wl):
-
-    # wl = 3750
     
     # Currently only supporting the default number of angles in 6S
     # For higher angular resolution SPF or mixed aerosols, 
@@ -66,15 +64,6 @@ def find_aerosolSPF(aerosol_type,wl):
     
     df = pd.DataFrame({'Angle':angles, 'Value':aerosolSPF_wl}).sort_values('Angle').reset_index()
     
-    # df
-    
-    # df.plot( 'angle','value', kind='scatter', logy=True)
-    
-    
-    # Already normalized data
-    
-    
-    # df.to_csv('testSPF.csv', index=False)
     return df
 
 
@@ -84,8 +73,32 @@ if __name__=='__main__':
     
     wl = 550
     
-    test = find_aerosolSPF(aerosol_type,wl)
-    print(test)
+    test1 = find_aerosolSPF(aerosol_type,wl)
+
+    
+    aerosol_type = 'Continental'
+    
+    wl = 550
+    
+    test2 = find_aerosolSPF(aerosol_type,wl)
+    
+    test = test1
+    
+    print(test['Value'])
+    
+    test['Value'] = test1['Value'] * 0.5 + test2['Value'] * 0.5
+    
+    print(test['Value'])
+
+
+
+
+
+
+
+
+
+
 
 
 

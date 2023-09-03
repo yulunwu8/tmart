@@ -30,7 +30,7 @@ class Atmosphere():
 
     * ``atm_profile`` -- AtmosProfile object from Py6S. 
     * ``aot550`` -- AOT at 550nm.
-    * ``aerosol_type`` -- 'BiomassBurning', 'Continental', 'Desert', 'Maritime', 'Stratospheric' or 'Urban', as provided by 6S. 
+    * ``aerosol_type`` -- 'BiomassBurning', 'Continental', 'Desert', 'Maritime', 'Stratospheric' or 'Urban', as provided by 6S. Alternatively, a decimal between 0 and 1 indicating the ratio of 'Maritime' aerosol in a 'Maritime' and 'Continental' mixture. 
     * ``wl`` -- central wavelength in nm.
     * ``n_layers`` -- Number of atmosphere layers to use. Default 20. 
     * ``AEROSOL_SCALE_HEIGHT`` -- Aerosol scale height in km. Default 2km. 
@@ -102,8 +102,15 @@ class Atmosphere():
         layers_ot_mie, layers_ot_aerosol = self._aerosol_wl(band)
 
         # Retrieve aerosol SPF
-        aerosol_SPF = find_aerosolSPF(self.aerosol_type,wl)
-    
+        if isinstance(self.aerosol_type, str):       
+            aerosol_SPF = find_aerosolSPF(self.aerosol_type,wl)
+            
+        else: # Mix maritime and continental aerosols
+            aerosol_SPF_mar = find_aerosolSPF('Maritime',wl)
+            aerosol_SPF_con = find_aerosolSPF('Continental',wl)
+            aerosol_SPF = aerosol_SPF_mar
+            aerosol_SPF['Value'] = aerosol_SPF_mar['Value'] * self.aerosol_type + aerosol_SPF_con['Value'] * (1-self.aerosol_type)
+            
         layers_ot_total_abs = layers_ot_molecule + layers_ot_aerosol
         
         # A data frame of optical thickness 
@@ -256,12 +263,18 @@ class Atmosphere():
                         "BiomassBurning" : 6,
                         "Stratospheric" : 7}
         
+        if isinstance(self.aerosol_type, str):  
+            s.aero_profile = AeroProfile.PredefinedType(aerosol_dict[self.aerosol_type])
         
-        s.aero_profile = AeroProfile.PredefinedType(aerosol_dict[self.aerosol_type])
+        else: # ADD self-defined aerosol 
+            r_mar = self.aerosol_type
+            r_con = 1 - r_mar
+            s.aero_profile = AeroProfile.User(soot = 0.01*r_con, water = 0.05*r_mar + 0.29*r_con, 
+                                              oceanic = 0.95*r_mar, dust = 0.7*r_con)
+        
         s.aot550 = 1
         s.run()
         
-    
         aerosol_EXT_r550 = s.outputs.optical_depth_total.aerosol # ratio, relative to 550
         
         aerosol_EXT = self.aot550 * aerosol_EXT_r550 # total extinction 
