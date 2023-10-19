@@ -56,7 +56,7 @@ if __name__ == "__main__":
 
 See <a href="https://tmart-rtm.github.io/ins_aec.html" target="_blank">Instruction - Adjacency-Effect Correction</a> for more detailed instructions.
 
-## Test Run
+## Adjacency-Effect Modelling
 
 ```python
 import tmart
@@ -124,6 +124,7 @@ R_total       0.20095867961737635
 
 ```
 
+See user guide for more detailed instructions. 
 
 
 ## Other
