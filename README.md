@@ -39,7 +39,7 @@ Here the wait time may take up to twenty minutes because some packages require s
 pip3 install tmart
 ```
 
-## Adjacency-Effect Correction 
+## Quick Start: Adjacency-Effect Correction 
 
 T-Mart supports adjacency-effect correction for Sentinel-2 MSI and Landsat 8 OLI products. Correction is performed directly on level-1 products therefore can be followed by any amtospheric-correction tools. Minimal inputs are: 
 
@@ -56,7 +56,7 @@ if __name__ == "__main__":
 
 See <a href="https://tmart-rtm.github.io/ins_aec.html" target="_blank">Instruction - Adjacency-Effect Correction</a> for more detailed instructions.
 
-## Adjacency-Effect Modelling
+## Quick Start: Adjacency-Effect Modelling
 
 ```python
 import tmart
