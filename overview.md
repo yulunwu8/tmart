@@ -29,18 +29,20 @@ T-Mart is written in Python 3, and it requires Py6S, numpy, pandas, scipy, patho
 ## Installation 
 
 1 - Create a conda environment and activate it: 
-```
+```bash
 conda create --name tmart python=3.9
 conda activate tmart
 ```
 
 2 - Install dependencies: 
-```
-conda install -c conda-forge Py6S numpy pandas scipy pathos matplotlib netCDF4
+```bash
+conda install -c conda-forge Py6S scipy pathos matplotlib netCDF4 rasterio mgrs geopandas
 ```
 
+Here the wait time may take up to twenty minutes because some packages require specific versions of dependencies. 
+
 3 - Install tmart: 
-```
+```bash
 pip3 install tmart
 ```
 

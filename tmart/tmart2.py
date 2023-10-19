@@ -256,10 +256,9 @@ class Tmart2():
                     # '(1-self.F_wc_wl) * q_collision_ref' is R0+ in the presence of white caps 
                     q_collision_ref = R_surf + (1-self.F_wc_wl) * q_collision_ref
                     
-                    
-                    # if chance (R_specular) out of q_collision_ref, siwtch on specular_on
+                    # If chance (R_specular) out of q_collision_ref, siwtch on specular_on
                     specular_on = random.uniform(0,q_collision_ref) < R_specular
-                    # specular_on = True # 强制specular, just testing!!!
+                    # specular_on = True # for testing
                     
                     if self.print_on: 
                         print('random_cox_munk: ' + str(random_cox_munk))
@@ -442,10 +441,6 @@ class Tmart2():
  
                     
     
-    
-
-
-
     
             
             ###### Calculate absorption 
@@ -722,7 +717,7 @@ class Tmart2():
         
         R_wc = self.R_wc_wl
         
-        # Cox-Munk and Fresnel, this one tells us nothing about the actual flux reflectance!!!  
+        # Cox-Munk and Fresnel, this one tells us nothing about the actual flux reflectance!
         R_cm = find_R_cm(pt_direction_op_C, self.sun_dir, q_collision_N_polar, 
                          self.wind_dir, self.wind_speed, self.water_refraIdx_wl, self.print_on)
         

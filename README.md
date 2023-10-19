@@ -2,7 +2,7 @@
 
 ## Description 
 
-T-Mart solves the radiative transfer in a 3D surface-atmosphere system through a Monte-Carlo approach. T-Mart features arbitrary surface models which allow simulating and correcting for the adjacnecy effect in aquatic remote sensing. 
+T-Mart solves the radiative transfer in a 3D surface-atmosphere system through a Monte-Carlo approach. T-Mart features arbitrary surface models which allow simulating and correcting for the adjacency effect in aquatic remote sensing. 
 
 
 ## Links
@@ -28,14 +28,33 @@ conda activate tmart
 2 - Install dependencies: 
 
 ```bash
-conda install -c conda-forge Py6S numpy pandas scipy pathos matplotlib netCDF4
+conda install -c conda-forge Py6S scipy pathos matplotlib netCDF4 rasterio mgrs geopandas
 ```
+
+Here the wait time may take up to twenty minutes because some packages require specific versions of dependencies. 
 
 3 - Install tmart: 
 
 ```bash
 pip3 install tmart
 ```
+
+## Adjacency-Effect Correction 
+
+T-Mart supports adjacency-effect correction for Sentinel-2 MSI and Landsat 8 OLI products. Correction is performed directly on level-1 products therefore can be followed by any amtospheric-correction tools. Minimal inputs are: 
+
+```python
+import tmart
+file = 'user/test/S2A_MSIL1C_20160812T143752_N0204_R096_T20MKB_20160812T143749.SAFE'
+username = 'abcdef'
+password = '123456'
+
+### Multiprocessing needs to be wrapped in 'if __name__ == "__main__":' for Windows systems
+if __name__ == "__main__":
+    tmart.AEC.run(file, username, password)
+```
+
+See <a href="https://tmart-rtm.github.io/ins_aec.html" target="_blank">Instruction - Adjacency-Effect Correction</a> for more detailed instructions.
 
 ## Test Run
 
@@ -70,7 +89,7 @@ my_tmart.set_geometry(sensor_coords=[51,50,130_000],
                       sun_dir=[0,0])
 
 ### Multiprocessing needs to be wrapped in 'if __name__ == "__main__":' for Windows systems. 
-### This can be ignored for Linux-based systems. 
+### This can be skipped for Linux-based systems. 
 if __name__ == "__main__":
     results = my_tmart.run(wl=wl, band=None, n_photon=10_000)
     
@@ -92,10 +111,10 @@ Wavelength: 400
 target_pt_direction: [180, 0]
 sun_dir: [0, 0]
 =====================================
-Tasks remaining = 102
-Tasks remaining = 72
-Tasks remaining = 42
-Tasks remaining = 12
+Jobs remaining = 102
+Jobs remaining = 72
+Jobs remaining = 42
+Jobs remaining = 12
 =====================================
 Calculating radiative properties...
 R_atm       0.12760589889823587

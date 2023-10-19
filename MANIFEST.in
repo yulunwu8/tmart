@@ -1,2 +1,2 @@
-recursive-include tmart *.csv
+recursive-include tmart *.csv *.txt
 Include license

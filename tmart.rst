@@ -46,6 +46,14 @@ surface_rho.calculate Function
    :show-inheritance:
 
 
+AEC.run Function 
+------------------------------
+
+.. automodule:: tmart.AEC.run
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 
 
 .. automodule:: tmart

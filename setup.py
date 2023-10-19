@@ -18,13 +18,13 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="tmart",                     # This is the name of the package
-    version="1.3.6",                       
+    version="2.0.0",                       
     author="Yulun Wu",                     # Full name of the author
-    description="Radiative transfer modelling for aquatic remote sensing",
+    description="Modelling and correcting for the adjacency effect in aquatic remote sensing",
     long_description=long_description,      # Long description read from the the readme file
     long_description_content_type="text/markdown",
     # packages=setuptools.find_packages(),    # List of all python modules to be installed
-    packages = ['tmart','tmart.surface_rho','tmart.AEC','tmart.ancillary','tmart.ancillary.aerosolSPF'],
+    packages = ['tmart','tmart.surface_rho','tmart.AEC','tmart.ancillary','tmart.ancillary.aerosolSPF','tmart.config'],
     include_package_data=True,
     classifiers=[
         "Intended Audience :: Science/Research",
@@ -35,9 +35,9 @@ setuptools.setup(
         'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
         "Operating System :: OS Independent",
     ],                                      # Information to filter the project on PyPi website
-    python_requires='>=3.6',                # Minimum version requirement of the package
+    python_requires='>=3.8',                # Minimum version requirement of the package
     # py_modules=["tmart"],             # Name of the python package
     # package_dir={'':'tmart/'},     # Directory of the source code of the package
     license_files=('license.txt'),
-    install_requires=['Py6S','numpy','pandas','scipy','pathos','matplotlib','netCDF4']  # Install other dependencies if any
+    install_requires=['Py6S','scipy','pathos','matplotlib','netCDF4','rasterio','mgrs','geopandas']  # Install other dependencies if any
 )

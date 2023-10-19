@@ -29,7 +29,7 @@ from .Tmart2 import Tmart2
 # Track progress in multiprocessing
 def _track_job(job, update_interval=2):
     while job._number_left > 0:
-        print("Tasks remaining = {0}".format(job._number_left * job._chunksize))
+        print("Jobs remaining = {0}".format(job._number_left * job._chunksize))
         time.sleep(update_interval)
 
 
@@ -72,7 +72,7 @@ class Tmart(Tmart2):
         self.aerosol_SPF_wl = None 
         
         # Wind
-        self.wind_speed = 10 # default 10 m/s
+        self.wind_speed = 3 # default 3 m/s
         self.wind_azi_avg = True # azimuthally averaged cox munk
         self.wind_dir = 0 # default azimuthal, 0 means UPWIND along x-axis
             # AKA the direction where wind comes from 
@@ -187,7 +187,7 @@ class Tmart(Tmart2):
         self.sun_dir = sun_dir # [zenith, azimuthal]        
         
         
-    def set_wind(self,wind_speed=10,wind_azi_avg=True,wind_dir=0): 
+    def set_wind(self,wind_speed=3,wind_azi_avg=True,wind_dir=0): 
         '''Set wind speed and direction. 
         
         Arguments:
@@ -230,7 +230,7 @@ class Tmart(Tmart2):
     def _init_atm(self,band): 
         
         if self.sensor_coords is None: # Edit!!!
-            print ("WARNING: geometry missing, set_geometry before you run")
+            print ("WARNING: geometry missing, use set_geometry before you run")
         else:
             
             # Atmospheric profile and aerosol SPF
@@ -293,9 +293,11 @@ class Tmart(Tmart2):
         
         
         print(f"Number of job(s): {njobs}")
-        print('Wavelength: ' + str(self.wl))
-        print('target_pt_direction: ' + str(self.target_pt_direction))
-        print('sun_dir: ' + str(self.sun_dir))
+        print('Wavelength: ' + str(self.wl) + ' nm')
+        print('Aerosol type: ' + str(self.Atmosphere.aerosol_type))
+        print('AOT at 550 nm: ' + str(self.Atmosphere.aot550)) 
+        print('Photon\'s initial direction: ' + str( np.round(self.target_pt_direction,2) ))
+        print('Solar angle: ' + str( np.round(self.sun_dir, 2) ))
         print("=====================================")
         
 

@@ -1,0 +1,49 @@
+T-Mart configuration for adjacency-effect correction
+
+# Thresholds for identifying water pixels
+mask_cirrus_threshold = 0.005
+mask_SWIR_threshold = 0.0215
+mask_highTOA_threshold = 0.3
+
+# Cirrus band name 
+S2_cirrus_band = B10
+L8_cirrus_band = B9
+
+# SWIR band name 
+S2_SWIR_band = B11
+L8_SWIR_band = B6
+
+
+# Reshape_factor
+# In AEC, cell_size is tm_sensor_res * reshape_factor
+# It has to be divisible by image resolution of all bands for now 
+# Larger value: faster processing, lower accuracy and creating pixel artifacts on the output image
+# S2 options: 2, 6, 12, 18, 24; L8 options: any
+
+reshape_factor_S2 = 18
+reshape_factor_L8 = 12
+
+
+# Number of cells in AEC in each axis 
+# larger value: slower processing, less violation of assumption that inside & outside the window are the same 
+# must be an odd number
+
+window_size = 201
+
+
+# Cloud contribution 
+cloud_contribution = 0.5
+
+
+# Correcting for AE over land, may cause unwanted changes on nearshore water pixels due to grouped processing. Useful when a large amount of water pixels are falsely masked as land. 
+AE_land = False
+
+
+# Lowest water-leaving reflectance in NIR
+min_R_NIR = 0
+
+# Maximum amount of glint to remove in estimating AOT when wind speed is 1m/s
+max_glint = 0.01
+
+
+

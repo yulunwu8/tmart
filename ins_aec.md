@@ -1,11 +1,52 @@
 # Instruction - Adjacency-Effect Correction
 
-To be updated...
+## Minimal Input
 
-The code is included in the package and is under testing. I'm currenlty testing it using Sentinel-2 and PRISMA imagery, and the results are looking very good for inland and coastal waters. 
+A single function is used to perform adjacency-effect correction (AEC) in T-Mart. Correction is performed directly on level-1 products therefore can be followed by any amtospheric-correction tools. Currently it only supports Sentinel-2 MSI and Landsat 8 OLI products. 
 
-If you're interested in knowing more or testing this in your study area, please email me! 
+NASA EarthData Credentials are needed to retrieve ozone, water vapour, and aerosol information for accurate AEC. You may need to approve OB.DAAC Data Access in your <a href="https://urs.earthdata.nasa.gov/profile" target="_blank">EarthData account</a>.
 
+
+Minimal input to the AEC.run function includes path to satellite files and EarthData Credentials. See the <a href="https://tmart-rtm.github.io/tmart.html#module-tmart.AEC.run" target="_blank">AEC.run Function</a> tab for all arguments. 
+
+```python
+file = 'user/test/S2A_MSIL1C_20160812T143752_N0204_R096_T20MKB_20160812T143749.SAFE'
+username = 'abcdef'
+password = '123456'
+
+### Multiprocessing needs to be wrapped in 'if __name__ == "__main__":' for Windows systems
+if __name__ == "__main__":
+    tmart.AEC.run(file, username, password)
+```
+
+## Overwrite Existing Files
+
+By default, this creates a copy of the original satellite files in the same directory, in a folder that starts with 'AEC_'. To overwrite the eixsting files, add 'overwrite=True' to the arguments: 
+
+```python
+tmart.AEC.run(file, username, password, overwrite=True)
+```
+
+## Ancillary and Log Files  
+
+During the AEC process, a number of files are generated: 
+
+- **tmart\_log\_\*.txt**: detailed processing information, as printed in the Python console. 
+- **tmart\_atm\_info.txt**: atmosphere and aerosol information. This includes aerosol type, angstrom exponent, single scattering albedo, AOT at 550 nm, total column ozone, and total precipitable water vapour. 
+- **tmart\_ancillary/\*.nc**: ancillary files from NASA Ocean Color. 
+- **tmart\_completed.txt**: a record of bands that have been corrected for the adjacency effect.  
+
+## AEC Configuration
+
+A configuration file is stored in the *tmart* package folder, most of the configuration settings are tuned for best performance. Brief descriptions are given in the file. In case a large amount of water pixels are falsely masked as land, ``AE_land`` can be set as True in order to perform AEC across the entire scene. 
+
+## Additional Arguments 
+
+Lastly, ``AOT`` and ``n_photon`` can be specified. You can specify ``AOT`` if you are certain about its value, and this reduces processing time. ``n_photon`` is the number of photons used in each T-Mart run, 100_000 is recommended for accurate results. It can be reduced to 10_000 for quicker computation. 
+
+```python
+tmart.AEC.run(file, username, password, overwrite=True, AOT = 0.05, n_photon = 10_000)
+```
 
 
 
