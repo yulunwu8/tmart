@@ -62,6 +62,7 @@ def run(file, username, password, overwrite=False, AOT = None, n_photon = 100_00
         def __init__(self, filename):
             self.console = sys.stdout
             self.file = open(filename, 'w')
+            self.file.flush()
         def write(self, message):
             self.console.write(message)
             self.file.write(message)
