@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
 ## Overwrite Existing Files
 
-By default, this creates a copy of the original satellite files in the same directory, in a folder that starts with 'AEC_'. To overwrite the eixsting files, add 'overwrite=True' to the arguments: 
+By default, this creates a copy of the original satellite files in the same directory, in a new folder that starts with 'AEC_'. To overwrite the eixsting files, add 'overwrite=True' to the arguments: 
 
 ```python
 tmart.AEC.run(file, username, password, overwrite=True)
@@ -32,13 +32,13 @@ tmart.AEC.run(file, username, password, overwrite=True)
 During the AEC process, a number of files are generated: 
 
 - **tmart\_log\_\*.txt**: detailed processing information, as printed in the Python console. 
-- **tmart\_atm\_info.txt**: atmosphere and aerosol information. This includes aerosol type, angstrom exponent, single scattering albedo, AOT at 550 nm, total column ozone, and total precipitable water vapour. 
+- **tmart\_atm\_info.txt**: atmosphere and aerosol information used in the processing. This includes aerosol type, angstrom exponent, single scattering albedo, AOT at 550 nm, total column ozone, and total precipitable water vapour. 
 - **tmart\_ancillary/\*.nc**: ancillary files from NASA Ocean Color. 
 - **tmart\_completed.txt**: a record of bands that have been corrected for the adjacency effect.  
 
 ## AEC Configuration
 
-A configuration file is stored in the *tmart* package folder, most of the configuration settings are tuned for best performance. Brief descriptions are given in the file. In case a large amount of water pixels are falsely masked as land, ``AE_land`` can be set as True in order to perform AEC across the entire scene. 
+A configuration file is stored in the *tmart* package folder. Brief descriptions are given in the file. Most of the configuration settings are tuned for best performance. In case a large amount of water pixels are falsely masked as land, ``AE_land`` can be set as True in order to perform AEC across the entire scene. 
 
 ## Additional Arguments 
 
