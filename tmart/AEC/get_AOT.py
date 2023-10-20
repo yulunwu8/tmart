@@ -15,8 +15,8 @@ def get_AOT(metadata, config, anci, mask_cloud, mask_all, n_photon):
     import tmart, Py6S
     import numpy as np
     import rasterio
-    import time
-    import scipy 
+    import time 
+    from scipy import signal
     from scipy.interpolate import interp1d
     
     sensor = metadata['sensor']
@@ -124,7 +124,7 @@ def get_AOT(metadata, config, anci, mask_cloud, mask_all, n_photon):
         start_time = time.time()
         print("\nConvolution started ")
         filter_kernel = np.flip(conv_window_1) # it's flipped in convolve by default
-        R_conv = scipy.signal.convolve2d(image_R_surf, filter_kernel,
+        R_conv = signal.convolve2d(image_R_surf, filter_kernel,
                                          mode='same', boundary='fill', fillvalue=image_R_surf.mean())
         print("Convolution completed: %s seconds " % (time.time() - start_time))
         

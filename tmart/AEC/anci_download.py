@@ -40,7 +40,7 @@ def anci_download(file, basefile, username, password):
                             
     if os.path.exists(local_file): pass
     else: 
-        sys.exit('Warning: failed to download: ' + str(basefile) + '. Please check if available on the NASA Ocean Color website')
+        sys.exit('Warning: failed to download: ' + str(basefile) + '. Please check your credentials and if file is available on the NASA Ocean Color website')
          
     return local_file                       
     

@@ -13,7 +13,8 @@
 def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud, mask_all, n_photon):
     
     import tmart
-    import rasterio, sys, time, scipy
+    import rasterio, sys, time
+    from scipy import signal
     import numpy as np
     
     sensor = metadata['sensor']
@@ -93,7 +94,7 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
     start_time = time.time()
     print("\nConvolution started ")
     filter_kernel = np.flip(conv_window_1) # it's flipped in convolve by default
-    R_conv = scipy.signal.convolve2d(image_R_surf, filter_kernel,
+    R_conv = signal.convolve2d(image_R_surf, filter_kernel,
                                      mode='same', boundary='fill', fillvalue=image_R_surf.mean())
     print("Convolution completed: %s seconds " % (time.time() - start_time))
     
@@ -133,7 +134,7 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
         filter_size = 3
         filter_kernel = np.full((filter_size,filter_size), 1/(filter_size**2))
         
-        RC_water_smooth = scipy.signal.convolve2d(RC_water_fill_nan, filter_kernel,
+        RC_water_smooth = signal.convolve2d(RC_water_fill_nan, filter_kernel,
                                                   mode='same', boundary='fill', fillvalue=np.nanmean(RC_water))
         
         # place RC_water_smooth in R_correction_original_shape where there's water
