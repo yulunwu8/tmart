@@ -39,8 +39,6 @@ conda activate tmart
 conda install -c conda-forge Py6S
 ```
 
-Here the wait time may take up to twenty minutes because some packages require specific versions of dependencies. 
-
 3 - Install tmart: 
 ```bash
 pip3 install tmart
