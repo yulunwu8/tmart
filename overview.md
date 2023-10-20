@@ -21,10 +21,6 @@ Yulun Wu | April 2, 2023 | [yulunwu8@gmail.com](mailto:yulunwu8@gmail.com)
 
 Wu, Y., Knudby, A., & Lapen, D. (2023). Topography-Adjusted Monte Carlo Simulation of the Adjacency Effect in Remote Sensing of Coastal and Inland Waters. *Journal of Quantitative Spectroscopy and Radiative Transfer*, 108589. <a href="https://doi.org/10.1016/j.jqsrt.2023.108589" target="_blank">https://doi.org/10.1016/j.jqsrt.2023.108589</a>
 
-## Required Libraries
-
-T-Mart is written in Python 3, and it requires Py6S, numpy, pandas, scipy, pathos, matplotlib, and netCDF4.
-
 
 ## Installation 
 
