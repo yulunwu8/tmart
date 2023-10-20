@@ -36,7 +36,7 @@ conda activate tmart
 
 2 - Install dependencies: 
 ```bash
-conda install -c conda-forge Py6S scipy pathos matplotlib netCDF4 rasterio mgrs geopandas
+conda install -c conda-forge Py6S
 ```
 
 Here the wait time may take up to twenty minutes because some packages require specific versions of dependencies. 
