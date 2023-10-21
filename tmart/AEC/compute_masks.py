@@ -142,7 +142,7 @@ def compute_masks(metadata, config, mask_type):
                 
                 # Sometimes the GML file contains no information, assume no clouds in such case
                 except:
-                    mask_cloud2 = np.zeros_like(raster_data)
+                    mask_cloud = np.zeros_like(raster_data)
                 
             # For imagery processing baseline 4
             elif os.path.exists(jp2_file): 

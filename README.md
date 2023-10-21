@@ -128,7 +128,7 @@ See user guide for more detailed instructions.
 
 ## Other
 
-T-Mart can calculate reflectances of various units, see Table 1 in Wu et al. (2023). 
+T-Mart can calculate reflectances of various units, see Table 1 in Wu et al. (2023) for examples. 
 
 For questions and suggestions (which I'm always open to!), please email Yulun at [yulunwu8@gmail.com](mailto:yulunwu8@gmail.com)
 

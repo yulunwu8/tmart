@@ -10,7 +10,7 @@
 # Overall control of AEC
 
 def run(file, username, password, overwrite=False, AOT = None, n_photon = 100_000):
-    '''Run adjacency-effect correction on satellite files. Currently only supports Sentinel-2 MSI and Landsat 8 OLI products. See 'Introduction - Adjacency-Effect Correction' for details instructions.
+    '''Run adjacency-effect correction on satellite files. Currently only supports Sentinel-2 MSI and Landsat 8 OLI products. See 'Introduction - Adjacency-Effect Correction' for detailed instructions.
     
     Arguments:
         

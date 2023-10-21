@@ -2,7 +2,7 @@
 
 ## Minimal Input
 
-A single function is used to perform adjacency-effect correction (AEC) in T-Mart. Correction is performed directly on level-1 products therefore can be followed by any amtospheric-correction tools. Currently it only supports Sentinel-2 MSI and Landsat 8 OLI products. 
+A single function is used to perform adjacency-effect correction (AEC) in T-Mart. Correction is performed directly on level-1 products, and the output is adjacency-effect-free top-of-atmosphere products in the same format as the input level-1 products, therefore this workflow can be followed by any amtospheric-correction tools. Currently it only supports Sentinel-2 MSI and Landsat 8 OLI imagery. 
 
 NASA EarthData Credentials are needed to retrieve ozone, water vapour, and aerosol information for accurate AEC. You may need to approve OB.DAAC Data Access in your <a href="https://urs.earthdata.nasa.gov/profile" target="_blank">EarthData account</a>.
 
@@ -47,6 +47,17 @@ Lastly, ``AOT`` and ``n_photon`` can be specified. You can specify ``AOT`` if yo
 ```python
 tmart.AEC.run(file, username, password, overwrite=True, AOT = 0.05, n_photon = 10_000)
 ```
+
+## Assumptions in the Processing 
+
+A few assumptions are made in the processing, violations can lead to various degrees of errors in the output AE-free product: 
+
+- Isotropic/Lambertian surface 
+- Homogeneous atmosphere and aerosols across the scene 
+- Flat surface or lack of topography
+- Reflectance outside the scene is the median of the scene at each wavelength, it is homogeneous and it extends to infinity
+
+
 
 
 
