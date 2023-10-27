@@ -45,6 +45,8 @@ T-Mart supports adjacency-effect correction for Sentinel-2 MSI and Landsat 8 OLI
 ```python
 import tmart
 file = 'user/test/S2A_MSIL1C_20160812T143752_N0204_R096_T20MKB_20160812T143749.SAFE'
+
+# NASA EarthData Credentials, OB.DAAC Data Access needs to be approved
 username = 'abcdef'
 password = '123456'
 

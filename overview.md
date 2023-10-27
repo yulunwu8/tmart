@@ -84,7 +84,7 @@ pip3 install tmart
 
 ## Output 
 
-Reflectances (definitions following 6S):
+Reflectances (definitions as per 6S):
 
 - Atmospheric intrinsic reflectance
 - Environmental reflectance 

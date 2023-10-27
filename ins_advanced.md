@@ -153,7 +153,7 @@ Here I demonstrate a simple straight-line-coast adjacency-effect modelling using
 
 Modelling of the adjacency effect at 800 nm, 1000 m from the shore: 
 
-<img src="files/AE.png"  width="500">
+<img src="_images/AE.png"  width="500">
 
 
 Note that the coast extends to infinity in the modelling by setting the background in T-Mart. The blue line is the surface normal sampled from Cox-Munk slope statistics. The colour of the dark triangles represents the low reflectance of water at 800 nm.
@@ -307,7 +307,7 @@ if __name__ == "__main__":
 
 Output: 
 
-<img src="files/3D_surface.png"  width="500">
+<img src="_images/3D_surface.png"  width="500">
 
 ## Useful Information 
 
