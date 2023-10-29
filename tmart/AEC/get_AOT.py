@@ -82,9 +82,9 @@ def get_AOT(metadata, config, anci, mask_cloud, mask_all, n_photon):
     image_AEC = image.reshape([height_reshaped, reshape_factor_tmp, 
                                width_reshaped, reshape_factor_tmp]).mean(3).mean(1)
     
-    # Loop through AOTs, 0.03, 0.1, 0.3; min 0.03, max 0.3 
-    AOTs = [0.03, 0.1, 0.3]
-    
+    # Loop through AOTs
+    AOTs = [0.0, 0.1, 0.3]
+
     # Record lowest R at each of the AOTs
     R_lowest = []
     
@@ -94,7 +94,7 @@ def get_AOT(metadata, config, anci, mask_cloud, mask_all, n_photon):
                                                   target_pt_direction=metadata['tm_pt_dir'], sun_dir=metadata['tm_sun_dir'], 
                                                   atm_profile = anci, 
                                                   aerosol_type = anci['r_maritime'], aot550 = AOT, 
-                                                  cell_size = res_band,
+                                                  cell_size = res_AEC,
                                                   window_size = metadata['window_size'], isWater = 1)
     
         conv_window_1   = AEC_parameters['conv_window_1']
@@ -182,7 +182,7 @@ def get_AOT(metadata, config, anci, mask_cloud, mask_all, n_photon):
         flattened_data = temp_SR_water.flatten()
         
         sorted_data = np.sort(flattened_data)
-        smallest_values = sorted_data[:10000]
+        smallest_values = sorted_data[:1000]
         
         
         
@@ -193,7 +193,7 @@ def get_AOT(metadata, config, anci, mask_cloud, mask_all, n_photon):
         
         
         # Create an array of indices for the smallest values
-        indices = np.arange(10000)
+        indices = np.arange(1000)
         
         
         '''

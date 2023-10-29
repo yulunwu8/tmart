@@ -68,7 +68,7 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
                                               target_pt_direction=metadata['tm_pt_dir'], sun_dir=metadata['tm_sun_dir'], 
                                               atm_profile = anci, 
                                               aerosol_type = anci['r_maritime'], aot550 = AOT, 
-                                              cell_size = res_band,
+                                              cell_size = res_AEC,
                                               window_size = metadata['window_size'], isWater = 0)
     
     conv_window_1   = AEC_parameters['conv_window_1']
