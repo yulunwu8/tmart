@@ -182,7 +182,7 @@ def get_AOT(metadata, config, anci, mask_cloud, mask_all, n_photon):
         flattened_data = temp_SR_water.flatten()
         
         sorted_data = np.sort(flattened_data)
-        smallest_values = sorted_data[:1000]
+        smallest_values = sorted_data[:10_000]
         
         
         
@@ -193,7 +193,7 @@ def get_AOT(metadata, config, anci, mask_cloud, mask_all, n_photon):
         
         
         # Create an array of indices for the smallest values
-        indices = np.arange(1000)
+        indices = np.arange(10_000)
         
         
         '''
