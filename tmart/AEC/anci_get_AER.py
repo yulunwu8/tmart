@@ -68,12 +68,16 @@ def _get_AER(file, lat, lon):
     
     aer_ANG = nc['TOTANGSTR'][:]
     aer_SSA = nc['TOTSCATAU'][:] / nc['TOTEXTTAU'][:]
+    aer_AOT = nc['TOTSCATAU'][:]
     
     interp_ANG = interpolate.RegularGridInterpolator((lats,lons), aer_ANG)
     i_ANG = interp_ANG([lat,lon])[0]
     
     interp_SSA = interpolate.RegularGridInterpolator((lats,lons), aer_SSA)
     i_SSA = interp_SSA([lat,lon])[0]
+    
+    interp_AOT = interpolate.RegularGridInterpolator((lats,lons), aer_AOT)
+    i_AOT = interp_AOT([lat,lon])[0]
     
     # print('Angstrom exponent: ' + str(i_ANG))
     # print('SSA: ' + str(i_SSA))
@@ -85,6 +89,6 @@ def _get_AER(file, lat, lon):
     
     # print('ratio_maritime: ' + str(ratio_maritime))
     
-    return np.array([ratio_maritime, i_ANG, i_SSA])
+    return np.array([ratio_maritime, i_ANG, i_SSA, i_AOT])
 
 

@@ -18,7 +18,7 @@ def run(file, username, password, overwrite=False, AOT = None, n_photon = 100_00
     * ``username`` -- String. Username of EarthData account.
     * ``password`` -- String. Password of EarthData account.
     * ``overwrite`` -- Boolean. If overwrite the existing files. The default is False and it creates a folder in the same directory that starts with AEC in the name
-    * ``AOT`` -- Float. AOT at 550nm, calculated in T-Mart if not specified.
+    * ``AOT`` -- Float. AOT at 550nm, calculated in T-Mart if not specified. 'MERRA2' ancillary data is another option. 
     * ``n_photon`` -- Int. Number of photons in each T-Mart run, 100_000 is recommended for accurate results.   
 
     Example usage::
@@ -108,6 +108,9 @@ def run(file, username, password, overwrite=False, AOT = None, n_photon = 100_00
     if AOT == None:
         print('\nEstimating AOT from the NIR band: ')
         AOT = tmart.AEC.get_AOT(metadata, config, anci, mask_cloud, mask_all, n_photon)
+    elif AOT == 'MERRA2':
+        print('\nUsing AOT from MERRA2: ' + str(AOT))
+        AOT = anci['AOT_MERRA2']
     else:
         print('\nUser input AOT: ' + str(AOT))
     

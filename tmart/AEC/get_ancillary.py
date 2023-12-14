@@ -37,6 +37,7 @@ def get_ancillary(metadata, username, password):
     return {'r_maritime': r_maritime[0],
             'Angstrom_exp': r_maritime[1],
             'SSA': r_maritime[2],
+            'AOT_MERRA2': r_maritime[3],
             'ozone': OWV[0],
             'water_vapour': OWV[1]}
     
