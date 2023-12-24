@@ -9,7 +9,7 @@
 
 # Overall control of AEC
 
-def run(file, username, password, overwrite=False, AOT = None, n_photon = 100_000):
+def run(file, username, password, overwrite=False, AOT = 'MERRA2', n_photon = 100_000):
     '''Run adjacency-effect correction on satellite files. Currently only supports Sentinel-2 MSI and Landsat 8 OLI products. See 'Introduction - Adjacency-Effect Correction' for detailed instructions.
     
     Arguments:
@@ -109,8 +109,8 @@ def run(file, username, password, overwrite=False, AOT = None, n_photon = 100_00
         print('\nEstimating AOT from the NIR band: ')
         AOT = tmart.AEC.get_AOT(metadata, config, anci, mask_cloud, mask_all, n_photon)
     elif AOT == 'MERRA2':
-        print('\nUsing AOT from MERRA2: ' + str(AOT))
         AOT = anci['AOT_MERRA2']
+        print('\nUsing AOT from MERRA2: ' + str(AOT))
     else:
         print('\nUser input AOT: ' + str(AOT))
     
