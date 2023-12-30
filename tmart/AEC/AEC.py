@@ -116,7 +116,8 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
         # Edit image_R_surf: where there's water image_R_surf, keep it, where there's nan, use original image_R_surf
         # image_R_surf can only be edited after convolution 
         image_R_surf = np.where(np.isnan(image_water_R_surf), image_R_surf, image_water_R_surf)   
-        
+      
+    # Correction to make 
     R_correction = (R_conv - image_R_surf) * F_correction 
     print('\nNumber of pixels where R_correction > R_surf : ' + str(np.sum(R_correction>image_R_surf)) + '/' + str(height_reshaped * width_reshaped))
     
@@ -161,11 +162,19 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
         if pad_rows_tmp>0: temp_out = temp_out[:-pad_rows_tmp]
         if pad_columns_tmp>0: temp_out = temp_out[:, :-pad_columns_tmp]
         
+        # Negative to 0, this ensures the lowest TOA reflectance is no lower than R_atm
+        temp_out[temp_out<0] = 0
+        
         # Scaling
-        temp_out = temp_out + R_atm
+        temp_out = temp_out + R_atm # TOA reflectance
         temp_out = ((temp_out - scale_add) / scale_mult).astype(int)
+    
+    # If only water correction 
     else:
-        temp_out = temp_SR_water + R_atm
+        # Negative to 0
+        temp_SR_water[temp_SR_water<0] = 0
+        
+        temp_out = temp_SR_water + R_atm # TOA reflectance
         temp_mask = mask_all[str(res_band) + 'm']
         
         # back to original dimension 
@@ -185,9 +194,6 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
     if pad_columns_tmp>0: temp_is_nan = temp_is_nan[:, :-pad_columns_tmp]
     
     temp_out[temp_is_nan] = 0
-
-    # Negative to 0
-    temp_out[temp_out<0] = 0
 
     # Make edits to the file
     band_ds.write(temp_out, 1)

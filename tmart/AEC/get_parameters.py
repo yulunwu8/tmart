@@ -108,9 +108,7 @@ def get_parameters(n_photon = 10_000, SR = 0.5,
     image_env, _, _ = np.histogram2d(df_env['y'], df_env['x'], bins=[y_bins, x_bins], weights=df_env['L_surface'])
             
     
-    
-    
-    
+
     
     conv_window = image_env.copy()
     
@@ -128,9 +126,8 @@ def get_parameters(n_photon = 10_000, SR = 0.5,
     conv_window_1 = conv_window_1 / conv_window_1.sum()
     
     ### correction factor 
-    F_correction = R['R_env'] / R['R_dir']
+    F_correction = (R['R_env'] / R['R_dir'])  * (1 - conv_window_1[int(conv_window_1.shape[0]/2),int(conv_window_1.shape[1]/2)])
     print('F_correction: ' + str(F_correction))
-
     
     return {'conv_window_1': conv_window_1,
             'F_correction': F_correction,
@@ -151,32 +148,22 @@ if __name__ == "__main__":
     sys.path.append('/Users/yw/Desktop/tmart')
     import tmart
 
-
     SR = 0.2731
-    SR = 0.01
-
-
-    wl = 832.8
-    band = Py6S.Wavelength(Py6S.PredefinedWavelengths.S2A_MSI_08)
+    SR = 0.3
     
+    wl = 443
+    # band = Py6S.Wavelength(Py6S.PredefinedWavelengths.S2A_MSI_8A)
     
-    
-    
-    
-    aerosol_type = 0.28697530549492306
-    aot550 = 0.12048642521263742
+    aerosol_type = 0.6
+    aot550 = 0.08
     
     atm_profile = {'water_vapour': 46.11, 'ozone': 275.03}
-    
-    
     
     target_pt_direction=[170.52804413432926, 191.91873559828522]
     sun_dir=[30.9608405674786, 323.9885587375248]
     
-    
-    
-    
-    test = tmart.AEC.get_parameters(wl = wl, band = band, SR=SR ,n_photon = 100_000,
+    test = tmart.AEC.get_parameters(wl = wl, # band = band, 
+                                    SR=SR ,n_photon = 100_000,
                                     target_pt_direction = target_pt_direction, sun_dir = sun_dir,
                                     
                                     atm_profile = atm_profile,
@@ -187,32 +174,8 @@ if __name__ == "__main__":
     
     # print(test)
     test1 = test['conv_window_1']
-
-
-
-
-
-
-'''
-
-R_dir1 =       0.20646468575326427
-R_env1 =      0.015369974497484973
-
-R_dir2 =       0.007488102335764049
-R_env2 =       0.0005614734883047237
-
-
-
-print(R_env1/R_dir1)
-
-print(R_env2/R_dir2)
-print((R_env1 - R_env2)/(R_dir1 - R_dir2))
-
-
-
-'''
-
-
+    
+    test1[int(test1.shape[0]/2),int(test1.shape[1]/2)]
 
 
 

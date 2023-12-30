@@ -145,10 +145,10 @@ if __name__ == "__main__":
     
     band = Py6S.Wavelength(Py6S.PredefinedWavelengths.S2A_MSI_08)
     
-    a_test = np.array([[0,0.1],[0.5,1]])
-    
+    a_test = np.array([[0.1,0.1],[0.5,1]])
+    a_test = np.array([[0.3,0.3,0.3],[0.3,0.01,0.3],[0.3,0.3,0.3]])
         
-    test = reflectance_correction(a_test, 0.551, aot550=1, aerosol_type=0.999)
+    test = irradiance_correction(a_test, 0.865, aot550=0.1, aerosol_type=0.999)
     
     print(test)
     
