@@ -33,6 +33,8 @@ def run(file, username, password, overwrite=False, AOT = 'MERRA2', n_photon = 10
     import tmart
     import sys, os
     import time
+    from importlib.metadata import version
+    
 
     # If not overwrite, creates a new folder in the same directory  
     if not overwrite:
@@ -71,6 +73,7 @@ def run(file, username, password, overwrite=False, AOT = 'MERRA2', n_photon = 10
             self.file.flush()
 
     sys.stdout = Logger(log_file)
+    print('T-Mart version: ' + str(version('tmart')))
     print('System time: ' + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time())))
     print('File: ' + str(file))
     
