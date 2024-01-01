@@ -16,6 +16,7 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
     import rasterio, sys, time
     from scipy import signal
     import numpy as np
+    import math
     
     sensor = metadata['sensor']
     
@@ -47,6 +48,9 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
     is_nan = image==0
     image = image * scale_mult + scale_add
     
+    # L8 solar zenith correction: https://www.usgs.gov/landsat-missions/using-usgs-landsat-level-1-data-product
+    if sensor =='L8': image = image / math.cos(metadata['sza']/180*math.pi)
+        
     # Turn negative to 0 
     image[image<0] = 0
 
@@ -163,7 +167,7 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
         if pad_columns_tmp>0: temp_out = temp_out[:, :-pad_columns_tmp]
         
         # Negative to 0, this ensures the lowest TOA reflectance is no lower than R_atm
-        temp_out[temp_out<0] = 0
+        # temp_out[temp_out<0] = 0
         
         # Scaling
         temp_out = temp_out + R_atm # TOA reflectance
@@ -172,7 +176,7 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
     # If only water correction 
     else:
         # Negative to 0
-        temp_SR_water[temp_SR_water<0] = 0
+        # temp_SR_water[temp_SR_water<0] = 0
         
         temp_out = temp_SR_water + R_atm # TOA reflectance
         temp_mask = mask_all[str(res_band) + 'm']
