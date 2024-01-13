@@ -50,7 +50,7 @@ file = 'user/test/S2A_MSIL1C_20160812T143752_N0204_R096_T20MKB_20160812T143749.S
 username = 'abcdef'
 password = '123456'
 
-### Multiprocessing needs to be wrapped in 'if __name__ == "__main__":' for Windows systems
+### Multiprocessing needs to be wrapped in 'if __name__ == "__main__":' for Windows systems, this is optional for Mac OS
 if __name__ == "__main__":
     tmart.AEC.run(file, username, password)
 ```

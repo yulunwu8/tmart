@@ -51,8 +51,8 @@ def compute_masks(metadata, config, mask_type):
         scale_add = metadata[str(band_name) + '_add']
         mask_threshold = (float(config[threshold])  - scale_add ) / scale_mult
         
-        # Make mask 
-        if mask_NAN: mask = np.logical_or(band_array > mask_threshold, band_array == 0)
+        # Make mask. If mask_NAN, then mask the NAN values 
+        if mask_NAN: mask = np.logical_or(band_array > mask_threshold, band_array == 0) # In band_array,0 is masks 
         else: mask = band_array > mask_threshold
         
         # Add other resolution 

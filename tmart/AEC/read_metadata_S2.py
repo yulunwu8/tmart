@@ -131,7 +131,7 @@ def read_metadata_S2(file,config,sensor):
     # 6 comes from 60m/10m resolution, remainder of 6*reshape_f divided by greatest common divisor between 6 and reshape_f
     temp_reshape_factor = (metadata['reshape_factor'] * 6) // math.gcd(metadata['reshape_factor'], 6)
     
-    # Height and width for AEC, with a few extra rows and columns 
+    # Height and width for AEC, with a few extra rows and columns (ceil = round up)
     metadata['AEC_height'] = math.ceil(metadata['height'] / temp_reshape_factor) * temp_reshape_factor
     metadata['AEC_width'] = math.ceil(metadata['width'] / temp_reshape_factor) * temp_reshape_factor
     

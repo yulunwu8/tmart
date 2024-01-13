@@ -10,11 +10,11 @@
 
 # Write aerosol and atmosphere information
 
-def write_atm_info(file, anci, AOT):
+def write_atm_info(file, basename, anci, AOT):
     import os
     
     # File path 
-    path = '{}/{}'.format(file,'tmart_atm_info.txt')
+    path = '{}/tmart_atm_info_{}.txt'.format(file,basename)
     
     # If exist, delete
     if os.path.exists(path): 

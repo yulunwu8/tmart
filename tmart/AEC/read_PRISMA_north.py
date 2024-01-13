@@ -8,7 +8,7 @@
 # (at your option) any later version.
 
 
-# read PRSIMA north
+# read PRSIMA north - return the top direction relative to north 
 
 def read_PRISMA_north(file): 
     # assume PRISMA images are 1000x1000
@@ -23,7 +23,7 @@ def read_PRISMA_north(file):
         
         # image = dset['rhot_505'][:]
     
-    # lat lon
+    # lat lon in four corners 
     top_left = [a_lat[0,0],a_lon[0,0]]
     top_right = [a_lat[0,999],a_lon[0,999]]
     bot_left = [a_lat[999,0],a_lon[999,0]]

@@ -28,7 +28,7 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
     res_band = int(abs(band_ds.transform[0]))
     res_AEC = int( metadata['resolution'] * metadata['reshape_factor'])
     
-    # Full resolution to AEC resolution 
+    # Full resolution to AEC resolution (padded resolution)
     height_reshaped = int( metadata['AEC_height'] / metadata['reshape_factor']) 
     width_reshaped = int( metadata['AEC_width'] / metadata['reshape_factor']) 
 
@@ -51,7 +51,7 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
     # L8 solar zenith correction: https://www.usgs.gov/landsat-missions/using-usgs-landsat-level-1-data-product
     if sensor =='L8': image = image / math.cos(metadata['sza']/180*math.pi)
         
-    # Turn negative to 0 
+    # Turn negative TOA to 0 
     image[image<0] = 0
 
     # Mask no_data
@@ -98,8 +98,7 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
     start_time = time.time()
     print("\nConvolution started ")
     filter_kernel = np.flip(conv_window_1) # it's flipped in convolve by default
-    R_conv = signal.convolve2d(image_R_surf, filter_kernel,
-                                     mode='same', boundary='fill', fillvalue=image_R_surf.mean())
+    R_conv = signal.convolve2d(image_R_surf, filter_kernel, mode='same', boundary='fill', fillvalue=image_R_surf.mean())
     print("Convolution completed: %s seconds " % (time.time() - start_time))
     
     # Smoothing the edges 
@@ -126,8 +125,7 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
     print('\nNumber of pixels where R_correction > R_surf : ' + str(np.sum(R_correction>image_R_surf)) + '/' + str(height_reshaped * width_reshaped))
     
     # Back to the original size 
-    R_correction_original_shape = np.repeat(np.repeat(R_correction, reshape_factor_tmp, axis=0), 
-                                            reshape_factor_tmp, axis=1)
+    R_correction_original_shape = np.repeat(np.repeat(R_correction, reshape_factor_tmp, axis=0), reshape_factor_tmp, axis=1)
     
     # Smoothing the gridline artifacts 
     if reshape_factor_tmp>1: 
