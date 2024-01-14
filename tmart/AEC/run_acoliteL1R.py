@@ -167,6 +167,11 @@ def run_acoliteL1R(file, username, password, AOT, n_photon, AEC_record, basename
             continue
         else:
             print('tgas: {:.2f}'.format(tgas))
+            
+        # Skip if out of range 
+        if WL > tm_wls_interp.max():
+            print('Skipping band out of correction-parameter range')
+            continue
     
         # Variable name 
         rhot_wl = 'rhot_' + str(int(round(WL)))
