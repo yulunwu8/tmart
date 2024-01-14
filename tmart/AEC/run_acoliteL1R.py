@@ -267,11 +267,12 @@ def run_acoliteL1R(file, username, password, AOT, n_photon, AEC_record, basename
                                                         tm_sza = metadata['sza'], tm_saa = metadata['saa'],
                                                         atm_profile = anci, 
                                                         aerosol_type = anci['r_maritime'], aot550 = AOT)
+        
         # If land correction is needed 
         if hp_AE_land:
             temp_out = np.where(mask_all, temp_SR, temp_SR_water)
         else:
-            temp_out = np.where(mask_all, image, temp_SR_water)
+            temp_out = np.where(mask_all, (image-R_atm), temp_SR_water)
 
         temp_out = temp_out + R_atm
         
@@ -291,4 +292,3 @@ def run_acoliteL1R(file, username, password, AOT, n_photon, AEC_record, basename
     return 0
     
  
-    
