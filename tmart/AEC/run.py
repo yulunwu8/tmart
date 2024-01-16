@@ -39,14 +39,13 @@ def run(file, username, password, overwrite=False, AOT = 'MERRA2', n_photon = 10
     # Identify if directory or file, for S2/L8
     if os.path.isdir(file):
         file_is_dir = True
-        home_folder = file
     # For ACOLITE L1R files, currently supports PRISMA data only 
     elif os.path.isfile(file) and file[-6:]=='L1R.nc': 
         file_is_dir = False
-        home_folder = os.path.dirname(file)
     else: 
         sys.exit('File or folder cannot be identified: {}'.format(file))
     
+    home_folder = os.path.dirname(file) # where ancillary file and printed info are stored 
     basename = os.path.basename(file)
     basename_before_period = basename.split('.')[0]
     
@@ -57,6 +56,7 @@ def run(file, username, password, overwrite=False, AOT = 'MERRA2', n_photon = 10
         if os.path.exists(file_new):
             print('\nNew directory ' + str(file_new) + ' already exists, proceeds to AEC. \n')
         else: 
+            # make the copy 
             print('\nCopying from ' + str(file) + ' to ' + str(file_new) + '... \n')
             if file_is_dir: 
                 from distutils.dir_util import copy_tree
@@ -65,6 +65,9 @@ def run(file, username, password, overwrite=False, AOT = 'MERRA2', n_photon = 10
                 from shutil import copy
                 copy(file, file_new)
         file = file_new
+    
+    # For S2/L8, ancillary file and printed info are stored in the image folder 
+    if file_is_dir: home_folder = file_new
 
     # Check if AEC has been done, if so, exit 
     AEC_record = '{}/AEC_completed_{}.txt'.format(home_folder,basename_before_period)
