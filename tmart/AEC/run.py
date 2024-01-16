@@ -67,7 +67,7 @@ def run(file, username, password, overwrite=False, AOT = 'MERRA2', n_photon = 10
         file = file_new
     
     # For S2/L8, ancillary file and printed info are stored in the image folder 
-    if file_is_dir: home_folder = file_new
+    if file_is_dir: home_folder = file
 
     # Check if AEC has been done, if so, exit 
     AEC_record = '{}/AEC_completed_{}.txt'.format(home_folder,basename_before_period)
