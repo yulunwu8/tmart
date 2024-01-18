@@ -7,14 +7,11 @@
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 
-
-
-# Aerosol SPF
-
 import numpy as np
 import pandas as pd
 import os.path
 
+# Aerosol SPF
 def find_aerosolSPF(aerosol_type,wl):
     
     # Currently only supporting the default number of angles in 6S
@@ -23,7 +20,6 @@ def find_aerosolSPF(aerosol_type,wl):
     
     # Currently SPF is interpolated using the central wavelength. Alternatively,
     # can run 6S and extract the spectually resampled values. 
-    
     
     n_angles = 83
     
@@ -44,65 +40,13 @@ def find_aerosolSPF(aerosol_type,wl):
     
     # reverse the angles 
     angles[::-1].sort()
-    
-    ###
-    
 
     file_aerosolSPF = 'ancillary/aerosolSPF/' + str(aerosol_type) + '.csv'
     file_aerosolSPF = os.path.join(os.path.dirname(__file__), file_aerosolSPF)
     
     aerosolSPF = np.genfromtxt(file_aerosolSPF, delimiter=',')
-    
-    # np.shape(aerosolSPF)
-    # aerosolSPF[0,:]
-    # np.interp(wl, wls, aerosolSPF[0,:])
-    
-    
     aerosolSPF_wl = np.array([np.interp(wl, wls, aerosolSPF[i,:]) for i in range(np.shape(aerosolSPF)[0])])
     aerosolSPF_wl = aerosolSPF_wl[0:n_angles]
-    
-    
     df = pd.DataFrame({'Angle':angles, 'Value':aerosolSPF_wl}).sort_values('Angle').reset_index()
     
     return df
-
-
-if __name__=='__main__':
-    aerosol_type = 'Maritime'
-    # aerosol_type = 'Continental'
-    
-    wl = 550
-    
-    test1 = find_aerosolSPF(aerosol_type,wl)
-
-    
-    aerosol_type = 'Continental'
-    
-    wl = 550
-    
-    test2 = find_aerosolSPF(aerosol_type,wl)
-    
-    test = test1
-    
-    print(test['Value'])
-    
-    test['Value'] = test1['Value'] * 0.5 + test2['Value'] * 0.5
-    
-    print(test['Value'])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

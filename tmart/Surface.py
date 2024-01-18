@@ -13,11 +13,8 @@
 
 import numpy as np
 import pandas as pd
-
 from scipy.interpolate import interp1d
-
 import os.path
-
 
 class SpectralSurface():
     '''Create an object to capture the spectral reflectance of surfaces when looping wavelengths. This can be used as input to reflectance in the Surface object.
@@ -46,18 +43,12 @@ class SpectralSurface():
         file_name = os.path.join(os.path.dirname(__file__), 'ancillary', str(land_cover) + '.csv')
         
         try:
-        
-        
             df = pd.read_csv(file_name)
-            
             wavelength = df.wl.to_numpy() * 1000
             value = df.value.to_numpy() /100
-            
             self.f = interp1d(wavelength, value) # , kind='cubic')
-        
         except: 
             print('Warning: failed to open ' + str(file_name))
-
         
     def wl(self,wavelength):
         '''
@@ -67,10 +58,6 @@ class SpectralSurface():
         reflectance = self.f(wavelength).item()
         if reflectance < 0: reflectance = 0
         return reflectance 
-
-
-
-
 
 class Surface(): 
     '''Create an Surface object. 
@@ -102,7 +89,6 @@ class Surface():
         self.cell_size = cell_size
         self.alignPixels = alignPixels
         
-        
         if self.DEM.shape != self.reflectance.shape:
             print('WARNING: DEM and reflectance images do not have the same shape')
 
@@ -122,10 +108,7 @@ class Surface():
         self.x_max = np.max(self.DEM_triangulated[0][:,0,:,:])
         self.y_min = np.min(self.DEM_triangulated[0][:,1,:,:])
         self.y_max = np.max(self.DEM_triangulated[0][:,1,:,:])
-        
-        
-        
-        
+
     # Two Reflectance Surfaces and if water 
     def set_background(self,bg_ref=None, bg_isWater=None, bg_elevation=None, bg_coords=None):
         '''Set background information, 1 or 2 background surfaces can be set;
@@ -150,7 +133,6 @@ class Surface():
 
         # default: average reflectance, elevation 0, no water 
   
-        
         # Reflectances of 2 background surfaces, first surface close to [0,0]
         if bg_ref==None: # default, average reflectance 
             self.bg_ref = [np.average(self.reflectance),np.average(self.reflectance)]  
@@ -166,7 +148,6 @@ class Surface():
             self.bg_isWater = bg_isWater
         else: # integer or float 
             self.bg_isWater = [bg_isWater,bg_isWater]
-        
         
         # Elevation of the background surfaces, has to be the same 
         if bg_elevation==None:
@@ -277,17 +258,3 @@ class Surface():
             ref_tri2 = np.array([ref_tri_p1, ref_tri_p4, ref_tri_p3])
             
             self.DEM_triangulated = [ref_tri1,ref_tri2]
-
-        
-
-
-
-
-
-
-
-
-
-
-
-

@@ -7,16 +7,11 @@
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 
-
-
-
 # Replacing tm
 # function as second page 
 # Overall control of photon movement
 
-
 # T-MART: Topography-adjusted Monte-Carlo Adjacency-effect Radiative Transfer code  
-
 
 import sys
 import numpy as np
@@ -35,15 +30,10 @@ from .tm_water import fresnel, sample_cox_munk, find_R_cm
 from .tm_move import pt_move
 from .tm_OT import find_OT
 
-
-
 # Plotting 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-
-
-
 
 # The class is overwritten in Tmart 
 class Tmart2(): 
@@ -60,17 +50,14 @@ class Tmart2():
         # numpy atmospheric profile, to runs faster 
         atm_profile = self.atm_profile_wl.sort_values('Alt_bottom').to_numpy()
         
-
         # Initial position of the photon 
         if self.pixel == None:
             q0 = self.sensor_coords
         else:
             pixel_x = self.Surface.cell_size * (self.pixel[1] + random.random()) # X
             pixel_y = self.Surface.cell_size * (self.pixel[0] + random.random()) # Y
-
             q0 = self.sensor_coords + [pixel_x,pixel_y,self.pixel_elevation]
             
-        
         # Initial moving direction of the photon
         
         if self.target_pt_direction == 'lambertian_up': 
@@ -94,7 +81,6 @@ class Tmart2():
         # A numpy array to collect information, here 14 columns, local_estimate has 14 too, output only 13
         pt_stat = np.empty((0,14))     
         
-        
         ### For loop: photon movements 
         for movement in range(0, 500): 
             
@@ -105,7 +91,6 @@ class Tmart2():
             q1, tao_abs, ot_rayleigh_NA, ot_mie_NA, out = pt_move(atm_profile,q0,pt_direction,sampled_tao)
             # note: ot_rayleigh and ot_mie are replaced later, the accumulated ot should not be used, thus add _NA to mask them
     
-    
             if self.print_on:
                 print ('\nq0: ' +str(q0))
                 print ('q1: ' +str(q1))
@@ -113,13 +98,6 @@ class Tmart2():
                 print('sampled_tao: ' + str(sampled_tao))
                 print ('pt_direction: ' +str(pt_direction))
                 print('out: ' + str(out)) 
-            
-            
-            
-            ### Test atm intrinsic reflectance 
-            # if q0[2] <0 or q1[2] < 0:
-            #     break
-            
             
             ### Test triangle collision             
 
@@ -439,9 +417,7 @@ class Tmart2():
                     if self.print_on: print("  adjustment factor: " + str(scatt_intensity_impSampling/scatt_intensity))
                     pt_weight = pt_weight * (scatt_intensity_impSampling/scatt_intensity)
  
-                    
-    
-    
+                
             
             ###### Calculate absorption 
           
@@ -454,23 +430,7 @@ class Tmart2():
                 print("T_abs: " + str(T_abs))
                 print("pt_weight: " + str(pt_weight))
                 print('\n= Local estimate =')
-            
-            
-            ''' to be deleted
-            
-            # 1000 -> self.pixel_elevation 
-            # 30 -> self.sun_dir[0]
-            
-            sun_dir = [30,0]
-            q_collision = np.array([0,0,1000])
-            
-            dist_120000 = (120_000 - 1000) / np.cos(30/180*np.pi) 
-            
-            q_sun = dirP_to_coord(dist_120000, sun_dir) + q_collision
-            
-            '''
-            
-            
+                      
             
             ###### Local estimates 
             
@@ -490,14 +450,9 @@ class Tmart2():
                     is_env = 1
                 
                 if self.shadow: if_shadow = self.detect_shadow(q_collision)
-                    
-                ### not using this anymore, cause trouble in RTM calculation 
-                # if if_shadow: 
-                #     local_est = [pt_id, movement,'Shadow',0,0,0,0,0,0] + q_collision
                 
                 # Water
                 if q_collision_isWater==1:
-                    
                     le_water = self.local_est_water(pt_weight, pt_direction_op_C, q_collision, 
                                                     q_collision_N_polar, R_specular, q_collision_ref, R_surf)
                     local_est = [pt_id, movement] + le_water + [0,0,0] + q_collision + [0,is_env,tpye_collision]
@@ -520,11 +475,6 @@ class Tmart2():
                 
                 if self.shadow: if_shadow = self.detect_shadow(q_collision)
                     
-                ### same as above
-                # if if_shadow: 
-                #     local_est = [pt_id, movement,'Shadow',0,0,0,0,0,0] + q_collision.tolist() 
-                #     # tolist because q_collision comes from q1, which is a numpy array
-                    
                 le_scatt = self.local_est_scat(pt_direction_op_C, q_collision, pt_weight, ot_mie, ot_rayleigh)
                 
                 local_est = [pt_id, movement,0,0,0,0] + le_scatt + q_collision.tolist() + [0,0,type_scat]
@@ -536,9 +486,7 @@ class Tmart2():
                 pt_stat = np.vstack([pt_stat, local_est])            
             
             
-            
-            
-            
+
             ###### Plot and out 
             
         
@@ -550,8 +498,6 @@ class Tmart2():
                 
                 else: 
                     self._plot(q0, q_collision, scenario)
-           
-
         
             # Exit if out 
             if out:
@@ -565,7 +511,6 @@ class Tmart2():
     
             # starting the next movement at the collision         
             q0 = q_collision
-        
         
         pt_stat = self._diff_ref(pt_stat)
         
@@ -651,8 +596,6 @@ class Tmart2():
             
         return pt_stat_output
         
-
-
     def local_est_scat(self,pt_direction_op_C,q_collision, pt_weight, ot_mie, ot_rayleigh):
         
         # calculate remaining Transmittance 
@@ -673,14 +616,8 @@ class Tmart2():
         
         # rayleigh 
         rayleigh = (3/4)*(1+(math.cos(angle_scattering/180*math.pi))**2)
-        # print('rayleigh: ' + str(rayleigh))
-        
-        # c: contribution? 
-        
         rayleigh_c = rayleigh / math.cos(self.sun_dir[0]/180*math.pi)  / 4 # 4 should be the right normalization 
-        # print('rayleigh_c: ' + str(rayleigh_c))
         rayleigh_c = rayleigh_c * (ot_rayleigh/ot_scattering)
-        # print('rayleigh_c2: ' + str(rayleigh_c))
     
         # mie
         df_angle = self.aerosol_SPF_wl.Angle.to_numpy()
@@ -691,11 +628,7 @@ class Tmart2():
         mie_c = mie / math.cos(self.sun_dir[0]/180*math.pi) / 4 # / math.pi   
         mie_c = mie_c * (ot_mie/ot_scattering)
         
-        
         local_est = np.array([rayleigh_c, mie_c]) * T * pt_weight / 1_000_000   
-        
-        # print('local_est: ' + str(local_est))
-        
         return local_est.tolist()
 
 
@@ -728,8 +661,6 @@ class Tmart2():
             R_cm2 = find_R_cm(pt_direction_op_C, self.sun_dir, q_collision_N_polar, 
                               self.wind_dir + 90, self.wind_speed, self.water_refraIdx_wl, self.print_on)
             R_cm = (R_cm + R_cm2) / 2
-            
-        
         
         R_cm = (1-self.F_wc_wl) * R_cm # remove whitecaps from cox-munk reflection 
         
@@ -774,66 +705,40 @@ class Tmart2():
     # finds OT between TOA and z
     
     def _local_est_OT(self,q_collision): 
-        # print('OT_abs of entire atm: {}'.format(sum(self.atm_profile_wl.ot_abs)))
         
         # Altitude of the collision point  
         z = q_collision[2]
  
         # Find all layers whose bottoms are equal to or higher than z, panda series Boolean 
         alts_higher = np.array(self.atm_profile_wl.Alt_bottom *1000 >= z)
-        # print ('alts_higher: ' +str(alts_higher))
-        
-        
 
         # Calculate OTs in layers above, capital is output 
         OT_out = (sum(self.atm_profile_wl.ot_abs[alts_higher]) +  
                       sum(self.atm_profile_wl.ot_rayleigh[alts_higher]) + 
                       sum(self.atm_profile_wl.ot_mie[alts_higher]) )   
-        # print ('OT_abs_out, sum of all above: ' +str(OT_abs_out))
-
 
         # boolean if equal 
         alts_equal = np.array( self.atm_profile_wl.Alt_bottom * 1000 == z )
-        # print ('alts_equal: ' +str(alts_equal))
-        # print ('sum alts_equal: ' +str(sum(alts_equal)))
         
         if sum(alts_equal): 
-            # print('Find euqal altitude')
             pass
         else: # Alternative: find the layer where Z is in, find OT_remain_ratio...
-            # print('No equal altitudes, calculating remaining OT_abs')
             
             # calculate top altitudes - collision altitude
             alts_diff = (self.atm_profile_wl.Alt_top - z/1000)
-            # print ('alts_diff: ' +str(alts_diff))
             
             alts_diff_positive_min = alts_diff[alts_diff>0].min()
-            # print ('alts_diff_positive_min: ' +str(alts_diff_positive_min))
-            
             
             # edited 
             alts_diff_positive_min_idx = alts_diff[alts_diff>0].idxmin()
-            # print ('alts_diff_positive_min_idx: ' +str(alts_diff_positive_min_idx))   
-            
             height = self.atm_profile_wl.Alt_top[alts_diff_positive_min_idx] - self.atm_profile_wl.Alt_bottom[alts_diff_positive_min_idx]
-            
-            
-            OT_remain_ratio = alts_diff_positive_min / height
-            # print ('OT_remain_ratio: ' +str(OT_remain_ratio))            
-            
+            OT_remain_ratio = alts_diff_positive_min / height        
             
             OT_layer = (self.atm_profile_wl.ot_abs[alts_diff_positive_min_idx] + 
                         self.atm_profile_wl.ot_rayleigh[alts_diff_positive_min_idx] + 
                         self.atm_profile_wl.ot_mie[alts_diff_positive_min_idx]  ) 
             
-            # OT_layer = (self.atm_profile_wl.ot_scatt[alts_diff_positive_min_idx]  ) # test         
-            
-            
-            # print ('ot_abs: ' +str(ot_abs))
-            
             OT_abs_remain = OT_layer * OT_remain_ratio 
-            # print ('OT_abs_remain: ' +str(OT_abs_remain))
-            
             OT_out = OT_out + OT_abs_remain
         return OT_out
 
@@ -847,9 +752,7 @@ class Tmart2():
         ax = Axes3D(fig, auto_add_to_figure=False)
         fig.add_axes(ax)
         
-        #ax.invert_xaxis()
-        
-        
+        # ax.invert_xaxis()
         # ax.set_xlim(0, 100_000 * 1) 
         # ax.set_ylim(100_000 * 1, 0 )
         # ax.set_zlim(0, 100_000 * 1 )   
@@ -858,11 +761,9 @@ class Tmart2():
         ax.set_ylim(self.plot_range[3],self.plot_range[2])
         ax.set_zlim(self.plot_range[4],self.plot_range[5])   
         
-        
         ax.set_xlabel('X axis (m)')
         ax.set_ylabel('Y axis (m)')
         ax.set_zlabel('Z axis (m)')
-        
         
         # Plotting DEM_tri
         for tri in self.Surface.DEM_triangulated:
@@ -875,20 +776,13 @@ class Tmart2():
                     p2 = tri[2,:,row,col]
                     
                     plot_tri = [p0,p1,p2]
-                    
                     plot_tri = np.array([p0,p1,p2])
                     
-                    
-                    # print("------")
-                    # print('plot_tri: ' + str(plot_tri))
-                    
                     p_centre = (p0 + p1 + p2)/3
-                    # print('p_centre: ' + str(p_centre))
                     
                     q_collision_ref = reflectance_intersect(p_centre, self.Surface.reflectance, 
                                                             self.Surface.cell_size, self.Surface.bg_ref, 
                                                             self.Surface.bg_coords)    
-                    # print('q_collision_ref: ' + str(q_collision_ref))
                     
                     if q_collision_ref>1: q_collision_ref=1
                     if q_collision_ref<0: q_collision_ref=0
@@ -924,9 +818,7 @@ class Tmart2():
             
             # Manual length of the other two lines 
             my_length = 50_000
-            # my_length = 1
-            
-            
+
             if self.print_on: print ("\nPlotting triangle collision")
         
             triangle = intersect_tri_chosen.tolist()
@@ -950,12 +842,8 @@ class Tmart2():
             
             # reflected direction 
             reflected_viz_q1 = triangle[0:3] + rotated * 33_000
-            # print('==============================')
-            # print(reflected_viz_q1)
-            
 
             # new pt_direction 
-            
             ax.plot([triangle[0] , reflected_viz_q1[0]],
                     [triangle[1] ,  reflected_viz_q1[1]],
                     zs=[triangle[2] ,  reflected_viz_q1[2]],
@@ -966,25 +854,6 @@ class Tmart2():
             
             if self.print_on: print("Angle between normal and new pt_direction is: " + 
                                     str(angle_3d(rotated,[0,0,0],q_collision_N)))
-        
     
         # Plot atmospheres to the same extend as the surface 
-        
         plt.show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

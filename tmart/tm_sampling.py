@@ -7,10 +7,6 @@
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 
-
-
-# Sampling 
-
 import random
 import math
 import numpy as np
@@ -18,6 +14,7 @@ import numpy as np
 from .tm_geometry import dirP_to_coord, rotation_matrix, dirC_to_dirP
 from scipy.interpolate import interp1d
 
+# Sampling 
 
 # Sample a direction from an isotropic distribution 
 def sample_Lambertian():
@@ -28,7 +25,6 @@ def sample_Lambertian():
     # a list of two lists, coord & direction 
     return [coord, [zenith, azimuthal]] 
 
-    
 # Sample a scattering direction based on existing direction 
 def sample_scattering(ot_mie,ot_rayleigh,pt_direction,aerosol_SPF, print_on=False): 
     
@@ -137,8 +133,6 @@ def sample_scattering(ot_mie,ot_rayleigh,pt_direction,aerosol_SPF, print_on=Fals
     
     return new_direction, intensity, type_scat
 
-
-
 # Importance sampling 
 def weight_impSampling(ot_mie,ot_rayleigh,angle_impSampling,aerosol_SPF, print_on=False): 
     
@@ -177,7 +171,6 @@ def weight_impSampling(ot_mie,ot_rayleigh,angle_impSampling,aerosol_SPF, print_o
 
     return intensity
   
-    
 # Normalized to a combined SPF model 
 def weight_impSampling2(ot_mie,ot_rayleigh,angle_impSampling,aerosol_SPF, print_on=False):  
     
@@ -206,87 +199,3 @@ def weight_impSampling2(ot_mie,ot_rayleigh,angle_impSampling,aerosol_SPF, print_
     if print_on: print ('  importance sampling intensity: ' + str(intensity))
 
     return intensity    
-    
-
-# # Not used anymore
-# def sample_distance2scatter(ot_aerosol,ot_rayleigh,layer_height, pr):
-    
-#     ot_sum = ot_aerosol + ot_rayleigh
-    
-
-#     if ot_sum > 0: # if there is scattering 
-#         if pr: 
-#             print ("\nCalculating distance before scattered, layer_height: " + str(layer_height))
-        
-#         if layer_height is None:
-#             print ("WARNING: atmosphere layer-height error ")
-        
-        
-#         # attenuation coefficient due to scattering 
-#         c = (ot_aerosol + ot_rayleigh )/layer_height 
-        
-#         R = random.random()
-        
-#         pt_linear_distance = - np.log(R) / c # according to Mobley light and water chapter 6
-        
-#         scatter_at_end = True
-        
-        
-#     else: # if scattering coefficient is 0  
-#         if pr:
-#             print ('no scattering, pre-set distance')
-#         pt_linear_distance = 100_000    
-        
-#         scatter_at_end = False
-        
-        
-#     if pr:
-#         print ('sampled_distance: ' + str(pt_linear_distance))
-        
-#     return pt_linear_distance, scatter_at_end
-
-
-
-
-# # test sampling_scattering 
-
-
-# if __name__=='__main__':
-#     from Py6S.Params.atmosprofile import AtmosProfile
-#     from Atmosphere import Atmosphere 
-#     atm_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer) # same as 6S
-#     aot550 = 0.1 
-#     aerosol_SPF = 'aerosol_maritime_SPF.csv'
-#     aerosol_EXT = 'aerosol_maritime_EXT.csv'
-#     aerosol_SSA = 'aerosol_maritime_SSA.csv'
-    
-
-#     # all wavelengths 
-#     my_atm = Atmosphere(atm_profile, aot550, aerosol_SPF, aerosol_EXT, aerosol_SSA)
-    
-#     # 550
-#     my_atm_OT, aerosol_SPF  = my_atm.wavelength(wl=550)
-    
-#     ot_mie = 0
-#     ot_rayleigh = 1
-#     pt_direction = [0,0]
-
-#     test = sample_scattering(ot_mie,ot_rayleigh,pt_direction,aerosol_SPF)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

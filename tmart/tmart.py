@@ -7,8 +7,6 @@
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 
-
-
 # Replacing tmart_class
 
 # TMart: Topography-adjusted Monte-Carlo Adjacency-effect Radiative Transfer code
@@ -88,9 +86,6 @@ class Tmart(Tmart2):
         # In development 
         self.output_flux = False # output irradiance reflectance, direct irradiance and diffuse irradiance on the ground, under development 
         
-        
-             
-        
     def set_geometry(self, sun_dir=[0,0], target_pt_direction=None, sensor_coords=None, pixel=None, target_coords=None):
         '''Set the sun-target-sensor geometry. Only one of ``sensor_coords``, ``pixel`` and ``target_coords`` is needed. 
         
@@ -122,13 +117,9 @@ class Tmart(Tmart2):
 
 
         '''
-        
-        
         n_not_none = (sum(x is not None for x in [sensor_coords,pixel,target_coords]))
         
         if n_not_none != 1: sys.exit('only one of sensor_coords,pixel,target_coords should be provided')
-        
-        
         
         ### Sensor coordinates, take one of the three inputs 
         
@@ -185,7 +176,6 @@ class Tmart(Tmart2):
         
         # Sun direction 
         self.sun_dir = sun_dir # [zenith, azimuthal]        
-        
         
     def set_wind(self,wind_speed=3,wind_azi_avg=True,wind_dir=0): 
         '''Set wind speed and direction. 
@@ -352,8 +342,6 @@ class Tmart(Tmart2):
           results = my_tmart.run_plot(wl=wl, plot_on=True, plot_range=[0,100_000,0,100_000,0,100_000])
           
         '''
-        
-        
         print("\n====== Running and Plotting T-Mart Single Photon ======")
         self.wl = wl 
         self.print_on = True    # Always print the details of photon movements 
@@ -362,16 +350,3 @@ class Tmart(Tmart2):
         self._init_atm(band)
         
         return self._run_single_photon(0)
-    
-    
-
-
-
-
-
-
-
-
-
-
-

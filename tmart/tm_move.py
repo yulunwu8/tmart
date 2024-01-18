@@ -239,10 +239,6 @@ def pt_move(atm_profile,q0,pt_direction,sampled_tao):
     return q1, tao_abs, ot_rayleigh, ot_mie, out
         
 
-
-
-
-
 # if __name__=='__main__':  
     
 #     atm_profile = my_tmart.atm_profile_wl.sort_values('Alt_bottom').to_numpy()
@@ -259,11 +255,3 @@ def pt_move(atm_profile,q0,pt_direction,sampled_tao):
 #     print('ot_mie: ' + str(ot_mie)) 
 #     print('out: ' + str(out)) 
     
-    
-    
-    
-    
-    
-        
-
-

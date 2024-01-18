@@ -7,21 +7,15 @@
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 
-
-
-
-# Geometry 
-
-
 import math
 import numpy as np
 import sys
 
 
+# Geometry 
+
 def rad(degree): 
     return degree/180*math.pi
-
-
 
 def dirP_to_coord(distance, direction):
     '''
@@ -52,8 +46,6 @@ def dirP_to_coord(distance, direction):
     coords[2] = distance * math.cos(rad(direction[0])) #z
     return coords
 
-
-
 def angle_3d(a,b,c):
     '''
     
@@ -80,16 +72,10 @@ def angle_3d(a,b,c):
         print(c)
         sys.exit("error2 angle_3d")        
     
-    
     cosine_angle = np.dot(ba, bc) / (np.linalg.norm(ba) * np.linalg.norm(bc))
     angle = np.arccos(cosine_angle)
     
-    # np.rad2deg(2.1034) # useful numpy operations 
-    # np.deg2rad(120.5159)
-    
     return np.degrees(angle)
-
-
 
 def linear_distance(pt1, pt2):
     '''
@@ -114,8 +100,6 @@ def dirC_to_dirP(xyz):
     
     return [theta,phi,r]
 
-
-
 def rotation_matrix(axis, theta): 
     """
     Return the rotation matrix associated with counterclockwise rotation about
@@ -131,9 +115,6 @@ def rotation_matrix(axis, theta):
     return np.array([[aa + bb - cc - dd, 2 * (bc + ad), 2 * (bd - ac)],
                      [2 * (bc - ad), aa + cc - bb - dd, 2 * (cd + ab)],
                      [2 * (bd + ac), 2 * (cd - ab), aa + dd - bb - cc]])
-
-
-
 
 def dirC_to_coord (direction,q0,linear_length): 
     '''
@@ -157,9 +138,3 @@ def dirC_to_coord (direction,q0,linear_length):
               q0[2]+(direction[2]) * scale]
     
     return scaled
-
-
-
-
-
-

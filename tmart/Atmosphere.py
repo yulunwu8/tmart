@@ -292,14 +292,3 @@ class Atmosphere():
         layers_ot_aerosol = ot_aerosol * conc_normalized # aerosol absorption
   
         return layers_ot_mie, layers_ot_aerosol # scattering and absorption by aerosol, respectively 
-
-
-
-
-
-
-
-
-
-
-
