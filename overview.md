@@ -3,7 +3,21 @@
 ## T-Mart: Topography-adjusted Monte-carlo Adjacency-effect Radiative Transfer Code
 
 
-T-Mart solves the radiative transfer in a 3D surface-atmosphere system through a Monte-Carlo approach. T-Mart features arbitrary surface models which allow simulations of the adjacnecy effect in aquatic remote sensing. 
+T-Mart solves the radiative transfer in a 3D surface-atmosphere system through a Monte-Carlo approach. This can be used in modelling and correcting for the adjacency effect (AE). T-Mart was developed with a focus on aquatic environments.
+
+
+
+## AE Correction
+
+AE correction is a module of T-Mart and it is relatively easy to use. 
+
+
+
+
+
+## AE Modelling 
+
+T-Mart features arbitrary surface models which allow simulations of the adjacnecy effect in aquatic remote sensing. 
 
 In addition to the radiative transfer solver, there are three components in the code: atmosphere, water and land: 
 
