@@ -34,4 +34,3 @@ def identify_sensor(file):
     return sensor
     
     
-    

@@ -10,15 +10,15 @@
 # Overall control of AEC
 
 def run(file, username, password, overwrite=False, AOT = 'MERRA2', n_photon = 100_000):
-    '''Run adjacency-effect correction on satellite files. Currently only supports Sentinel-2 MSI and Landsat 8 OLI products. See 'Introduction - Adjacency-Effect Correction' for detailed instructions.
+    '''Run adjacency-effect correction on satellite files. See 'Introduction - Adjacency-Effect Correction' for detailed instructions.
     
     Arguments:
         
-    * ``file`` -- String. Path to satellite files. L8/S2: provide path to the folder. PRISMA: ACOLITE L1R file. 
+    * ``file`` -- String. Path to satellite files. For L8/S2: provide path to the folder. For PRISMA: provide ACOLITE L1R file. 
     * ``username`` -- String. Username of EarthData account.
     * ``password`` -- String. Password of EarthData account.
     * ``overwrite`` -- Boolean. If overwrite the existing files. The default is False and it creates a folder in the same directory that starts with AEC in the name
-    * ``AOT`` -- Float. AOT at 550nm, calculated in T-Mart if not specified. 'MERRA2' ancillary data is another option. 
+    * ``AOT`` -- Float. AOT at 550nm, calculated in T-Mart if not specified. 'MERRA2' ancillary data is the default option. 
     * ``n_photon`` -- Int. Number of photons in each T-Mart run, 100_000 is recommended for accurate results.   
 
     Example usage::
@@ -26,7 +26,10 @@ def run(file, username, password, overwrite=False, AOT = 'MERRA2', n_photon = 10
         file = 'user/test/S2A_MSIL1C_20160812T143752_N0204_R096_T20MKB_20160812T143749.SAFE'
         username = 'abcdef'
         password = '123456'
-        tmart.AEC.run(file, username, password)
+        
+        ### Multiprocessing needs to be wrapped in 'if __name__ == "__main__":' for Windows systems, this is optional for Mac OS
+        if __name__ == "__main__":
+            tmart.AEC.run(file, username, password)
 
     '''
     

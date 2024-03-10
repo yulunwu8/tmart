@@ -8,8 +8,6 @@
 # (at your option) any later version.
 
 
-
-
 # Extract aerosol type from NASA Ocean Color ancillary data 
 def anci_get_AER(files, metadata): 
     
@@ -88,7 +86,4 @@ def _get_AER(file, lat, lon):
     ratio_maritime = (maritime_ANG + maritime_SSA) / 2
     
     # print('ratio_maritime: ' + str(ratio_maritime))
-    
     return np.array([ratio_maritime, i_ANG, i_SSA, i_AOT])
-
-

@@ -187,7 +187,7 @@ def get_AOT(metadata, config, anci, mask_cloud, mask_all, n_photon):
         
         
         
-        ### Consider an adaptive number instead of 10_000 ???
+        ### Consider an adaptive number instead of 10_000 
         # Either by area or correlation coefficient
         
         

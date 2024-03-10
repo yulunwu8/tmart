@@ -22,7 +22,7 @@ copyright = '2023, Yulun Wu'
 author = 'Yulun Wu'
 
 # The full version, including alpha/beta/rc tags
-release = '2.2.5'
+release = '2.2.6'
 
 
 # -- General configuration ---------------------------------------------------

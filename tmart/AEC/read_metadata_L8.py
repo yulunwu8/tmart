@@ -119,7 +119,4 @@ def read_metadata_L8(file, config):
 
     return metadata
     
-    
-    
-    
  

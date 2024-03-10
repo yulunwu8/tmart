@@ -21,7 +21,6 @@ from .tm_geometry import dirC_to_coord, dirP_to_coord
 def pt_move(atm_profile,q0,pt_direction,sampled_tao):        
     '''
     
-
     Parameters
     ----------
     atm_profile : TYPE

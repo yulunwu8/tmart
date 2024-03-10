@@ -32,5 +32,3 @@ def read_config():
     
     return result_dict
     
-    
-    

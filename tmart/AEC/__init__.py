@@ -33,10 +33,3 @@ from .run import *
 from .write_atm_info import *
 
 
-
-### Things to check 
-
-# if original L8/S2 can run 
-# test both overwrite or not
-# 4 in total 
-

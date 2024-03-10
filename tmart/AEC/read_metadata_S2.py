@@ -137,6 +137,3 @@ def read_metadata_S2(file,config,sensor):
     
     return metadata 
     
-    
-    
-    

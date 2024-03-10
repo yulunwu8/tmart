@@ -189,10 +189,6 @@ def intersect_line_DEMtri2(q0, q1, DEM_tri, print_on = False):
     intersect_tri.reset_index(drop=True, inplace=True)
     return intersect_tri
 
-
-
-
-
 def _intersect_line_triangle(q1,q2,p1,p2,p3):
     '''
 

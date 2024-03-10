@@ -24,12 +24,8 @@ def anci_get_OWV(files, metadata):
     
     OWV = OWV_1 * ratio + OWV_0 * (1-ratio)
     print('Interpolated total column ozone is {:.2f} DU, total precipitable water vapour is {:.2f} kg m-2'.format(OWV[0],OWV[1]))
-    
     return OWV
     
-    
-
-
 # Find value of ancillary data at lat and lon
 def _get_OWV(file, lat, lon):
     
@@ -53,7 +49,6 @@ def _get_OWV(file, lat, lon):
     lons = linspace(nc.getncattr('geospatial_lon_min'),
                     nc.getncattr('geospatial_lon_max'),
                     nc.getncattr('geospatial_lon_resolution'))
-    
     lats = linspace(nc.getncattr('geospatial_lat_min'),
                     nc.getncattr('geospatial_lat_max'),
                     nc.getncattr('geospatial_lat_resolution'))
@@ -70,5 +65,4 @@ def _get_OWV(file, lat, lon):
     i_WV = interp_WV([lat,lon])[0]
     
     return np.array([i_ozone, i_WV])
-
 

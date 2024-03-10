@@ -106,9 +106,6 @@ def get_parameters(n_photon = 10_000, SR = 0.5,
 
     # Use np.histogram2d to compute the sum of values in each cell
     image_env, _, _ = np.histogram2d(df_env['y'], df_env['x'], bins=[y_bins, x_bins], weights=df_env['L_surface'])
-            
-    
-
     
     conv_window = image_env.copy()
     
@@ -136,10 +133,7 @@ def get_parameters(n_photon = 10_000, SR = 0.5,
             'R_glint': R['_R_dir_coxmunk'] + R['_R_env_coxmunk']  }
 
 
-
-
-
-
+'''
 if __name__ == "__main__":
    
     import Py6S
@@ -176,11 +170,5 @@ if __name__ == "__main__":
     test1 = test['conv_window_1']
     
     test1[int(test1.shape[0]/2),int(test1.shape[1]/2)]
-
-
-
-
-
-
-
+'''
 

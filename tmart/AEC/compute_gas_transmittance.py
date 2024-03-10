@@ -31,13 +31,11 @@ def calculate_heights(center_wavelength, FWHM, range_width=100, interval=2.5):
 def compute_gas_transmittance(metadata, anci, wavelength, FWHM):
 
     s = SixS()
-    
     s.geometry = Geometry.User()
     s.geometry.solar_z = metadata['sza']
     s.geometry.solar_a = 0
     s.geometry.view_z = 0 
     s.geometry.view_a = 0
-    
     s.atmos_profile = AtmosProfile.UserWaterAndOzone(anci['water_vapour']/10, anci['ozone']/1000)
     s.altitudes.set_sensor_satellite_level()
     wl_start, wl_end, heights = calculate_heights(wavelength,FWHM)

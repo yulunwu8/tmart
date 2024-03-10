@@ -21,14 +21,13 @@ import math
 from scipy.interpolate import interp1d
 from copy import copy
 
+from .tm_move import pt_move
+from .tm_OT import find_OT
 from .tm_sampling import sample_Lambertian, sample_scattering, weight_impSampling
 from .tm_geometry import dirP_to_coord, dirC_to_dirP, rotation_matrix, angle_3d, dirC_to_coord
 from .tm_intersect import find_atm2, intersect_line_DEMtri2
 from .tm_intersect import reflectance_intersect, reflectance_background, intersect_background
 from .tm_water import fresnel, sample_cox_munk, find_R_cm
-
-from .tm_move import pt_move
-from .tm_OT import find_OT
 
 # Plotting 
 import matplotlib.pyplot as plt
@@ -110,12 +109,12 @@ class Tmart2():
                 intersect_tri = intersect_line_DEMtri2(q0, q1, self.Surface.DEM_triangulated, self.print_on)      
             
             
-            
             ###### Three scenarios 
             
             # 1 Triangle collision 
             # 2 Background collision 
             # 3 Photon movement and scattering 
+            
             
             # If there is triangle intersection 
             if intersect_tri.shape[0] > 0:
@@ -139,14 +138,12 @@ class Tmart2():
             
             
             ### Black surface acceleration
-            
             if (scenario == 1 or scenario == 2) and black_surface: 
                 if self.print_on: print ("\n=== Black surface acceleration, exit ===")
                 break
 
             
             ### Triangle Collision 
-            
             if scenario == 1:
                 
                 rotated_cm = None
@@ -289,9 +286,7 @@ class Tmart2():
                 if self.print_on: print("pt_weight before absorption: " + str(pt_weight))      
                 
                 
-                
             ### Background collision     
-             
             elif scenario == 2:
                 
                 # For plotting, not used 
@@ -384,16 +379,12 @@ class Tmart2():
             
             
             ### Photon movement and scattering 
-            
             elif scenario == 3:
-                
                 q_collision = q1
                 
                 ### Find ot_mie and ot_rayleigh
                 ot_rayleigh, ot_mie = find_atm2(atm_profile,q1)
-                
                 pt_direction_op_C = np.negative(dirP_to_coord(1, pt_direction))
-                
                 
                 # regular sampling  
                 if random.random() >= self.VROOM:
@@ -462,34 +453,23 @@ class Tmart2():
                     le_land = self.local_est_land(q_collision, pt_weight)
                     local_est = [pt_id, movement,0,0,0] + le_land + [0,0] + q_collision + [0,is_env,'L']
                 
-                
                 if if_shadow: local_est[11] = 1
-                
                 if self.print_on: print("local_est: " + str(local_est))
-
-                
                 pt_stat = np.vstack([pt_stat, local_est])     
                 
             # Scattering 
             if scenario == 3 and out == False:
                 
                 if self.shadow: if_shadow = self.detect_shadow(q_collision)
-                    
                 le_scatt = self.local_est_scat(pt_direction_op_C, q_collision, pt_weight, ot_mie, ot_rayleigh)
-                
                 local_est = [pt_id, movement,0,0,0,0] + le_scatt + q_collision.tolist() + [0,0,type_scat]
-                
                 if if_shadow: local_est[11] = 1
-                
                 if self.print_on: print("local_est: " + str(local_est))
-                
                 pt_stat = np.vstack([pt_stat, local_est])            
             
             
-
             ###### Plot and out 
             
-        
             # Plotting, only supposed to be run by self.run_plot()
             if self.plot_on:
                 
@@ -522,7 +502,6 @@ class Tmart2():
     def _diff_ref (self,pt_stat):
         
         pt_stat_num = pt_stat[:,0:13].astype(float)
-        
         moves = pt_stat_num[:,1].astype(int)
         
         if not np.all(np.diff(moves) > 0): # check if sorted 
@@ -586,7 +565,6 @@ class Tmart2():
                 
                 pt_movement[0][2] = total + sum_after
                 
-                
                 pt_stat_output = np.vstack([pt_stat_output, pt_movement])
                 
                 break         
@@ -606,7 +584,6 @@ class Tmart2():
         
         # total scattering in that layer 
         ot_scattering = ot_mie + ot_rayleigh
-        
         
         # angle between pt_direction and the sun 
         angle_pt_sun = angle_3d(dirP_to_coord(1,self.sun_dir), [0,0,0], pt_direction_op_C)
@@ -631,8 +608,6 @@ class Tmart2():
         local_est = np.array([rayleigh_c, mie_c]) * T * pt_weight / 1_000_000   
         return local_est.tolist()
 
-
-
     def local_est_land(self, q_collision, pt_weight): 
     
         # Direct transmittance 
@@ -644,8 +619,6 @@ class Tmart2():
         local_est = pt_weight * T / 1_000_000
         return [local_est]
    
-    
-      
     def local_est_water(self, pt_weight, pt_direction_op_C, q_collision, q_collision_N_polar, R_specular, q_collision_ref, R_surf):   
         
         R_wc = self.R_wc_wl
@@ -703,7 +676,6 @@ class Tmart2():
         
 
     # finds OT between TOA and z
-    
     def _local_est_OT(self,q_collision): 
         
         # Altitude of the collision point  
@@ -741,9 +713,6 @@ class Tmart2():
             OT_abs_remain = OT_layer * OT_remain_ratio 
             OT_out = OT_out + OT_abs_remain
         return OT_out
-
-
-
 
     def _plot(self,q0,q1, scenario, intersect_tri_chosen=None, rotated=None, q_collision_N=None, specular_on=False, rotated_cm=None, linewidth=2.5):
         

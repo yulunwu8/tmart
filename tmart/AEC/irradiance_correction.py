@@ -52,7 +52,6 @@ def irradiance_correction(image, wl_RC, band = None,
     import numpy as np
     import sys
     
-    
     # An unknown bug of 6S unable to handle 551nm
     if wl_RC == 0.551: wl_RC = 0.55
     
@@ -130,13 +129,10 @@ def irradiance_correction(image, wl_RC, band = None,
     
     return image_out
 
-
-
-
+'''
 if __name__ == "__main__":
     import numpy as np
     import Py6S
-    
     
     # import netCDF4 as nc4
     # file = 'test.nc'
@@ -151,7 +147,4 @@ if __name__ == "__main__":
     test = irradiance_correction(a_test, 0.4, aot550=0.1, aerosol_type=0.999)
     
     print(test)
-    
-    
-
-
+'''

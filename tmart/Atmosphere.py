@@ -17,9 +17,7 @@ from scipy.interpolate import interp1d
 import Py6S
 from Py6S.Params.atmosprofile import AtmosProfile
 from Py6S.Params.aeroprofile import AeroProfile
-
 from .Aerosol import find_aerosolSPF
-
 import os.path
 
 
@@ -126,11 +124,9 @@ class Atmosphere():
         else:
             atm_OT['ot_rayleigh'] = self.specify_ot_rayleigh       
         
-        
         atm_OT['ot_scatt'] = atm_OT.ot_rayleigh + atm_OT.ot_mie
         atm_OT['l_height'] = atm_OT.Alt_top - atm_OT.Alt_bottom
         atm_OT['percentage'] = 0 # used to calculate travelling distance 
-        
         
         if self.no_absorption:
             atm_OT['ot_abs'] = 0
@@ -142,8 +138,6 @@ class Atmosphere():
         
         return atm_OT, aerosol_SPF
     
-    
-    
     # Extract the molecular profile at one wavelength 
     # Return two lists: ot_molecule and ot_rayleigh 
     def _atm_profile_wl(self,band): 
@@ -154,7 +148,6 @@ class Atmosphere():
         layers_alts_bottom = self.layers_alts_bottom
         layers_alts_top = self.layers_alts_top
            
-        
         for i_layer in range(len(layers_alts_bottom)):
         
             alt_bottom = 0
@@ -229,12 +222,8 @@ class Atmosphere():
             relative_ray = layers_ot_rayleigh_new/np.sum(layers_ot_rayleigh_new)    
             layers_ot_rayleigh_new = tao_rayleigh * relative_ray
 
-
         return layers_ot_molecule_new, layers_ot_rayleigh_new   
     
-    
-
-
     # Extract aerosol profile at one wavelength 
     # Find the spectral dependence of AOT and then apply it to AOT550
     def _aerosol_wl(self, band):

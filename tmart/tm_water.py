@@ -13,13 +13,12 @@ import random
 import math
 import numpy as np
 import pandas as pd 
+import os.path
 
 if __name__=='__main__':
     from tm_geometry import rotation_matrix, dirP_to_coord, dirC_to_dirP, angle_3d
 else:
     from .tm_geometry import rotation_matrix, dirP_to_coord, dirC_to_dirP, angle_3d
-
-import os.path
 
 # Calculate whitecap reflectance 
 def find_R_wc(wl, wind_speed):
@@ -47,7 +46,6 @@ def find_R_wc(wl, wind_speed):
     else:
         print('Warning: wind-speed error when calculating whitecap reflectance ')
         return None
-
 
 
 # Refractive index as a function of Salinity, Temeprature and Wavelength

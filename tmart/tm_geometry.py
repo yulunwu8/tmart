@@ -53,12 +53,9 @@ def angle_3d(a,b,c):
     source: https://stackoverflow.com/questions/35176451/python-code-to-calculate-angle-between-three-point-using-their-3d-coordinates
     
     '''
-    
     a,b,c = np.array(a),np.array(b),np.array(c)
-
     ba = a - b
     bc = c - b
-    
     
     if np.linalg.norm(ba)==0:
         print(a)
