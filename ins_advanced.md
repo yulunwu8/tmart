@@ -309,7 +309,7 @@ Output:
 
 <img src="_images/3D_surface.png"  width="500">
 
-## Useful Information 
+## Useful Information
 
 The following two dataframes completely describe the atmosphere at a single wavelength in T-Mart. 
 

@@ -1,6 +1,6 @@
 # Instruction - Adjacency-Effect Correction
 
-## Minimal Input
+## Mininum Input
 
 The *AEC.run* function is used to perform adjacency-effect correction (AEC) in T-Mart. Correction is performed directly on level-1 products, and the output is adjacency-effect-free top-of-atmosphere products in the same format as the input level-1 products, therefore this workflow can be followed by any amtospheric-correction tools. Currently it supports Sentinel-2 MSI, Landsat 8/9 OLI and PRISMA imagery.
 
