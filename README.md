@@ -35,7 +35,7 @@ conda install -c conda-forge Py6S
 3 - Install tmart: 
 
 ```bash
-python3 -m pip install tmart
+pip3 install tmart
 ```
 
 ## Quick Start: Adjacency-Effect Correction 
