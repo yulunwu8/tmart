@@ -1,5 +1,8 @@
 T-Mart configuration for adjacency-effect correction
 
+# Notes 
+# Mar 28, 2024: L9 shares the same configuration as L8
+
 # Thresholds for identifying water pixels
 mask_cirrus_threshold = 0.005
 mask_SWIR_threshold = 0.0215

@@ -155,7 +155,7 @@ def compute_masks(metadata, config, mask_type):
                 sys.exit('Warning: cloud mask missing in {}.'.format(metadata['QI_DATA']))
                 
         # Landsat 8
-        elif sensor == 'L8':
+        elif sensor == 'L8' or sensor == 'L9':
             image = metadata['cloud_mask']
             band_ds = rasterio.open(image)
             band_array = band_ds.read(1)

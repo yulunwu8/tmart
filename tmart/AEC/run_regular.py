@@ -22,12 +22,16 @@ def run_regular(file, username, password, AOT, n_photon, AEC_record, basename):
     print(file)
     sensor = tmart.AEC.identify_sensor(file)
     
+    
+    print('\ntesting')
+    
     # Extract metadata
     if sensor == 'S2A' or sensor == 'S2B':
-        metadata = tmart.AEC.read_metadata_S2(file,config, sensor)
-    elif sensor == 'L8':
-        metadata = tmart.AEC.read_metadata_L8(file,config)
+        metadata = tmart.AEC.read_metadata_S2(file, config, sensor)
+    elif sensor == 'L8' or sensor == 'L9':
+        metadata = tmart.AEC.read_metadata_Landsat(file, config, sensor)
     else: sys.exit('Warning: unrecognized sensor')
+    
     metadata['sensor'] = sensor
     
     # Print metadata 

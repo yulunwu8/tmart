@@ -69,7 +69,7 @@ def run(file, username, password, overwrite=False, AOT = 'MERRA2', n_photon = 10
                 copy(file, file_new)
         file = file_new
     
-    # For S2/L8, ancillary file and printed info are stored in the image folder 
+    # For S2/L89, ancillary file and printed info are stored in the image folder 
     if file_is_dir: home_folder = file
 
     # Check if AEC has been done, if so, exit 

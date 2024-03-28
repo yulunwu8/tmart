@@ -49,7 +49,7 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
     image = image * scale_mult + scale_add
     
     # L8 solar zenith correction: https://www.usgs.gov/landsat-missions/using-usgs-landsat-level-1-data-product
-    if sensor =='L8': image = image / math.cos(metadata['sza']/180*math.pi)
+    if sensor =='L8' or sensor == 'L9': image = image / math.cos(metadata['sza']/180*math.pi)
         
     # Turn negative TOA to 0 
     image[image<0] = 0
@@ -170,7 +170,7 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
         # Scaling
         temp_out = temp_out + R_atm # TOA reflectance
         
-        if sensor =='L8':
+        if sensor =='L8' or sensor == 'L9':
             temp_out = ((temp_out * math.cos(metadata['sza']/180*math.pi) - scale_add) / scale_mult).astype(int)
         else:
             temp_out = ((temp_out - scale_add) / scale_mult).astype(int)
@@ -192,7 +192,7 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
             temp_mask = temp_mask[:, :-pad_columns_tmp]
         
         # Scaling
-        if sensor =='L8':
+        if sensor =='L8' or sensor == 'L9':
             temp_out = np.where(temp_mask,    band_ds.read(1),  ((temp_out * math.cos(metadata['sza']/180*math.pi) - scale_add) / scale_mult).astype(int) )
         else:
             temp_out = np.where(temp_mask,    band_ds.read(1),  ((temp_out - scale_add) / scale_mult).astype(int) )
