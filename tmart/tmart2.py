@@ -91,12 +91,12 @@ class Tmart2():
             # note: ot_rayleigh and ot_mie are replaced later, the accumulated ot should not be used, thus add _NA to mask them
     
             if self.print_on:
-                print ('\nq0: ' +str(q0))
-                print ('q1: ' +str(q1))
-                print ('tao_abs: ' +str(tao_abs))
-                print('sampled_tao: ' + str(sampled_tao))
-                print ('pt_direction: ' +str(pt_direction))
-                print('out: ' + str(out)) 
+                print ('\nInitial position: ' +str(q0))
+                print ('Final position: ' +str(q1))
+                print ('Absorption optical thickness (OT): ' +str(tao_abs))
+                print('Sampled OT: ' + str(sampled_tao))
+                print ('Photon moving direction: ' +str(pt_direction))
+                print('If out of atmosphere: ' + str(out)) 
             
             ### Test triangle collision             
 
@@ -152,7 +152,7 @@ class Tmart2():
                 intersect_tri_chosen = intersect_tri.iloc[intersect_tri.linear_distance.idxmin()] 
                 q_collision = intersect_tri_chosen.tolist()[0:3]  
                 
-                if self.print_on: print('q_collision: ' + str(q_collision))    
+                if self.print_on: print('Collision position: ' + str(q_collision))    
                 
                 # Re-calculate absorption 
                 tao_abs = find_OT(q0,q_collision,atm_profile)
@@ -173,7 +173,7 @@ class Tmart2():
                 q_collision_ref = reflectance_intersect(q_collision, self.Surface.reflectance, 
                                                         self.Surface.cell_size, self.Surface.bg_ref, 
                                                         self.Surface.bg_coords)
-                if self.print_on: print("q_collision_ref: " + str(q_collision_ref))    
+                if self.print_on: print("Reflectance at collision position: " + str(q_collision_ref))    
                 
             
                 ### If water --> there is a chance of specular reflectance             
@@ -184,7 +184,7 @@ class Tmart2():
                 q_collision_isWater = reflectance_intersect(q_collision, self.Surface.isWater, 
                                                             self.Surface.cell_size, self.Surface.bg_isWater, 
                                                             self.Surface.bg_coords)    
-                if self.print_on: print('\nq_collision_isWater: '+str(q_collision_isWater))
+                if self.print_on: print('\nIf surface is water: '+str(q_collision_isWater))
                 
     
                 # By default, non-specular. If chance, switch on 
@@ -244,13 +244,13 @@ class Tmart2():
                         print('R_fresnel: ' + str(R_specular))
                         print('R_surf: ' + str(R_surf))
                         print('specular_on: ' + str(specular_on))
-                        print("Modified q_collision_ref: " + str(q_collision_ref))  
+                        # print("Modified reflectance at collision position: " + str(q_collision_ref))  
                           
                 pt_weight = pt_weight * q_collision_ref
                  
                 # If water and specular 
                 if q_collision_isWater == 1 and specular_on:
-                    if self.print_on: print('\n==Specular reflection==')  
+                    if self.print_on: print('\n== Specular reflection ==')  
                     
                     # Rotate pt_direction_op_C  around rotated_cm by 180 degrees       
                     rotated = np.dot(rotation_matrix(rotated_cm, math.pi), pt_direction_op_C)
@@ -281,9 +281,9 @@ class Tmart2():
                     if self.print_on:
                         print("\nRandom_lambertian: " + str(random_lambertian))
                         print("Rotated_lambertian: " + str(rotated)) 
-                        print("q_collision_ref: " + str(q_collision_ref))
+                        # print("q_collision_ref: " + str(q_collision_ref))
                         
-                if self.print_on: print("pt_weight before absorption: " + str(pt_weight))      
+                if self.print_on: print("Photon weight before absorption: " + str(pt_weight))      
                 
                 
             ### Background collision     
@@ -295,7 +295,7 @@ class Tmart2():
                 
                 
                 q_collision = intersect_bg 
-                if self.print_on: print('q_collision: ' + str(q_collision))  
+                if self.print_on: print('Collision position: ' + str(q_collision))  
                 
                 # re-calculate absorption 
                 tao_abs = find_OT(q0,q_collision,atm_profile)
@@ -308,13 +308,13 @@ class Tmart2():
                 q_collision_ref = reflectance_background(q_collision,self.Surface.bg_ref, self.Surface.bg_coords)
                 if self.print_on:
                     print ('\nOut of the padded DEM')
-                    print("q_collision_ref: " + str(q_collision_ref))
+                    print("Reflectance at collision position: " + str(q_collision_ref))
                 
                 # Test if it's water at the collision point 
                 q_collision_isWater = reflectance_intersect(q_collision, self.Surface.isWater, 
                                                             self.Surface.cell_size, self.Surface.bg_isWater, 
                                                             self.Surface.bg_coords)    
-                if self.print_on: print('\nq_collision_isWater: '+str(q_collision_isWater))                    
+                if self.print_on: print('\nIf surface is water: '+str(q_collision_isWater))                    
                 specular_on = False
                 
                 # If water, calculate Fresnel reflectance and if specular reflection   
@@ -356,13 +356,13 @@ class Tmart2():
                         print('R_fresnel: ' + str(R_specular))
                         print('R_surf: ' + str(R_surf))
                         print('specular_on: ' + str(specular_on))   
-                        print("Modified q_collision_ref: " + str(q_collision_ref))  
+                        # print("Modified reflectance at collision position: " + str(q_collision_ref))  
                 
                 pt_weight = pt_weight * q_collision_ref   
                 
                 # if water and specular 
                 if q_collision_isWater == 1 and specular_on:
-                    if self.print_on: print('\n==Specular reflection==')  
+                    if self.print_on: print('\n== Specular reflection ==')  
                         
                     rotated = np.dot(rotation_matrix(random_cox_munk, math.pi), pt_direction_op_C)
        
@@ -375,7 +375,7 @@ class Tmart2():
                     pt_direction = sample_Lambertian()[1]
                     tpye_collision = 'W'
                         
-                if self.print_on: print("pt_weight before absorption: " + str(pt_weight))               
+                if self.print_on: print("Photon weight before absorption: " + str(pt_weight))               
             
             
             ### Photon movement and scattering 
@@ -388,12 +388,12 @@ class Tmart2():
                 
                 # regular sampling  
                 if random.random() >= self.VROOM:
-                    if self.print_on: print('\n==Regular Sampling==')  
+                    if self.print_on: print('\n== Regular Sampling ==')  
                     pt_direction, scatt_intensity, type_scat = sample_scattering(ot_mie, ot_rayleigh, pt_direction, self.aerosol_SPF_wl, self.print_on)
     
                 # importance sampling 
                 else:
-                    if self.print_on: print('\n==Importance Sampling==')  
+                    if self.print_on: print('\n== Importance Sampling ==')  
                     
                     # Force mie scattering when importance sampling 
                     pt_direction, scatt_intensity, type_scat = sample_scattering(1, 0, self.sun_dir, self.Atmosphere.aerosol_SPF, self.print_on)
@@ -416,11 +416,11 @@ class Tmart2():
             pt_weight = pt_weight * T_abs
             
             if self.print_on:
-                print('\n= Absorption =')
-                print("tao_abs: " + str(tao_abs))
-                print("T_abs: " + str(T_abs))
-                print("pt_weight: " + str(pt_weight))
-                print('\n= Local estimate =')
+                print('\n== Calculating absorption ==')
+                print("Modified absorption OT: " + str(tao_abs))
+                print("Absorption transmittance: " + str(T_abs))
+                print("Photon weight: " + str(pt_weight))
+                
                       
             
             ###### Local estimates 
@@ -434,6 +434,7 @@ class Tmart2():
             
             # Reflection 
             if scenario == 1 or scenario == 2: 
+                if self.print_on: print('\n== Calculating local estimate ==')
                 
                 if movement == 0:
                     is_env = 0
@@ -459,6 +460,7 @@ class Tmart2():
                 
             # Scattering 
             if scenario == 3 and out == False:
+                if self.print_on: print('\n== Calculating local estimate ==')
                 
                 if self.shadow: if_shadow = self.detect_shadow(q_collision)
                 le_scatt = self.local_est_scat(pt_direction_op_C, q_collision, pt_weight, ot_mie, ot_rayleigh)
@@ -481,8 +483,7 @@ class Tmart2():
         
             # Exit if out 
             if out:
-                    
-                # Record information ???
+                if self.print_on: print('\nPhoton out of atmosphere \n')
                 break
         
             if self.print_on: print("\n------- Movement {} -------".format(movement+2))  
@@ -580,7 +581,7 @@ class Tmart2():
         OT = self._local_est_OT(q_collision)
         OT = OT / math.cos(self.sun_dir[0]/180*math.pi)
         T = math.exp(-OT)
-        if self.print_on: print ('\nT_total for local_est: ' +str(T))
+        if self.print_on: print ('\nTotal transmittance for local_est: ' +str(T))
         
         # total scattering in that layer 
         ot_scattering = ot_mie + ot_rayleigh
@@ -614,7 +615,7 @@ class Tmart2():
         OT = self._local_est_OT(q_collision)
         OT = OT / math.cos(self.sun_dir[0]/180*math.pi)
         T = math.exp(-OT)
-        if self.print_on: print ('\nT_total for local_est: ' +str(T))
+        if self.print_on: print ('\nTotal transmittance for local_est: ' +str(T))
         
         local_est = pt_weight * T / 1_000_000
         return [local_est]
@@ -629,20 +630,21 @@ class Tmart2():
         
         # Average = (regular + wind 90 degrees) / 2
         if self.wind_azi_avg:
-            if self.print_on: print ('\nSampling R_cm again...')
+            if self.print_on: print ('\nSampling R_cm again for azimuthally averaged values')
             
             R_cm2 = find_R_cm(pt_direction_op_C, self.sun_dir, q_collision_N_polar, 
                               self.wind_dir + 90, self.wind_speed, self.water_refraIdx_wl, self.print_on)
             R_cm = (R_cm + R_cm2) / 2
-        
+            
         R_cm = (1-self.F_wc_wl) * R_cm # remove whitecaps from cox-munk reflection 
+        if self.print_on:print('\nFinal cox_munk reflectance: '+str(R_cm))
         
         # Dicrect transmittance 
         OT = self._local_est_OT(q_collision)
         OT = OT / math.cos(self.sun_dir[0]/180*math.pi)
         T = math.exp(-OT)
         
-        if self.print_on: print ('\nT_total for local_est: ' +str(T))
+        if self.print_on: print ('\nTotal transmittance for local_est: ' +str(T))
             
         # cox-munk
         pt_weight_cm = pt_weight * (R_cm / q_collision_ref) 
@@ -670,7 +672,7 @@ class Tmart2():
         
         if_shadow = intersect_tri.shape[0] > 0
         
-        if self.print_on: print ('\nif_shadow: ' +str(if_shadow))
+        if self.print_on: print ('\nIf shaded: ' +str(if_shadow))
         
         return if_shadow
         
@@ -738,14 +740,12 @@ class Tmart2():
         for tri in self.Surface.DEM_triangulated:
             for row in range (0, tri.shape[2]):
                 for col in range (0, tri.shape[3]):
-                    # print (row, col)
             
                     p0 = tri[0,:,row,col] 
                     p1 = tri[1,:,row,col]
                     p2 = tri[2,:,row,col]
                     
-                    plot_tri = [p0,p1,p2]
-                    plot_tri = np.array([p0,p1,p2])
+                    plot_tri = np.array([[p0,p1,p2]])
                     
                     p_centre = (p0 + p1 + p2)/3
                     
@@ -755,7 +755,6 @@ class Tmart2():
                     
                     if q_collision_ref>1: q_collision_ref=1
                     if q_collision_ref<0: q_collision_ref=0
-                    
                     
                     poly = Poly3DCollection(plot_tri,
                                 #facecolors='ivory',
@@ -821,7 +820,7 @@ class Tmart2():
                     linewidth = linewidth
                     )
             
-            if self.print_on: print("Angle between normal and new pt_direction is: " + 
+            if self.print_on: print("Angle between normal and new moving direction is: " + 
                                     str(angle_3d(rotated,[0,0,0],q_collision_N)))
     
         # Plot atmospheres to the same extend as the surface 

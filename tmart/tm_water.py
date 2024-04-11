@@ -311,7 +311,7 @@ def find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_sp
     # Find eta relative to q_collision_N_polar, wind-corrected 
     # AKA the needed angle for CM
     eta_P = find_eta_P(pt_direction_op_C,sun_dir,q_collision_N_polar,wind_dir)
-    if print_on: print('\neta_P, needed CM slopes in polar: '+str(eta_P))
+    if print_on: print('\neta_P, or needed Cox-Munk slope in polar: '+str(eta_P))
     
     # beta: steepest slope of the water surface facet
     beta = eta_P[0]/180*math.pi
@@ -355,7 +355,7 @@ def find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_sp
         print('p_cox_munk: '+str(p_cox_munk))
         print('cos_solar_zenith: '+str(math.cos(solar_zenith)))
         print('cos_beta**4: '+str(math.cos(beta)**4))
-        print('Final cox_munk reflectance: '+str(rho_glint))
+        print('cox_munk reflectance: '+str(rho_glint))
     
     return rho_glint 
 
