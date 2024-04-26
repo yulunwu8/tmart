@@ -9,7 +9,7 @@
 
 # Run on Landsat and Sentinel series 
 
-def run_regular(file, username, password, AOT, n_photon, AEC_record, basename): 
+def run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename): 
  
     import tmart
     import sys, os
@@ -21,9 +21,6 @@ def run_regular(file, username, password, AOT, n_photon, AEC_record, basename):
     print('\nReading image files: ')
     print(file)
     sensor = tmart.AEC.identify_sensor(file)
-    
-    
-    print('\ntesting')
     
     # Extract metadata
     if sensor == 'S2A' or sensor == 'S2B':
@@ -49,7 +46,7 @@ def run_regular(file, username, password, AOT, n_photon, AEC_record, basename):
     print('Done')
     
     # AOT
-    if AOT == None:
+    if AOT == 'NIR':
         print('\nEstimating AOT from the NIR band: ')
         AOT = tmart.AEC.get_AOT(metadata, config, anci, mask_cloud, mask_all, n_photon)
     elif AOT == 'MERRA2':
@@ -57,6 +54,9 @@ def run_regular(file, username, password, AOT, n_photon, AEC_record, basename):
         print('\nUsing AOT from MERRA2: ' + str(AOT))
     else:
         print('\nUser input AOT: ' + str(AOT))
+    
+    # Add offset
+    AOT = max(0, AOT + AOT_offset)
     
     # Write atm information
     tmart.AEC.write_atm_info(file, basename, anci, AOT)

@@ -9,8 +9,7 @@
 
 # Run on ACOLITE L1R files, currently supports PRSIMA only 
 
-
-def run_acoliteL1R(file, username, password, AOT, n_photon, AEC_record, basename):
+def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename):
  
     import tmart
     import sys, os, time
@@ -93,13 +92,16 @@ def run_acoliteL1R(file, username, password, AOT, n_photon, AEC_record, basename
     
     
     # AOT
-    if AOT == None:
+    if AOT == 'NIR':
         sys.exit('The default estimating AOT from the NIR band is not tested on PRISMA data, please use MERRA2 or user input instead.')
     elif AOT == 'MERRA2':
         AOT = anci['AOT_MERRA2']
         print('\nUsing AOT from MERRA2: ' + str(AOT))
     else:
         print('\nUser input AOT: ' + str(AOT))
+    
+    # Add offset
+    AOT = max(0, AOT + AOT_offset)
     
     # Write atm information
     tmart.AEC.write_atm_info(metadata['file'], basename, anci, AOT)
