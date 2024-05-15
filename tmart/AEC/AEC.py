@@ -171,9 +171,9 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
         temp_out = temp_out + R_atm # TOA reflectance
         
         if sensor =='L8' or sensor == 'L9':
-            temp_out = ((temp_out * math.cos(metadata['sza']/180*math.pi) - scale_add) / scale_mult).astype(int)
+            temp_out = np.maximum(((temp_out * math.cos(metadata['sza']/180*math.pi) - scale_add) / scale_mult),1).astype(int)
         else:
-            temp_out = ((temp_out - scale_add) / scale_mult).astype(int)
+            temp_out = np.maximum(((temp_out - scale_add) / scale_mult),1).astype(int)
     
     # If only water correction 
     else:
@@ -193,9 +193,9 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
         
         # Scaling
         if sensor =='L8' or sensor == 'L9':
-            temp_out = np.where(temp_mask,    band_ds.read(1),  ((temp_out * math.cos(metadata['sza']/180*math.pi) - scale_add) / scale_mult).astype(int) )
+            temp_out = np.where(temp_mask,    band_ds.read(1),  np.maximum(((temp_out * math.cos(metadata['sza']/180*math.pi) - scale_add) / scale_mult),1).astype(int) )
         else:
-            temp_out = np.where(temp_mask,    band_ds.read(1),  ((temp_out - scale_add) / scale_mult).astype(int) )
+            temp_out = np.where(temp_mask,    band_ds.read(1),  np.maximum(((temp_out - scale_add) / scale_mult),1).astype(int) )
 
     # Convert nan back to 0
     temp_is_nan = is_nan
