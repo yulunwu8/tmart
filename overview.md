@@ -2,17 +2,15 @@
 
 ## T-Mart (Topography-adjusted Monte-carlo Adjacency-effect Radiative Transfer code)
 
-
-T-Mart solves the radiative transfer in a 3D surface-atmosphere system. This can be used in modelling and correcting for the adjacency effect (AE). T-Mart was developed with a focus on aquatic environments.
-
+T-Mart solves the radiative transfer in a 3D surface-atmosphere system. This can be used in modelling and correcting for the adjacency effect (AE). Although initially designed for aquatic environments, T-Mart can also handle basic terrestrial applications.
 
 
-## AE Correction
+## AE correction
 
 See Tab <a href="https://tmart-rtm.github.io/ins_aec.html" target="_blank">Instruction - Adjacency-Effect Correction</a> for details.
 
 
-## AE Modelling 
+## AE modelling 
 
 See Tab <a href="https://tmart-rtm.github.io/ins_basic.html" target="_blank">Instruction - Basic Modelling</a> and <a href="https://tmart-rtm.github.io/ins_advanced.html" target="_blank">Instruction - Advanced Modelling</a> for details.
 
@@ -45,7 +43,7 @@ Wu, Y., Knudby, A., & Lapen, D. (2023). Topography-Adjusted Monte Carlo Simulati
 
 Home page: <a href="https://github.com/yulunwu8/tmart" target="_blank">https://github.com/yulunwu8/tmart</a>
 
-Yulun Wu | March 10, 2024 | [yulunwu8@gmail.com](mailto:yulunwu8@gmail.com)
+Yulun Wu | September 29, 2024 | [yulunwu8@gmail.com](mailto:yulunwu8@gmail.com)
 
 
 

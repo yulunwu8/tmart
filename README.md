@@ -2,7 +2,7 @@
 
 ## Description 
 
-T-Mart solves the radiative transfer in a 3D surface-atmosphere system through a Monte-Carlo approach. T-Mart features arbitrary surface models which allow simulating and correcting for the adjacency effect in aquatic remote sensing. 
+T-Mart solves the radiative transfer in a 3D surface-atmosphere system through a Monte Carlo approach. T-Mart features arbitrary surface models which allow simulating and correcting for the adjacency effect in aquatic remote sensing. 
 
 
 ## Links
@@ -38,9 +38,11 @@ conda install -c conda-forge Py6S
 pip3 install tmart
 ```
 
-## Quick Start: Adjacency-Effect Correction 
+## Quick start: adjacency-effect correction 
 
-T-Mart supports adjacency-effect correction for Sentinel-2 MSI and Landsat 8/9 OLI/OLI-2 products. Correction is performed directly on level-1 products therefore can be followed by any amtospheric-correction tools. Minimal inputs are: 
+T-Mart supports adjacency-effect correction for Sentinel-2 MSI and Landsat 8/9 OLI/OLI-2 products. Correction is performed directly on level-1 products and can be followed by any amtospheric correction tools. 
+
+Minimal input: 
 
 ```python
 import tmart
@@ -55,9 +57,9 @@ if __name__ == "__main__":
     tmart.AEC.run(file, username, password)
 ```
 
-See <a href="https://tmart-rtm.github.io/ins_aec.html" target="_blank">Instruction - Adjacency-Effect Correction</a> for more detailed instructions.
+See <a href="https://tmart-rtm.github.io/ins_aec.html" target="_blank">Instruction - Adjacency-Effect Correction</a> for detailed instructions.
 
-## Quick Start: Adjacency-Effect Modelling
+## Quick start: adjacency-effect modelling
 
 ```python
 import tmart
@@ -84,9 +86,9 @@ my_atm = tmart.Atmosphere(atm_profile, aot550 = 0, aerosol_type = 'Maritime')
 
 ### Create T-Mart Object ###
 my_tmart = tmart.Tmart(Surface = my_surface, Atmosphere= my_atm, shadow=False)
-my_tmart.set_geometry(sensor_coords=[51,50,130_000], 
-                      target_pt_direction=[180,0],
-                      sun_dir=[0,0])
+my_tmart.set_geometry(sensor_coords=[51,50,130_000], # x, y, and z 
+                      target_pt_direction=[180,0], # zenith and azimuth
+                      sun_dir=[0,0]) # zenith and azimuth
 
 ### Multiprocessing needs to be wrapped in 'if __name__ == "__main__":' for Windows systems. 
 ### This can be skipped for Unix-based systems. 
@@ -100,7 +102,7 @@ if __name__ == "__main__":
 
 ```
 
-Output should be similar to this: 
+The output should be similar to this: 
 
 ```
 ========= Initiating T-Mart =========
@@ -127,7 +129,14 @@ R_total       0.20095867961737635
 See user guide for more detailed instructions. 
 
 
-## Other
+## Known issue(s)
+
+`rasterio` version 1.3.11 leads to unprojected S2 image files when used in Mac’s Terminal. 
+
+- Workarounds: run the code in an IDE, or downgrade to `rasterio` version 1.3.9 for terminal-based workflows.
+
+
+## Others
 
 T-Mart can calculate reflectances of various units, see Table 1 in Wu et al. (2023) for examples. 
 

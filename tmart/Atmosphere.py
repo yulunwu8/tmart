@@ -52,7 +52,7 @@ class Atmosphere():
       my_atm = tmart.Atmosphere(atm_profile, aot550, aerosol_type, n_layers, aerosol_scale_height)
     '''
 
-    def __init__(self,atm_profile, aot550 = 0, 
+    def __init__(self, atm_profile, aot550 = 0, 
                  aerosol_type='Maritime' , 
                  n_layers=20, AEROSOL_SCALE_HEIGHT=2, no_absorption = False, specify_ot_rayleigh = -1, specify_abs = -1):
         
@@ -244,7 +244,7 @@ class Atmosphere():
         s.altitudes.set_target_custom_altitude(0)
         s.altitudes.set_sensor_satellite_level()
         
-        aerosol_dict = {    "NoAerosols": 0,
+        aerosol_dict = {"NoAerosols": 0,
                         "Continental" : 1,
                         "Maritime" : 2,
                         "Urban" : 3,

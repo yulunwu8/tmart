@@ -51,7 +51,7 @@ def run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record,
         AOT = tmart.AEC.get_AOT(metadata, config, anci, mask_cloud, mask_all, n_photon)
     elif AOT == 'MERRA2':
         AOT = anci['AOT_MERRA2']
-        print('\nUsing AOT from MERRA2: ' + str(AOT))
+        print('\nUsing AOT550 from MERRA2: ' + str(AOT))
     else:
         print('\nUser input AOT: ' + str(AOT))
     

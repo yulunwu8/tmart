@@ -1,6 +1,6 @@
 # This file is part of T-Mart.
 #
-# Copyright 2023 Yulun Wu.
+# Copyright 2024 Yulun Wu.
 #
 # T-Mart is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -8,7 +8,7 @@
 # (at your option) any later version.
 
 
-### Derive AE correction parameters 
+# Derive AE correction parameters 
 
 def get_parameters(n_photon = 10_000, SR = 0.5, 
                    wl = 833, band = None, 
@@ -17,7 +17,6 @@ def get_parameters(n_photon = 10_000, SR = 0.5,
                    aerosol_type = 'Maritime', aot550 = 0.2, 
                    cell_size = 100,window_size = None,
                    window_size_x = None, window_size_y = None, isWater = 0):
-    
     
     import tmart
     import numpy as np
@@ -80,9 +79,7 @@ def get_parameters(n_photon = 10_000, SR = 0.5,
     df_env_sum = df_env.iloc[:,2:6].sum(axis=1)
     df_env['L_surface'] = df_env_sum
     
-    
     ### Bin points to convolution matrix  
-    
     
     # Old method 
     
@@ -99,7 +96,6 @@ def get_parameters(n_photon = 10_000, SR = 0.5,
     #                         (df_env.x<xmax) & (df_env.y<ymax)].L_surface.sum() # .L_land.sum()
     #         image_env[yi,xi] = r_sum 
     
-    
     # Classify df_env rows into cells
     x_bins = np.linspace(0, cell_size * window_size_x, window_size_x + 1)
     y_bins = np.linspace(0, cell_size * window_size_y, window_size_y + 1)
@@ -113,7 +109,6 @@ def get_parameters(n_photon = 10_000, SR = 0.5,
     
     print('\nR_env captured in conv_window: ' + str(F_captured))
 
-    
     ### normalize the sum of the remaining pixels to 1 
     conv_window_1 = conv_window.copy()
     # multiply centre pixel by F_captured
@@ -131,44 +126,3 @@ def get_parameters(n_photon = 10_000, SR = 0.5,
             'F_captured': F_captured,
             'R_atm': R['R_atm'],
             'R_glint': R['_R_dir_coxmunk'] + R['_R_env_coxmunk']  }
-
-
-'''
-if __name__ == "__main__":
-   
-    import Py6S
-    import sys
-    
-    sys.path.append('/Users/yw/Desktop/tmart')
-    import tmart
-
-    SR = 0.2731
-    SR = 0.3
-    
-    wl = 443
-    # band = Py6S.Wavelength(Py6S.PredefinedWavelengths.S2A_MSI_8A)
-    
-    aerosol_type = 0.6
-    aot550 = 0.08
-    
-    atm_profile = {'water_vapour': 46.11, 'ozone': 275.03}
-    
-    target_pt_direction=[170.52804413432926, 191.91873559828522]
-    sun_dir=[30.9608405674786, 323.9885587375248]
-    
-    test = tmart.AEC.get_parameters(wl = wl, # band = band, 
-                                    SR=SR ,n_photon = 100_000,
-                                    target_pt_direction = target_pt_direction, sun_dir = sun_dir,
-                                    
-                                    atm_profile = atm_profile,
-                                    
-                                    aerosol_type = aerosol_type, aot550 = aot550,
-                                    cell_size = 180,
-                                    window_size=201)
-    
-    # print(test)
-    test1 = test['conv_window_1']
-    
-    test1[int(test1.shape[0]/2),int(test1.shape[1]/2)]
-'''
-

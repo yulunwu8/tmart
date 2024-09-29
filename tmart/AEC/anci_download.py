@@ -1,6 +1,6 @@
 # This file is part of TMart.
 #
-# Copyright 2023 Yulun Wu.
+# Copyright 2024 Yulun Wu.
 #
 # TMart is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -12,10 +12,8 @@
 def anci_download(file, basefile, username, password):
     
     import requests, time, os, sys
-
     url = 'https://oceandata.sci.gsfc.nasa.gov/ob/getfile/' + basefile
     auth = (username, password)
-    
     local_file = file + '/tmart_ancillary/' + basefile
     
     if os.path.exists(local_file):
@@ -40,7 +38,7 @@ def anci_download(file, basefile, username, password):
                             
     if os.path.exists(local_file): pass
     else: 
-        sys.exit('Warning: failed to download: ' + str(basefile) + '. Please check your credentials and if file is available on NASA Ocean Color website')
+        sys.exit('Warning: failed to download: ' + str(basefile) + '. Please check your credentials and if file is available on NASA Ocean Color website. Note that the files are typically available a month after image acquisition.')
          
     return local_file                       
     

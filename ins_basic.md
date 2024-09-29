@@ -64,14 +64,14 @@ Environmental and direct reflectances can be further divided into contributions 
 
 ---
 
-## Let's Get Started! 
+## Let's get started! 
 
 We start the modelling with a simple setting. New functions are introduced as we go, and a 'put-together' code is presented at the end. 
 
 The following walks through the input for a single-wavelength and flat-surface radiative-transfer calculation. 
 
 
-## Quick Start
+## Quick start
 
 Run T-Mart with simple settings here. 
 
@@ -156,7 +156,7 @@ R_total       0.1998890164511734
 
 
 
-## Observing the Movements of a Single Photon
+## Observing the movements of a single photon
 
 Instead of running lots of photons, we can run a single photon and observe where it goes and what happens. This is mostly for debugging purposes. The details of each movement will be printed. 
 
@@ -257,7 +257,7 @@ There are lines of different colours in the plot:
 
 
 
-## Multiple Processing 
+## Multiple processing 
 
 Monte Carlo simulations have inherent noise - it decreases with a larger sample size. Multiprocessing is used to speed up the computation. 
 
@@ -281,7 +281,7 @@ results = my_tmart.run(wl=wl, n_photon=n_photon,nc= nc,njobs= njobs)
 
 
 
-## Water Pixels 
+## Water pixels 
 
 From here we go back to multiprocessing lots of photons. 
 
@@ -295,7 +295,7 @@ image_isWater = np.array([[1,1],[1,1]])
 
 
 
-## Modify Background 
+## To modify the background 
 
 By default, the background surface takes the average reflectance of the pixels and an elevation of 0. 
 
@@ -311,7 +311,7 @@ my_surface.set_background(bg_ref        = [0.1,0.1], # background reflectance
                           bg_coords     = [[0,0],[10,10]]) # a line dividing the two background                                    
 ```
 
-## Adding Aerosol to the Atmosphere
+## To add aerosol to the atmosphere
 
 Add aerosol model and AOT550. All aerosol models in 6S are included in T-Mart. An atmosphere object is not wavelength-dependent. It is valid between 350nm and 3750nm
 
@@ -326,8 +326,7 @@ my_atm = tmart.Atmosphere(atm_profile, aot550, aerosol_type)
 
 
 
-## Surface Properties 
-
+## Surface properties 
 
 Once we have the Tmart object, we can modify wind and water properties. They are both related to the specular reflectance of the water surface. 
 
@@ -345,7 +344,7 @@ my_tmart.set_wind(wind_speed=5, wind_azi_avg = True)
 my_tmart.set_water(water_salinity=35, water_temperature=20)
 ```
 
-## Band Calculation
+## Band calculation
 
 Band calculation is possible. All the built-in bands in Py6S can be used as T-Mart takes the same band input as Py6S. However, a central wavelength is still required for interpolation of water and aerosol properties (some not in Py6S). 
 
@@ -357,7 +356,7 @@ wl = 490
 
 
 
-## Other Parameters 
+## Other parameters 
 
 Set the number of atmosphere layers and aerosol scale height. T-Mart can calculate the movement of a photon through multiple layers at once so having lots of layers (e.g., 20 by default) does not slow down the computation significantly. Aerosol scale height is 2km by default and it can be modified too. 
 
@@ -380,7 +379,7 @@ R = tmart.calc_ref(results, detail=True)
 ```
 
 
-## Full Single Run 
+## Full single run 
 
 Now we can put everything together. Below is the code I usually use for my single runs (different components of TOA reflectance at a single wavelength in a single scenario, but with lots of photons). 
 

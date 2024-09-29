@@ -11,9 +11,9 @@ Welcome to T-Mart's documentation!
    :caption: Contents:
    
    overview
+   ins_aec
    ins_basic
    ins_advanced
-   ins_aec
    ins_rho
 
    tmart

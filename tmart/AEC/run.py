@@ -1,6 +1,6 @@
 # This file is part of TMart.
 #
-# Copyright 2023 Yulun Wu.
+# Copyright 2024 Yulun Wu.
 #
 # TMart is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -24,6 +24,7 @@ def run(file, username, password, overwrite=False, AOT = 'MERRA2', n_photon = 10
 
     Example usage::
         
+        import tmart
         file = 'user/test/S2A_MSIL1C_20160812T143752_N0204_R096_T20MKB_20160812T143749.SAFE'
         username = 'abcdef'
         password = '123456'

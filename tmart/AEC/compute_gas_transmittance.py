@@ -1,6 +1,6 @@
 # This file is part of T-Mart.
 #
-# Copyright 2023 Yulun Wu.
+# Copyright 2024 Yulun Wu.
 #
 # T-Mart is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by

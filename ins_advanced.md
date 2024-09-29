@@ -3,14 +3,15 @@
 This page introduces spectral and 3D radiative-transfer calculations. 
 
 
-## Be Creative at What You Can Do! 
+## Be creative at what you can do! 
 
 You can do lots of things with T-Mart! E.g.:
 
 - Load your own DEM and image (they have to be the same size),
 - Loop through wavelengths, distances from shore, AOT, viewing or solar angles, etc. 
 
-## Built-in Surface Types 
+
+## Built-in surface types 
 
 T-Mart currently provides four built-in spectral surface types: soil, vegetation, water and water with a chlorophyll concentration of 1 µg/L. For example: 
 
@@ -27,7 +28,7 @@ wl = 400 # your variable in a loop
 np.full((2, 2), water.wl(wl))
 ```
 
-## Case Study: Typical Ocean-Colour Observation 
+## Case study: a typical ocean-colour observation 
 
 Here we model a typical hyperspectral ocean-colour observation with the following parameters: 
 
@@ -53,7 +54,6 @@ import pandas as pd
 from Py6S.Params.atmosprofile import AtmosProfile
 
 if __name__ == "__main__":
-	
 	water = tmart.SpectralSurface('water_chl1')
 	
 	# Master output
@@ -146,7 +146,7 @@ There is non-negligible reflectance in the NIR range, and that comes from glint 
 
 Note that because T-Mart runs wavelength by wavelength and Monte-Carlo solvers are usually slower than other numerical solvers, the code above may take over 10 minutes to run. 
 
-## Case Study: Adjacency-Effect Modelling 
+## Case study: adjacency-effect modelling 
 
 Here I demonstrate a simple straight-line-coast adjacency-effect modelling using two built-in spectral libraries in T-Mart, *water_chl1* and *vegetation*, representing ocean water with a chlorophyll concentration of 1 mg/m<sup>3</sup> and land of vegetation, respectively. 
 
@@ -238,7 +238,7 @@ You might want to edit parameters in the code to suit your needs, important para
 
 
 
-## 3D Surfaces 
+## 3D surfaces 
 
 To simulate non-flat surfaces, all we need to do is to have non-zero values in the DEM array. Users can import DEMs from rasters through geo-processing packages such as GDAL. For example, 
 
@@ -309,7 +309,7 @@ Output:
 
 <img src="_images/3D_surface.png"  width="500">
 
-## Useful Information
+## Useful information
 
 The following two dataframes completely describe the atmosphere at a single wavelength in T-Mart. 
 

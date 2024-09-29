@@ -1,13 +1,11 @@
 # This file is part of TMart.
 #
-# Copyright 2023 Yulun Wu.
+# Copyright 2024 Yulun Wu.
 #
 # TMart is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-
-
 
 
 # Extract ozone and water vapour from NASA Ocean Color ancillary data 

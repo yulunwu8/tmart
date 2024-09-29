@@ -1,15 +1,16 @@
 # Instruction - Adjacency-Effect Correction
 
-## Mininum Input
+## Mininum input
 
-The *AEC.run* function is used to perform adjacency-effect correction (AEC) in T-Mart. Correction is performed directly on level-1 products, and the output is adjacency-effect-free top-of-atmosphere products in the same format as the input level-1 products, therefore this workflow can be followed by any amtospheric-correction tools. Currently it supports Sentinel-2 MSI, Landsat 8/9 OLI and PRISMA imagery.
+The *AEC.run* function is used to perform adjacency-effect correction (AEC) in T-Mart. Correction is performed directly on level-1 products, and the output is adjacency-effect-free top-of-atmosphere products in the same format as the input level-1 products, therefore this workflow can be followed by any amtospheric correction tools. Currently it supports Sentinel-2 MSI, Landsat 8/9 OLI/OLI-2 and PRISMA imagery.
 
-NASA EarthData Credentials are needed to retrieve ozone, water vapour, and aerosol optical thickness and composition for accurate AEC. You may need to approve OB.DAAC Data Access in your <a href="https://urs.earthdata.nasa.gov/profile" target="_blank">EarthData account</a>.
+NASA EarthData credentials are needed to retrieve ozone, water vapour, and aerosol optical thickness and composition for accurate AEC. You may need to approve OB.DAAC Data Access in your <a href="https://urs.earthdata.nasa.gov/profile" target="_blank">EarthData account</a>.
 
 
-Minimum input to the *AEC.run* function includes path to satellite files and EarthData Credentials. See <a href="https://tmart-rtm.github.io/tmart.html#module-tmart.AEC.run" target="_blank">AEC.run Function</a> for all arguments. 
+Minimum input to the *AEC.run* function includes a path to satellite files and EarthData credentials. See <a href="https://tmart-rtm.github.io/tmart.html#module-tmart.AEC.run" target="_blank">AEC.run Function</a> for all the arguments. 
 
 ```python
+import tmart
 file = 'user/test/S2A_MSIL1C_20160812T143752_N0204_R096_T20MKB_20160812T143749.SAFE'
 username = 'abcdef'
 password = '123456'
@@ -19,7 +20,7 @@ if __name__ == "__main__":
     tmart.AEC.run(file, username, password)
 ```
 
-## Overwrite Existing Files
+## Overwrite existing files
 
 By default, the processing creates a copy of the original satellite files in the same directory, as a new folder that starts with 'AEC_'. To overwrite the eixsting files, add 'overwrite=True' to the arguments: 
 
@@ -27,20 +28,20 @@ By default, the processing creates a copy of the original satellite files in the
 tmart.AEC.run(file, username, password, overwrite=True)
 ```
 
-## Ancillary and Log Files  
+## Ancillary and log files  
 
 During the AEC process, a number of files are generated: 
 
 - **tmart\_log\_\*.txt**: detailed processing information, as printed in the Python console. 
-- **tmart\_atm\_info.txt**: atmosphere and aerosol information used in the processing. This includes aerosol type, angstrom exponent, single scattering albedo, AOT at 550 nm, total column ozone, and total precipitable water vapour. 
+- **tmart\_atm\_info\_\*.txt**: atmosphere and aerosol information used in the processing. This includes aerosol type, angstrom exponent, single scattering albedo, AOT at 550 nm, total column ozone, and total precipitable water vapour. 
 - **tmart\_ancillary/\*.nc**: GMAO MERRA2 ancillary files from the NASA Ocean Biology Processing Group. 
 - **tmart\_completed.txt**: a record of bands that have been corrected for the adjacency effect.  
 
-## AEC Configuration
+## AEC configuration
 
 A TXT configuration file is stored in the *tmart* package folder. Brief descriptions are given in the file. Most of the configuration settings are tuned for best performance. In case a large amount of water pixels are falsely masked as land, ``AE_land`` can be set as True in order to perform AEC across the entire scene. Its path is printed in the Python console and the log file. 
 
-## Additional Arguments 
+## Additional arguments 
 
 ``AOT`` and ``n_photon`` can be specified manually. You can specify ``AOT`` if you are certain about its value or simply to test the impact of using different values. ``n_photon`` is the number of photons used in each T-Mart run, 100_000 is recommended for accurate results. It can be reduced to 10_000 for quicker computation. 
 
@@ -48,15 +49,15 @@ A TXT configuration file is stored in the *tmart* package folder. Brief descript
 tmart.AEC.run(file, username, password, overwrite=True, AOT = 0.05, n_photon = 10_000)
 ```
 
-## Assumptions in the Processing 
+## Assumptions in the processing 
 
 A few assumptions are made in the processing, violations can lead to various degrees of errors in the output AE-free product: 
 
 - Isotropic/Lambertian surface 
-- Homogeneous atmosphere and aerosols across the scene 
+- Vertically stratified but horizontally homogeneous atmosphere and aerosols across the scene 
 - Flat surface or lack of topography
 
-See <a href="https://tmart-rtm.github.io/tmart.html#module-tmart.AEC.run" target="_blank">AEC.run Function</a> for all arguments. 
+See <a href="https://tmart-rtm.github.io/tmart.html#module-tmart.AEC.run" target="_blank">AEC.run Function</a> for all the arguments. 
 
 
 
