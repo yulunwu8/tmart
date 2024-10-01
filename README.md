@@ -12,7 +12,7 @@ Home page: <a href="https://github.com/yulunwu8/tmart" target="_blank">https://g
 
 User guide: <a href="https://tmart-rtm.github.io" target="_blank">https://tmart-rtm.github.io</a>
 
-## Publication
+## Publications
 
 Wu, Y., Knudby, A., & Lapen, D. (2023). Topography-Adjusted Monte Carlo Simulation of the Adjacency Effect in Remote Sensing of Coastal and Inland Waters. *Journal of Quantitative Spectroscopy and Radiative Transfer*, 108589. <a href="https://doi.org/10.1016/j.jqsrt.2023.108589" target="_blank">https://doi.org/10.1016/j.jqsrt.2023.108589</a>
 
