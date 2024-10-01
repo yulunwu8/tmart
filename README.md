@@ -14,7 +14,7 @@ User guide: <a href="https://tmart-rtm.github.io" target="_blank">https://tmart-
 
 ## Publications
 
-Wu, Y., Knudby, A., & Lapen, D. (2023). Topography-Adjusted Monte Carlo Simulation of the Adjacency Effect in Remote Sensing of Coastal and Inland Waters. *Journal of Quantitative Spectroscopy and Radiative Transfer*, 108589. <a href="https://doi.org/10.1016/j.jqsrt.2023.108589" target="_blank">https://doi.org/10.1016/j.jqsrt.2023.108589</a>
+Wu, Y., Knudby, A., & Lapen, D. (2023). Topography-adjusted Monte Carlo simulation of the adjacency effect in remote sensing of coastal and inland waters. *Journal of Quantitative Spectroscopy and Radiative Transfer*, 108589. <a href="https://doi.org/10.1016/j.jqsrt.2023.108589" target="_blank">https://doi.org/10.1016/j.jqsrt.2023.108589</a>
 
 Wu, Y., Knudby, A., Pahlevan, N., Lapen, D., & Zeng, C. (2024). Sensor-generic adjacency-effect correction for remote sensing of coastal and inland waters. *Remote Sensing of Environment*, 315, 114433. <a href="https://doi.org/10.1016/j.rse.2024.114433" target="_blank">https://doi.org/10.1016/j.rse.2024.114433</a>
 

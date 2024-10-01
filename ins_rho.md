@@ -29,6 +29,9 @@ print(rho)
 
 Other parameters of the function include atmosphere type, aerosol type, number of photons for computation. See full parameters and their descriptions <a href="https://tmart-rtm.github.io/tmart.html#module-tmart.surface_rho.calculate" target="_blank">HERE</a>.
 
+## Publication
+
+Wu, Y., & Knudby, A. (2023). A Tool That Calculates The Sea-Surface Reflectance Factor In Customized Environments And Geometry. *IGARSS 2023 - 2023 IEEE International Geoscience and Remote Sensing Symposium*, 464–467. <a href="https://doi.org/10.1109/IGARSS52108.2023.10282740" target="_blank">https://doi.org/10.1109/IGARSS52108.2023.10282740</a>
 
 
 
