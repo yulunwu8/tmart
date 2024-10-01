@@ -2,7 +2,7 @@
 
 ## Description 
 
-T-Mart solves the radiative transfer in a 3D surface-atmosphere system through a Monte Carlo approach. T-Mart features arbitrary surface models which allow simulating and correcting for the adjacency effect in aquatic remote sensing. 
+T-Mart solves radiative transfer in a 3D surface-atmosphere system. It supports customizable surface models and enables simulation and correction for the adjacency effect (AE) in optical aquatic remote sensing. AE correction substantially improves satellite-based retrieval of water-leaving reflectance in nearshore environments (Wu et al., 2024). 
 
 
 ## Links
@@ -15,6 +15,9 @@ User guide: <a href="https://tmart-rtm.github.io" target="_blank">https://tmart-
 ## Publication
 
 Wu, Y., Knudby, A., & Lapen, D. (2023). Topography-Adjusted Monte Carlo Simulation of the Adjacency Effect in Remote Sensing of Coastal and Inland Waters. *Journal of Quantitative Spectroscopy and Radiative Transfer*, 108589. <a href="https://doi.org/10.1016/j.jqsrt.2023.108589" target="_blank">https://doi.org/10.1016/j.jqsrt.2023.108589</a>
+
+Wu, Y., Knudby, A., Pahlevan, N., Lapen, D., & Zeng, C. (2024). Sensor-generic adjacency-effect correction for remote sensing of coastal and inland waters. *Remote Sensing of Environment*, 315, 114433. <a href="https://doi.org/10.1016/j.rse.2024.114433" target="_blank">https://doi.org/10.1016/j.rse.2024.114433</a>
+
 
 ## Installation 
 
@@ -40,7 +43,7 @@ pip3 install tmart
 
 ## Quick start: adjacency-effect correction 
 
-T-Mart supports adjacency-effect correction for Sentinel-2 MSI and Landsat 8/9 OLI/OLI-2 products. Correction is performed directly on level-1 products and can be followed by any amtospheric correction tools. 
+T-Mart supports AE correction for Sentinel-2 MSI and Landsat 8/9 OLI/OLI-2 products. Correction is performed directly on level-1 products and can be followed by any amtospheric correction tools. 
 
 Minimal input: 
 
