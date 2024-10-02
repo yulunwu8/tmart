@@ -134,7 +134,7 @@ See user guide for more detailed instructions.
 
 ## Known issue(s)
 
-`rasterio` version 1.3.11 leads to unprojected S2 image files when used in Mac’s Terminal. 
+`rasterio` version 1.3.11 leads to unprojected S2 image files when performing AE correction in Mac’s Terminal. 
 
 - Workarounds: run the code in an IDE, or downgrade to `rasterio` version 1.3.9 for terminal-based workflows.
 
