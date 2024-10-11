@@ -55,82 +55,12 @@ file = 'user/test/S2A_MSIL1C_20160812T143752_N0204_R096_T20MKB_20160812T143749.S
 username = 'abcdef'
 password = '123456'
 
-### Multiprocessing needs to be wrapped in 'if __name__ == "__main__":' for Windows systems, this is optional for Mac OS
+### Multiprocessing needs to be wrapped in 'if __name__ == "__main__":' for Windows systems, this is optional for Unix-based systems
 if __name__ == "__main__":
     tmart.AEC.run(file, username, password)
 ```
 
 The tool takes approximately 20 min to process a Landsat 8/9 scene and 30 min for a Sentinel-2 scene on an eight-core personal computer. See <a href="https://tmart-rtm.github.io/ins_aec.html" target="_blank">Instruction - Adjacency-Effect Correction</a> for detailed instructions.
-
-## Quick start: adjacency-effect modelling
-
-```python
-import tmart
-import numpy as np
-from Py6S.Params.atmosprofile import AtmosProfile
-
-# Specify wavelength in nm
-wl = 400
-
-### DEM and reflectance ###
-image_DEM = np.array([[0,0],[0,0]]) # in meters
-image_reflectance = np.array([[0.1,0.1],[0.1,0.1]]) # unitless     
-image_isWater = np.zeros(image_DEM.shape) # 1 is water, 0 is land
-
-# Synthesize a surface object
-my_surface = tmart.Surface(DEM = image_DEM,
-                           reflectance = image_reflectance,
-                           isWater = image_isWater,
-                           cell_size = 10_000)  
-                               
-### Atmosphere ###
-atm_profile = AtmosProfile.PredefinedType(AtmosProfile.MidlatitudeSummer) 
-my_atm = tmart.Atmosphere(atm_profile, aot550 = 0, aerosol_type = 'Maritime')
-
-### Create T-Mart Object ###
-my_tmart = tmart.Tmart(Surface = my_surface, Atmosphere= my_atm, shadow=False)
-my_tmart.set_geometry(sensor_coords=[51,50,130_000], # x, y, and z 
-                      target_pt_direction=[180,0], # zenith and azimuth
-                      sun_dir=[0,0]) # zenith and azimuth
-
-### Multiprocessing needs to be wrapped in 'if __name__ == "__main__":' for Windows systems. 
-### This can be skipped for Unix-based systems. 
-if __name__ == "__main__":
-    results = my_tmart.run(wl=wl, band=None, n_photon=10_000)
-    
-    # Calculate reflectances using recorded photon information 
-    R = tmart.calc_ref(results)
-    for k, v in R.items():
-        print(k, '     ' , v)
-
-```
-
-The output should be similar to this: 
-
-```
-========= Initiating T-Mart =========
-Number of photons: 10000
-Using 10 core(s)
-Number of job(s): 100
-Wavelength: 400
-target_pt_direction: [180, 0]
-sun_dir: [0, 0]
-=====================================
-Jobs remaining = 102
-Jobs remaining = 72
-Jobs remaining = 42
-Jobs remaining = 12
-=====================================
-Calculating radiative properties...
-R_atm       0.12760589889823587
-R_dir       0.06046419017201067
-R_env       0.012888590547129805
-R_total       0.20095867961737635
-
-```
-
-See user guide for more detailed instructions. 
-
 
 ## Known issue(s)
 
