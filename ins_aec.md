@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
 ## Overwrite existing files
 
-By default, the processing creates a copy of the original satellite files in the same directory, as a new folder that starts with 'AEC_'. To overwrite the eixsting files, add 'overwrite=True' to the arguments: 
+By default, the processing creates a copy of the original satellite files in the same directory, in a new folder named 'AEC_*'. To overwrite the eixsting files, add 'overwrite=True' to the arguments: 
 
 ```python
 tmart.AEC.run(file, username, password, overwrite=True)

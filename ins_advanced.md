@@ -90,7 +90,7 @@ if __name__ == "__main__":
 	    aerosol_type = 'Maritime' 
 	    aot550 = 0.1
 	    n_layers = 20
-	    aerosol_scale_height = 2 # Unless you have a reason, don't change this
+	    aerosol_scale_height = 2 # in km
 	    
 	    # Synthesize an atmosphere object    
 	    my_atm = tmart.Atmosphere(atm_profile, aot550, aerosol_type, n_layers, aerosol_scale_height)   

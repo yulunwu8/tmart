@@ -20,7 +20,7 @@ def calc_ref(df, n_photon = None, detail = False):
 
     * ``df`` -- Results from T-Mart runs
     * ``n_photon`` -- Specify the number of photons in the run when firing the photon upwards. If not specified, the number of unique pt_id will be used. This can lead to errors when photons were fired upwards because some photons will not have pt_id.
-    * ``detail`` -- differentiate coxmunk, whitecap, water-leaving and land contributions
+    * ``detail`` -- Boolean. Differentiate Cox-Munk, whitecap, water-leaving and land contributions
 
     Output:
 

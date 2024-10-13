@@ -158,7 +158,7 @@ R_total       0.1998890164511734
 
 ## Observing the movements of a single photon
 
-Instead of running lots of photons, we can run a single photon and observe where it goes and what happens. This is mostly for debugging purposes. The details of each movement will be printed. 
+Instead of running lots of photons, we can run a single photon and observe where it goes and what happens. This is mostly for debugging purposes. The details of each movement are printed. 
 
 We replace Tmart's *run* function with the *run_plot* function here, note that number of photons and multiprocessing are not needed here. 
 
@@ -299,7 +299,7 @@ image_isWater = np.array([[1,1],[1,1]])
 
 By default, the background surface takes the average reflectance of the pixels and an elevation of 0. 
 
-A total of two background surfaces can be specified to model coastal environments, they are divided by a line connected by two specified coordinates (*bg_coords*). We can modify the reflectance and if-is-water of each of the two background surfaces. We can modify the elevation of the background too, but both background surfaces will share the same elevation (to avoid gaps in between). 
+A total of two background surfaces can be specified to model coastal environments, they are divided by a line connected by two specified coordinates (*bg_coords*). We can modify the reflectance and if-is-water of each of the two background surfaces. We can modify the elevation of the background too, but both background surfaces would share the same elevation (to avoid gaps in between). 
 
 
 ```python
@@ -366,7 +366,7 @@ aerosol_scale_height = 2 # Unless you have a reason, don't change this
 my_atm = tmart.Atmosphere(atm_profile, aot550, aerosol_type, n_layers, aerosol_scale_height)
 ```
 
-Enable shadow in computation. This adds a test in calculating TOA-radiance contribution for every photon. If a photon is blocked from the sun by the terrain, the contribution will be 0. 
+Enable shadow in computation. This adds a test in calculating TOA-radiance contribution for every photon. If a photon is blocked from the sun by the terrain, the contribution would be 0. 
 
 ```python
 my_tmart = tmart.Tmart(Surface = my_surface, Atmosphere= my_atm, shadow=True)
