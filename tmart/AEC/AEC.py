@@ -122,7 +122,7 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
       
     # Correction to make 
     R_correction = (R_conv - image_R_surf) * F_correction 
-    print('\nNumber of pixels where R_correction > R_surf : ' + str(np.sum(R_correction>image_R_surf)) + '/' + str(height_reshaped * width_reshaped))
+    print('\nNumber of pixels where R_correction > R_surf: ' + str(np.sum(R_correction>image_R_surf)) + '/' + str(height_reshaped * width_reshaped))
     
     # Back to the original size 
     R_correction_original_shape = np.repeat(np.repeat(R_correction, reshape_factor_tmp, axis=0), reshape_factor_tmp, axis=1)

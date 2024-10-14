@@ -49,16 +49,12 @@ def calculate(wl, viewing_zenith, solar_zenith, relative_azimuth,
     if spectral_surface == None:
         spectral_surface = tmart.SpectralSurface('water_chl1')
     
-    
     rho_output = []
-    
-    
     
     if isinstance(wl, list):
         wls = range(wl[0],wl[1]+wl[2],wl[2])
     else:
         wls = [wl]
-    
     
     for wl in wls:
     
@@ -67,9 +63,7 @@ def calculate(wl, viewing_zenith, solar_zenith, relative_azimuth,
         # Three same-size numpy arrays are needed
         image_DEM = np.array([[0,0],[0,0]]) # in meters
        
-        
-        image_reflectance = np.array([[0,0],
-                                      [0,0]]) # unitless     
+        image_reflectance = np.array([[0,0],[0,0]]) # unitless     
         
         image_isWater = np.array([[1,1],[1,1]])# 1 is water, 0 is land
         
@@ -121,14 +115,10 @@ def calculate(wl, viewing_zenith, solar_zenith, relative_azimuth,
         ### calculate rho ###
         
         rho = R2['R_total'] / R1['R_total']
-        
         print('Sea-surface reflectance factor: ' + str(rho))
-        
         rho_output.append({'wavelength': wl, 'rho': rho})
     
-
     if as_pandas_df: rho_output = pd.DataFrame(rho_output)
-        
     
     return rho_output 
 

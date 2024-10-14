@@ -119,7 +119,7 @@ def get_parameters(n_photon = 10_000, SR = 0.5,
     
     ### correction factor 
     F_correction = (R['R_env'] / R['R_dir'])  * (1 - conv_window_1[int(conv_window_1.shape[0]/2),int(conv_window_1.shape[1]/2)])
-    print('F_correction: ' + str(F_correction))
+    print('Alpha: ' + str(F_correction)) # Alpha is the term used in Wu et al. 2024
     
     return {'conv_window_1': conv_window_1,
             'F_correction': F_correction,
