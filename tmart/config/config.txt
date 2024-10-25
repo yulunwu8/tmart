@@ -42,10 +42,10 @@ cloud_contribution = 0.5
 AE_land = False
 
 
-# Lowest water-leaving reflectance in NIR
+# Lowest water-leaving reflectance in NIR, when estimating AOT in T-Mart
 min_R_NIR = 0
 
-# Maximum amount of glint to remove in estimating AOT when wind speed is 1m/s
+# Maximum amount of glint to remove when wind speed is 1 m/s, used when estimating AOT in T-Mart
 max_glint = 0.01
 
 

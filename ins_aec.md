@@ -4,7 +4,7 @@
 
 The *AEC.run* function is used to perform adjacency-effect correction (AEC) in T-Mart. Correction is performed directly on level-1 products, and the output is adjacency-effect-free top-of-atmosphere products in the same format as the input level-1 products, therefore this workflow can be followed by any amtospheric correction tools. Currently it supports Sentinel-2 MSI, Landsat 8/9 OLI/OLI-2 and PRISMA imagery.
 
-NASA EarthData credentials are needed to retrieve ozone, water vapour, and aerosol optical thickness and composition for accurate AEC. You may need to approve OB.DAAC Data Access in your <a href="https://urs.earthdata.nasa.gov/profile" target="_blank">EarthData account</a>.
+NASA EarthData credentials are needed to retrieve ozone, water vapour, and aerosol optical thickness and composition for accurate AEC. You may need to approve OB.DAAC Data Access in your <a href="https://urs.earthdata.nasa.gov/profile" target="_blank">EarthData account</a>: click *Authorized Apps* under the *Applications* tab - click the *APPROVE MORE APPLICATIONS* button near the bottom, and authorize *OB.DAAC Data Access*.
 
 
 Minimum input to the *AEC.run* function includes a path to satellite files and EarthData credentials. See <a href="https://tmart-rtm.github.io/tmart.html#module-tmart.AEC.run" target="_blank">AEC.run Function</a> for all the arguments. 
@@ -15,7 +15,7 @@ file = 'user/test/S2A_MSIL1C_20160812T143752_N0204_R096_T20MKB_20160812T143749.S
 username = 'abcdef'
 password = '123456'
 
-### T-Mart uses multiprocessing, and this needs to be wrapped in 'if __name__ == "__main__":' for Windows users
+# T-Mart uses multiprocessing, which needs to be wrapped in 'if __name__ == "__main__":' for Windows users
 if __name__ == "__main__":
     tmart.AEC.run(file, username, password)
 ```
@@ -39,7 +39,9 @@ During the AEC process, a number of files are generated:
 
 ## AEC configuration
 
-A TXT configuration file is stored in the *tmart* package folder. Brief descriptions are given in the file. Most of the configuration settings are tuned for best performance. In case a large amount of water pixels are falsely masked as land, ``AE_land`` can be set as True in order to perform AEC across the entire scene. Its path is printed in the Python console and the log file. 
+A TXT configuration file is stored in the *tmart* package folder. Its path is printed in the Python console and the log file. Brief descriptions are given in the file. Most of the configuration settings are tuned for best performance. 
+
+In case a large amount of water pixels are falsely masked as land, ``mask_SWIR_threshold `` can be raised according to the water pixel values in the scene. Ultimately, ``AE_land`` can be set as True in order to perform AEC across the entire scene. 
 
 ## Additional arguments 
 
