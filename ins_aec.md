@@ -41,7 +41,7 @@ During the AEC process, a number of files are generated:
 
 A TXT configuration file is stored in the *tmart* package folder. Its path is printed in the Python console and the log file. Brief descriptions are given in the file. Most of the configuration settings are tuned for best performance. 
 
-In case a large amount of water pixels are falsely masked as land, ``mask_SWIR_threshold `` can be raised according to the water pixel values in the scene. Ultimately, ``AE_land`` can be set as True in order to perform AEC across the entire scene. 
+By default, T-Mart identifies water pixels and only modify their values, leaving land pixel values unchanged. In case a significant number of water pixels are falsely masked as land, the ``mask_SWIR_threshold`` can be increased based on the water pixel values in the scene. Alternatively, setting ``AE_land`` to True enables AEC across the entire scene. 
 
 ## Additional arguments 
 
