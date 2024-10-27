@@ -9,7 +9,7 @@
 
 # Run on ACOLITE L1R files, currently supports PRSIMA only 
 
-def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename):
+def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename, njobs):
  
     import tmart
     import sys, os, time
@@ -124,7 +124,7 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
                                                   atm_profile = anci, 
                                                   aerosol_type = anci['r_maritime'], aot550 = AOT, 
                                                   cell_size = 30,
-                                                  window_size = window_size)
+                                                  window_size = window_size, njobs=njobs)
         
         conv_window_1   = AEC_parameters['conv_window_1']
         F_correction    = AEC_parameters['F_correction']

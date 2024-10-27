@@ -10,7 +10,7 @@
 
 # AEC for a single wavelength or band 
 
-def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud, mask_all, n_photon):
+def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud, mask_all, n_photon, njobs):
     
     import tmart
     import rasterio, sys, time
@@ -73,7 +73,7 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
                                               atm_profile = anci, 
                                               aerosol_type = anci['r_maritime'], aot550 = AOT, 
                                               cell_size = res_AEC,
-                                              window_size = metadata['window_size'], isWater = 0)
+                                              window_size = metadata['window_size'], isWater = 0, njobs=njobs)
     
     conv_window_1   = AEC_parameters['conv_window_1']
     F_correction    = AEC_parameters['F_correction']

@@ -45,7 +45,7 @@ By default, T-Mart identifies water pixels and only modify their values, leaving
 
 ## Additional arguments 
 
-``AOT`` and ``n_photon`` can be specified manually. You can specify ``AOT`` if you are certain about its value or simply to test the impact of using different values. ``n_photon`` is the number of photons used in each T-Mart run, 100_000 is recommended for accurate results. It can be reduced to 10_000 for quicker computation. 
+``AOT`` and ``n_photon`` can be specified manually. You can specify ``AOT`` if you are certain about its value or simply to test the impact of using different values. ``n_photon`` is the number of photons used in each T-Mart run, 100,000 is recommended for accurate results. It can be reduced to 10,000 for quicker computation. 
 
 ```python
 tmart.AEC.run(file, username, password, overwrite=True, AOT = 0.05, n_photon = 10_000)

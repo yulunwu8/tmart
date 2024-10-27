@@ -16,7 +16,8 @@ def get_parameters(n_photon = 10_000, SR = 0.5,
                    atm_profile = None, 
                    aerosol_type = 'Maritime', aot550 = 0.2, 
                    cell_size = 100,window_size = None,
-                   window_size_x = None, window_size_y = None, isWater = 0):
+                   window_size_x = None, window_size_y = None, isWater = 0,
+                   njobs=100):
     
     import tmart
     import numpy as np
@@ -58,7 +59,7 @@ def get_parameters(n_photon = 10_000, SR = 0.5,
                           pixel=[int(window_size_y/2),int(window_size_x/2)], 
                           sun_dir=sun_dir)    
     
-    results = my_tmart.run(wl=wl, band=band, n_photon=n_photon)
+    results = my_tmart.run(wl=wl, band=band, n_photon=n_photon, njobs=njobs)
     # results = my_tmart.run_plot(wl=wl, plot_on=True, plot_range=[0,cell_size*window_size_x,0,cell_size*window_size_x,0,100_000])
     
     # Calculate reflectances using recorded photon information 
@@ -119,7 +120,7 @@ def get_parameters(n_photon = 10_000, SR = 0.5,
     
     ### correction factor 
     F_correction = (R['R_env'] / R['R_dir'])  * (1 - conv_window_1[int(conv_window_1.shape[0]/2),int(conv_window_1.shape[1]/2)])
-    print('Alpha: ' + str(F_correction)) # Alpha is the term used in Wu et al. 2024
+    print('alpha: ' + str(F_correction)) # alpha is the term used in Wu et al. 2024
     
     return {'conv_window_1': conv_window_1,
             'F_correction': F_correction,
