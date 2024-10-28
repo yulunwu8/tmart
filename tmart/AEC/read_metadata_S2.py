@@ -16,6 +16,12 @@ def read_metadata_S2(file,config,sensor):
     import mgrs
     import Py6S, math
     
+    # Update `file` by searching metadata xml file
+    for root, dirs, files in os.walk(file):
+        if "MTD_MSIL1C.xml" in files:
+            xml_file = os.path.join(root, "MTD_MSIL1C.xml")
+    
+    file = os.path.dirname(xml_file)
     files = os.listdir(file)
     metadata = {}
     metadata['file'] = file
@@ -113,7 +119,7 @@ def read_metadata_S2(file,config,sensor):
                         metadata.update(xml)
     
     # Scaling factors 
-    xml2 = tmart.AEC.read_xml_S2_scene('{}/MTD_MSIL1C.xml'.format(file))
+    xml2 = tmart.AEC.read_xml_S2_scene(xml_file)
     metadata.update(xml2)
     
     # Others 
