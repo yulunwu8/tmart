@@ -21,7 +21,7 @@ import sys
 from .tm_geometry import dirP_to_coord 
 from .tm_intersect import intersect_line_DEMtri2
 from .tm_water import find_R_wc, RefraIdx
-from .Tmart2 import Tmart2
+from .tmart2 import Tmart2
 
 
 # Track progress in multiprocessing
