@@ -18,6 +18,7 @@ from .fillnan import *
 from .get_ancillary import *
 from .get_AOT import *
 from .get_parameters import *
+from .identify_input import *
 from .identify_sensor import *
 from .irradiance_correction import *
 from .read_config import *
@@ -30,6 +31,7 @@ from .read_xml_S2 import *
 from .run_acoliteL1R import *
 from .run_regular import *
 from .run import *
+from .unzip import *
 from .write_atm_info import *
 
 

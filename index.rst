@@ -18,6 +18,8 @@ Welcome to T-Mart's documentation!
 
    tmart
 
+   release_notes
+
 
 
 

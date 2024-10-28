@@ -14,7 +14,7 @@ def run(file, username, password, overwrite=False, AOT='MERRA2', n_photon=100_00
     
     Arguments:
         
-    * ``file`` -- String. Path to satellite files. For L8/S2: provide path to the folder. For PRISMA: provide ACOLITE L1R file. 
+    * ``file`` -- String. Path to satellite files. For L8/S2: provide path to the folder. For PRISMA: provide ACOLITE L1R file. SAFE.zip for S2 is supported: when doing so it is recommended to set ``overwrite`` as True to save space. 
     * ``username`` -- String. Username of EarthData account.
     * ``password`` -- String. Password of EarthData account.
     * ``overwrite`` -- Boolean. If overwrite the existing files. The default is False and it creates a folder in the same directory that starts with AEC in the name
@@ -38,45 +38,13 @@ def run(file, username, password, overwrite=False, AOT='MERRA2', n_photon=100_00
     
     import tmart
     import sys, os
-    import zipfile
+    
     import time
     from importlib.metadata import version
     
-    def indentify_file_path(file_path):
-        """
-        Identify the type of the input (directory, file, or .zip) and handle it appropriately.
-        Unzips .SAFE.zip files for S2B data and returns the correct file path and type.
-        """
-        if os.path.isdir(file_path):
-            # The input is a directory
-            file_is_dir = True
-        elif os.path.isfile(file_path):
-            if file_path.endswith('.L1R.nc'):
-                # It's an ACOLITE L1R file (supporting PRISMA data only)
-                file_is_dir = False
-            elif file_path.endswith('.SAFE.zip'):
-                # It's a SAFE.zip file for S2B data; unzip it and update the path
-                file_path = unzip_safe_zip(file_path)
-                file_is_dir = True
-            else:
-                sys.exit(f"File or folder cannot be identified: {file_path}")
-        else:
-            sys.exit(f"File or folder cannot be identified: {file_path}")
-
-        return file_path, file_is_dir
-    
-    def unzip_safe_zip(zip_file_path):
-        """
-        Unzips a .SAFE.zip file and returns the new .SAFE folder path.
-        """
-        unzip_folder = zip_file_path.replace('.SAFE.zip', '.SAFE')
-        with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
-            zip_ref.extractall(unzip_folder)
-        print(f"Unzipped {zip_file_path} to {unzip_folder}")
-        return unzip_folder
-
-    file, file_is_dir = indentify_file_path(file)
-    home_folder = os.path.dirname(file) # where ancillary file and printed info are stored 
+    # Identify directories and files 
+    file, file_is_dir = tmart.AEC.identify_input(file)
+    home_folder = os.path.dirname(file) # where ancillary file and printed info are stored, default: the dir of the file
     basename = os.path.basename(file)
     basename_before_period = basename.split('.')[0]
     
@@ -90,7 +58,6 @@ def run(file, username, password, overwrite=False, AOT='MERRA2', n_photon=100_00
             # make the copy 
             print('\nCopying from ' + str(file) + ' to ' + str(file_new) + '... \n')
             if file_is_dir: 
-                # from distutils.dir_util import copy_tree
                 from shutil import copytree
                 copytree(file, file_new)
             else:

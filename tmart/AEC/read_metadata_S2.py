@@ -16,7 +16,7 @@ def read_metadata_S2(file,config,sensor):
     import mgrs
     import Py6S, math
     
-    # Update `file` by searching metadata xml file
+    # search metadata xml file
     for root, dirs, files in os.walk(file):
         if "MTD_MSIL1C.xml" in files:
             xml_file = os.path.join(root, "MTD_MSIL1C.xml")
