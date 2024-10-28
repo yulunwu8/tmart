@@ -9,7 +9,7 @@
 
 # Overall control of AEC
 
-def run(file, username, password, overwrite=False, AOT = 'MERRA2', n_photon = 100_000, AOT_offset = 0.0):
+def run(file, username, password, overwrite=False, AOT='MERRA2', n_photon=100_000, AOT_offset=0.0, n_jobs=100):
     '''Run adjacency-effect correction on satellite files. See 'Introduction - Adjacency-Effect Correction' for detailed instructions.
     
     Arguments:
@@ -21,6 +21,7 @@ def run(file, username, password, overwrite=False, AOT = 'MERRA2', n_photon = 10
     * ``AOT`` -- 'MERRA2': use ancillary data (default). Float: AOT at 550nm. 'NIR': calculate in T-Mart by finding dark pixels in NIR when considering the AE. 
     * ``n_photon`` -- Int. Number of photons in each T-Mart run, 100_000 is recommended for accurate results.
     * ``AOT_offset`` -- Float. Value added to AOT at 550nm. If resulted AOT is negative, it will be corrected to 0.
+    * ``n_jobs`` -- Int. Number of jobs in Python multiprocessing. One CPU core processes one job at a time. The number of photons in one job is n_photon divided by the number of cores.
 
     Example usage::
         
@@ -29,7 +30,7 @@ def run(file, username, password, overwrite=False, AOT = 'MERRA2', n_photon = 10
         username = 'abcdef'
         password = '123456'
         
-        ### Multiprocessing needs to be wrapped in 'if __name__ == "__main__":' for Windows systems
+        # T-Mart uses multiprocessing, which needs to be wrapped in 'if __name__ == "__main__":' for Windows users
         if __name__ == "__main__":
             tmart.AEC.run(file, username, password)
 
@@ -132,10 +133,10 @@ def run(file, username, password, overwrite=False, AOT = 'MERRA2', n_photon = 10
     
     # S2/L89
     if file_is_dir: 
-        tmart_out = tmart.AEC.run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename_before_period)
+        tmart_out = tmart.AEC.run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename_before_period, n_jobs)
     # ACOLITE L1R 
     else:
-        tmart_out = tmart.AEC.run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename_before_period)
+        tmart_out = tmart.AEC.run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename_before_period, n_jobs)
     
     # Stop logging 
     sys.stdout = orig_stdout

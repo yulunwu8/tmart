@@ -18,11 +18,11 @@ sys.path.insert(0, os.path.abspath('.'))
 # -- Project information -----------------------------------------------------
 
 project = 'T-Mart'
-copyright = '2023, Yulun Wu'
+copyright = '2024, Yulun Wu'
 author = 'Yulun Wu'
 
 # The full version, including alpha/beta/rc tags
-release = '2.4.0'
+release = '2.4.3'
 
 
 # -- General configuration ---------------------------------------------------

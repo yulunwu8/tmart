@@ -55,18 +55,12 @@ file = 'user/test/S2A_MSIL1C_20160812T143752_N0204_R096_T20MKB_20160812T143749.S
 username = 'abcdef'
 password = '123456'
 
-### Multiprocessing needs to be wrapped in 'if __name__ == "__main__":' for Windows systems, this is optional for Unix-based systems
+# T-Mart uses multiprocessing, which needs to be wrapped in 'if __name__ == "__main__":' for Windows systems. This is optional for Unix-based systems
 if __name__ == "__main__":
     tmart.AEC.run(file, username, password)
 ```
 
 The tool takes approximately 20 min to process a Landsat 8/9 scene and 30 min for a Sentinel-2 scene on an eight-core personal computer. See <a href="https://tmart-rtm.github.io/ins_aec.html" target="_blank">Instruction - Adjacency-Effect Correction</a> for detailed instructions.
-
-## Known issue(s)
-
-`rasterio` version 1.3.11 leads to unprojected S2 image files when performing AE correction in Mac’s Terminal. 
-
-- Workarounds: run the code in an IDE, or downgrade to `rasterio` version 1.3.9 for terminal-based workflows.
 
 
 ## Others

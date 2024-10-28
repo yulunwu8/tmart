@@ -22,23 +22,23 @@ def anci_download(file, basefile, username, password):
     
     else:
         print('Downloading: ' + local_file)
-        if os.path.exists(os.path.dirname(local_file)) is False:
-            os.makedirs(os.path.dirname(local_file))
-        
-        # source: https://github.com/acolite/acolite/blob/main/acolite/shared/download_file.py
-        with requests.Session() as session:
-            r1 = session.request('get', url, verify=True)
-            r = session.get(r1.url, auth=auth, verify=True)
-            time.sleep(1)
-        
-            if (r.ok):
-                with open(local_file, 'wb') as f:
-                    for chunk in r.iter_content(chunk_size=1024*1024):
-                        if chunk: f.write(chunk)
-                            
-    if os.path.exists(local_file): pass
-    else: 
-        sys.exit('Warning: failed to download: ' + str(basefile) + '. Please check your credentials and if file is available on NASA Ocean Color website. Note that the files are typically available a month after image acquisition.')
+        try:     
+            if os.path.exists(os.path.dirname(local_file)) is False:
+                os.makedirs(os.path.dirname(local_file))
+            
+            # source: https://github.com/acolite/acolite/blob/main/acolite/shared/download_file.py
+            with requests.Session() as session:
+                r1 = session.request('get', url, verify=True)
+                r = session.get(r1.url, auth=auth, verify=True)
+                time.sleep(1)
+            
+                if (r.ok):
+                    with open(local_file, 'wb') as f:
+                        for chunk in r.iter_content(chunk_size=1024*1024):
+                            if chunk: f.write(chunk)
+                  
+        except: 
+            sys.exit('Warning: failed to download: ' + str(basefile) + '. Please check your credentials and if file is available on NASA Ocean Color website. Note that the files are typically available a month after image acquisition.')
          
     return local_file                       
     

@@ -11,26 +11,31 @@
 # Identify satellite sensor, currently only supports S2 and L8/L9 
 
 def identify_sensor(file):
-    import os
+    import os, sys
     
-    strings = file.split(".")
-    base_name = os.path.basename(file)
+    try:
+        strings = file.split(".")
+        base_name = os.path.basename(file)
+        
+        # remove AEC_ if exists 
+        if base_name[0:4] == 'AEC_':
+            base_name = base_name[4:]
+        
+        # If with 'SAFE': S2
+        if strings[-1] == 'SAFE':
+            if   base_name[0:3] == 'S2A': sensor = 'S2A'
+            elif base_name[0:3] == 'S2B': sensor = 'S2B'
+        
+        # Else: Landsat series 
+        else:
+            if   base_name[0:4] == 'LC08': sensor = 'L8'
+            elif base_name[0:4] == 'LC09': sensor = 'L9'
     
-    # remove AEC_ if exists 
-    if base_name[0:4] == 'AEC_':
-        base_name = base_name[4:]
+        print('\nIdentified sensor: ' + str(sensor) +  '\n')
     
-    # If with 'SAFE': S2
-    if strings[-1] == 'SAFE':
-        if   base_name[0:3] == 'S2A': sensor = 'S2A'
-        elif base_name[0:3] == 'S2B': sensor = 'S2B'
+    except: 
+        sys.exit('Unable to identify sensor, please keep the original folder name.')
     
-    # Else: Landsat series 
-    else:
-        if   base_name[0:4] == 'LC08': sensor = 'L8'
-        elif base_name[0:4] == 'LC09': sensor = 'L9'
-
-    print('\nIdentified sensor: ' + str(sensor) +  '\n')
     return sensor
     
     
