@@ -7,13 +7,14 @@
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 
+# Identify the type of the input: directory, file, or .SAFE.zip
+# With contribution from Shun Bi
 
 def identify_input(file_path):
     '''
     Identify the type of the input: directory, file, or .SAFE.zip
     
     '''
-    
     import os, sys
     import tmart
     

@@ -7,10 +7,12 @@
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 
+# Unzip a .SAFE.zip file and return the path to the extracted .SAFE dir
+# With contribution from Shun Bi
 
 def unzip(zip_file_path):
     '''
-    Unzip a .SAFE.zip file and return the new .SAFE path.
+    
     '''
     import zipfile
     unzip_folder = zip_file_path.replace('.SAFE.zip', '.SAFE')

@@ -2,7 +2,7 @@
 
 
 
-## 2.4.4 (October 28, 2024)
+## 2.4.5 (October 28, 2024)
 
 - Added support for SAFE.zip files 
 - Fixed minor path issues
@@ -33,7 +33,9 @@
 - Added module for calculating the sea-surface reflectance factor 
 
 
-## 1.0.0 (March 31, 2022)
+## 1.0.0 (March 31, 2022) 
 
 - First public release of T-Mart 
 - Support modelling of the adjacency effect
+
+
