@@ -1,10 +1,9 @@
 # Release Notes
 
 
-
 ## 2.4.5 (October 28, 2024)
 
-- Added support for SAFE.zip files 
+- Added support for SAFE.zip files
 - Fixed minor path issues
 
 

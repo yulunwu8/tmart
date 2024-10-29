@@ -11,9 +11,6 @@
 # With contribution from Shun Bi
 
 def unzip(zip_file_path):
-    '''
-    
-    '''
     import zipfile
     unzip_folder = zip_file_path.replace('.SAFE.zip', '.SAFE')
     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:

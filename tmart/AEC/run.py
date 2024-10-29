@@ -110,4 +110,3 @@ def run(file, username, password, overwrite=False, AOT='MERRA2', n_photon=100_00
 
     return tmart_out
     
-    

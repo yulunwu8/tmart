@@ -9,6 +9,7 @@
 
 
 # Read S2 metadata
+# With contribution from Shun Bi
 
 def read_metadata_S2(file,config,sensor):
     import tmart
