@@ -21,7 +21,7 @@ def run(file, username, password, overwrite=False, AOT='MERRA2', n_photon=100_00
     * ``AOT`` -- 'MERRA2': use ancillary data (default). Float: AOT at 550nm. 'NIR': calculate in T-Mart by finding dark pixels in NIR when considering the AE. 
     * ``n_photon`` -- Int. Number of photons in each T-Mart run, 100_000 is recommended for accurate results.
     * ``AOT_offset`` -- Float. Value added to AOT at 550nm. If resulted AOT is negative, it will be corrected to 0.
-    * ``n_jobs`` -- Int. Number of jobs in Python multiprocessing. One CPU core processes one job at a time. The number of photons in one job is n_photon divided by the number of cores.
+    * ``n_jobs`` -- Int. Number of jobs in Python multiprocessing. One CPU core processes one job at a time. n_photon is evenly distributed across the jobs.
 
     Example usage::
         

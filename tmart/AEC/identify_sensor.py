@@ -12,8 +12,9 @@
 
 def identify_sensor(file):
     import os, sys
-    
-    try:
+    sensor = None
+
+    try: 
         strings = file.split(".")
         base_name = os.path.basename(file)
         
@@ -21,21 +22,24 @@ def identify_sensor(file):
         if base_name[0:4] == 'AEC_':
             base_name = base_name[4:]
         
-        # If with 'SAFE': S2
+        # if with 'SAFE': S2
         if strings[-1] == 'SAFE':
             if   base_name[0:3] == 'S2A': sensor = 'S2A'
             elif base_name[0:3] == 'S2B': sensor = 'S2B'
         
-        # Else: Landsat series 
+        # else: Landsat series 
         else:
             if   base_name[0:4] == 'LC08': sensor = 'L8'
             elif base_name[0:4] == 'LC09': sensor = 'L9'
+
+    except:
+        pass
+
+    if sensor is None:
+        sys.exit('Unable to identify sensor, please use the original folder name.')
     
-        print('\nIdentified sensor: ' + str(sensor) +  '\n')
-    
-    except: 
-        sys.exit('Unable to identify sensor, please keep the original folder name.')
-    
+    print('\nIdentified sensor: ' + str(sensor) +  '\n')
+
     return sensor
     
     

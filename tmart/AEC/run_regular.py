@@ -14,15 +14,15 @@ def run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record,
     import tmart
     import sys, os
     
-    # Read configuration
+    # read configuration
     config = tmart.AEC.read_config()
 
-    # Identify sensor
+    # identify sensor
     print('\nReading image files: ')
     print(file)
     sensor = tmart.AEC.identify_sensor(file)
     
-    # Extract metadata
+    # extract metadata
     if sensor == 'S2A' or sensor == 'S2B':
         metadata = tmart.AEC.read_metadata_S2(file, config, sensor)
     elif sensor == 'L8' or sensor == 'L9':
@@ -31,15 +31,15 @@ def run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record,
     
     metadata['sensor'] = sensor
     
-    # Print metadata 
+    # print metadata 
     print('Metadata: ')
     for k, v in metadata.items():
         print(str(k) + ': '  + str(v))
         
-    # Get ancillary information from NASA Ocean Color
+    # get ancillary information from NASA Ocean Color
     anci = tmart.AEC.get_ancillary(metadata, username, password)
     
-    # Compute cloud and non-Water masks 
+    # compute cloud and non-Water masks 
     print('\nComputing masks: ')
     mask_cloud = tmart.AEC.compute_masks(metadata, config, 'cloud')
     mask_all   = tmart.AEC.compute_masks(metadata, config, 'all')   
@@ -55,14 +55,14 @@ def run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record,
     else:
         print('\nUser input AOT: ' + str(AOT))
     
-    # Add offset
+    # add offset
     AOT = max(0, AOT + AOT_offset)
     
-    # Write atm information
+    # write atm information
     tmart.AEC.write_atm_info(file, basename, anci, AOT)
     print('\nWrote aerosol and atmosphere information.')
     
-    # Make a record file for AEC 
+    # make a record file for AEC 
     file_AEC_record = open(AEC_record,"w")
     file_AEC_record.flush()
     
@@ -76,9 +76,8 @@ def run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record,
         file_AEC_record.write(str(AEC_band_name) + '\n')
         file_AEC_record.flush()
         
-    # Close AEC record 
+    # close AEC record 
     file_AEC_record.close()
     
     return 0
-    
     

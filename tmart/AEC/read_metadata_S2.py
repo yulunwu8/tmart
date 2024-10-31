@@ -41,7 +41,7 @@ def read_metadata_S2(file,config,sensor):
     metadata['cirrus_mask'] = config['S2_cirrus_band']
     metadata['SWIR_mask'] = config['S2_SWIR_band']
     
-    # Bands to be AECed
+    # bands to be AECed
     metadata['AEC_bands_name'] = ['B01','B02','B03','B04','B05','B06','B07','B08','B8A','B11','B12']
     
     if sensor == 'S2A': 
@@ -71,18 +71,18 @@ def read_metadata_S2(file,config,sensor):
                                     Py6S.Wavelength(Py6S.PredefinedWavelengths.S2B_MSI_12)]
         metadata['AEC_bands_wl'] = [442.2, 492.1, 559.0, 664.9, 703.8, 739.1, 779.7, 832.9, 864.0, 1610.4, 2185.5]        
         
-    # Find central coordinates of MGRS tile 
+    # find central coordinates of MGRS tile 
     m = mgrs.MGRS()
     
     for i, fname in enumerate(files):
         tmp = fname.split('.')
         path = '{}/{}'.format(file,fname)
         
-        # Granules
+        # granules
         if (fname == 'GRANULE'):
             granules = os.listdir(path)
             
-            # Check if there is only one granule file 
+            # check if there is only one granule file 
             n_granule = 0
             
             for granule in granules:
@@ -101,7 +101,7 @@ def read_metadata_S2(file,config,sensor):
                 metadata['lat'] = d[0]
                 metadata['lon'] = d[1]
                 
-                # Band files 
+                # band files 
                 image_files = os.listdir(metadata['granule'])
                 for image in image_files: 
                     if image[0]=='.':continue
@@ -109,7 +109,7 @@ def read_metadata_S2(file,config,sensor):
                     tmp = image.split('_')
                     metadata[tmp[-1][0:3]] = '{}/{}/{}/IMG_DATA/{}'.format(file,fname,granule,image)
                 
-                # Read scene metadata  
+                # read scene metadata  
                 path = '{}/{}/{}/'.format(file,fname,granule)
                 granule_files = os.listdir(path)
                 for j, grfname in enumerate(granule_files):
@@ -119,11 +119,11 @@ def read_metadata_S2(file,config,sensor):
                         xml = tmart.AEC.read_xml_S2(path)
                         metadata.update(xml)
     
-    # Scaling factors 
+    # scaling factors 
     xml2 = tmart.AEC.read_xml_S2_scene(xml_file)
     metadata.update(xml2)
     
-    # Others 
+    # others 
     metadata['resolution'] = 10
     metadata['reshape_factor'] = int(config['reshape_factor_S2'])
     if metadata['reshape_factor'] % 6 > 0: sys.exit('Warning: reshape_factor_S2 in config must be divisible by 6.')
@@ -134,11 +134,11 @@ def read_metadata_S2(file,config,sensor):
     metadata['height'] = 10_980
     metadata['width'] = 10_980
     
-    # The smallest number divisible by both 6 and reshape_factor
+    # the smallest number divisible by both 6 and reshape_factor
     # 6 comes from 60m/10m resolution, remainder of 6*reshape_f divided by greatest common divisor between 6 and reshape_f
     temp_reshape_factor = (metadata['reshape_factor'] * 6) // math.gcd(metadata['reshape_factor'], 6)
     
-    # Height and width for AEC, with a few extra rows and columns (ceil = round up)
+    # height and width for AEC, with a few extra rows and columns (ceil = round up)
     metadata['AEC_height'] = math.ceil(metadata['height'] / temp_reshape_factor) * temp_reshape_factor
     metadata['AEC_width'] = math.ceil(metadata['width'] / temp_reshape_factor) * temp_reshape_factor
     

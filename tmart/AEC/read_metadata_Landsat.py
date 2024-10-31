@@ -7,7 +7,6 @@
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 
-
 # Read L8/9 metadata
 
 def read_metadata_Landsat(file, config, sensor):
@@ -19,15 +18,15 @@ def read_metadata_Landsat(file, config, sensor):
     mtl = glob.glob('{}/{}'.format(file, '*MTL.txt'))[0]
     df = pd.read_csv(mtl, delimiter = '=', skipinitialspace=True)
     
-    # Get the first and second columns by integer positions
+    # get the first and second columns by integer positions
     first_column = df.iloc[:, 0]
     first_column = first_column.str.replace(' ', '')
     second_column = df.iloc[:, 1]
 
-    # Convert to dictionary
+    # convert to dictionary
     result_dict = dict(zip(first_column, second_column))
 
-    # Extract values 
+    # extract values 
     SUN_AZIMUTH = float(result_dict['SUN_AZIMUTH'])
     SUN_ELEVATION = float(result_dict['SUN_ELEVATION'])
     time = result_dict['DATE_ACQUIRED']+'T'+result_dict['SCENE_CENTER_TIME']
@@ -37,7 +36,7 @@ def read_metadata_Landsat(file, config, sensor):
            float(result_dict['CORNER_LL_LON_PRODUCT']) + float(result_dict['CORNER_LR_LON_PRODUCT']))/4
     tm_sun_dir=[90.0-SUN_ELEVATION, (SUN_AZIMUTH+270)%360] # mean_saa = 0 => sun is in the north => 270 in T-Mart
     
-    # Create dictionary 
+    # create dictionary 
     metadata =  {'file': file,
                  'granule': file,
                  'lat': lat,
@@ -50,7 +49,7 @@ def read_metadata_Landsat(file, config, sensor):
                  'tm_pt_dir': [180,0],
                  'tm_sun_dir': tm_sun_dir}
     
-    # Scaling factors 
+    # scaling factors 
     metadata['B1_mult'] = float(result_dict['REFLECTANCE_MULT_BAND_1']) 
     metadata['B2_mult'] = float(result_dict['REFLECTANCE_MULT_BAND_2']) 
     metadata['B3_mult'] = float(result_dict['REFLECTANCE_MULT_BAND_3']) 
@@ -68,7 +67,7 @@ def read_metadata_Landsat(file, config, sensor):
     metadata['B7_add'] = float(result_dict['REFLECTANCE_ADD_BAND_7'])
     metadata['B9_add'] = float(result_dict['REFLECTANCE_ADD_BAND_9'])
     
-    # Band and mask files 
+    # band and mask files 
     files = os.listdir(file)
     for image in files:
         if image[0]=='.':continue
@@ -80,19 +79,19 @@ def read_metadata_Landsat(file, config, sensor):
         else:
             pass
     
-    # Resolution for masks 
+    # resolution for masks 
     metadata['mask_res'] = [30, int( 30 *  int(config['reshape_factor_L8']))]
     
-    # High TOA bands for masks 
+    # high TOA bands for masks 
     highTOA_band_names = ['B1','B2','B3','B4','B5','B6','B7'] # bands to use in the highTOA mask 
     highTOA_band_names.remove(config['L8_SWIR_band'])
     metadata['highTOA_band_names'] = highTOA_band_names
 
-    # Masks 
+    # masks 
     metadata['cirrus_mask'] = config['L8_cirrus_band']
     metadata['SWIR_mask'] = config['L8_SWIR_band']
   
-    # Bands to be AECed
+    # bands to be AECed
     metadata['AEC_bands_name'] = ['B1','B2','B3','B4','B5','B6','B7']
     
     if sensor =='L8':
@@ -114,7 +113,7 @@ def read_metadata_Landsat(file, config, sensor):
         metadata['AEC_bands_6S'] = _L9_RSR()
         metadata['AEC_bands_wl'] = [442.81, 481.89, 560.95, 654.32, 864.64, 1608.15, 2200.12]
     
-    # Others 
+    # others 
     metadata['resolution'] = 30
     metadata['reshape_factor'] = int(config['reshape_factor_L8'])
     metadata['window_size'] = int(config['window_size'])
@@ -122,7 +121,7 @@ def read_metadata_Landsat(file, config, sensor):
     metadata['height'] = int(result_dict['REFLECTIVE_LINES']) 
     metadata['width'] = int(result_dict['REFLECTIVE_SAMPLES']) 
     
-    # Height and width for AEC, with a few extra rows and columns 
+    # height and width for AEC, with a few extra rows and columns 
     metadata['AEC_height'] = math.ceil(metadata['height'] / int(config['reshape_factor_L8'])) * int(config['reshape_factor_L8'])
     metadata['AEC_width'] = math.ceil(metadata['width'] / int(config['reshape_factor_L8'])) * int(config['reshape_factor_L8'])
 
