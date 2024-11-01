@@ -67,5 +67,5 @@ The tool takes approximately 20 min to process a Landsat 8/9 scene and 30 min fo
 
 T-Mart can calculate reflectances of various units, see Table 1 in Wu et al. (2023) for examples. 
 
-For questions and suggestions (which I'm always open to!), please email Yulun at [yulunwu8@gmail.com](mailto:yulunwu8@gmail.com)
+For questions and suggestions (which I'm always open to!), please open an issue or email Yulun at [yulunwu8@gmail.com](mailto:yulunwu8@gmail.com)
 
