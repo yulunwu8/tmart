@@ -15,7 +15,7 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
     import sys, os, time
     import netCDF4 as nc4
     import numpy as np
-    import scipy
+    from scipy import signal, interpolate
         
     # Read configuration
     config = tmart.AEC.read_config()
@@ -123,7 +123,7 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
                                                   target_pt_direction=[180,0], sun_dir=sun_dir, 
                                                   atm_profile = anci, 
                                                   aerosol_type = anci['r_maritime'], aot550 = AOT, 
-                                                  cell_size = 30,
+                                                  cell_size = 30*reshape_factor,
                                                   window_size = window_size, njobs=njobs)
         
         conv_window_1   = AEC_parameters['conv_window_1']
@@ -143,10 +143,10 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
     list_R_atm = np.array(list_R_atm)
     
     # interpolation objects  
-    interp_conv_window_1 = scipy.interpolate.interp1d(tm_wls_interp, list_conv_window_1, kind='linear', axis=0)
-    interp_F_correction = scipy.interpolate.interp1d(tm_wls_interp, list_F_correction, kind='linear', axis=0)
-    interp_F_captured = scipy.interpolate.interp1d(tm_wls_interp, list_F_captured, kind='linear', axis=0)
-    interp_R_atm = scipy.interpolate.interp1d(tm_wls_interp, list_R_atm, kind='linear', axis=0)
+    interp_conv_window_1 = interpolate.interp1d(tm_wls_interp, list_conv_window_1, kind='linear', axis=0)
+    interp_F_correction = interpolate.interp1d(tm_wls_interp, list_F_correction, kind='linear', axis=0)
+    interp_F_captured = interpolate.interp1d(tm_wls_interp, list_F_captured, kind='linear', axis=0)
+    interp_R_atm = interpolate.interp1d(tm_wls_interp, list_R_atm, kind='linear', axis=0)
         
     # Make a record file for AEC 
     file_AEC_record = open(AEC_record,"w")
@@ -154,7 +154,7 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
     
     # Loop through all bands 
     for i in range(len(WLs)):
-
+        
         # Wavelength and FWHM
         WL = WLs[i]
         WW = WWs[i]
@@ -212,7 +212,7 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
         start_time = time.time()
         print("\nConvolution started ")
         filter_kernel = np.flip(conv_window_1) # it's flipped in convolve by default
-        R_conv = scipy.signal.convolve2d(image_R_surf, filter_kernel, mode='same', boundary='fill', fillvalue=image_R_surf.mean())
+        R_conv = signal.convolve2d(image_R_surf, filter_kernel, mode='same', boundary='fill', fillvalue=image_R_surf.mean())
         print("Convolution completed: %s seconds " % (time.time() - start_time))
         
         
@@ -252,7 +252,7 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
             filter_size = 3
             filter_kernel = np.full((filter_size,filter_size), 1/(filter_size**2))
             
-            RC_water_smooth = scipy.signal.convolve2d(RC_water_fill_nan, filter_kernel, mode='same', boundary='fill', fillvalue=np.nanmean(RC_water))
+            RC_water_smooth = signal.convolve2d(RC_water_fill_nan, filter_kernel, mode='same', boundary='fill', fillvalue=np.nanmean(RC_water))
             
             # place RC_water_smooth in R_correction_original_shape where there's water
             R_correction_original_shape = np.where(mask_all, R_correction_original_shape, RC_water_smooth)

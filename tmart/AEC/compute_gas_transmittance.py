@@ -25,6 +25,7 @@ def calculate_heights(center_wavelength, FWHM, range_width=100, interval=2.5):
     
     # normalize heights 
     heights = heights / np.max(heights)
+    heights = np.round(heights, 6)
 
     return wavelengths[0], wavelengths[-1], heights
 

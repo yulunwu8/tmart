@@ -24,7 +24,7 @@ def identify_input(file_path):
     # If input is a file 
     elif os.path.isfile(file_path):
         # ACOLITE L1R (currently supporting PRISMA data only)
-        if file_path.endswith('.L1R.nc'):
+        if file_path.endswith('L1R.nc'):
             file_is_dir = False
         # SAFE.zip file: unzip and update the path 
         elif file_path.endswith('.SAFE.zip'):
