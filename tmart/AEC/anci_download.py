@@ -14,7 +14,7 @@ def anci_download(file, basefile, username, password):
     import requests, time, os, sys
     url = 'https://oceandata.sci.gsfc.nasa.gov/ob/getfile/' + basefile
     auth = (username, password)
-    local_file = file + '/tmart_ancillary/' + basefile
+    local_file = os.path.join(file, 'tmart_ancillary', basefile)
     
     if os.path.exists(local_file):
         print('File exists: ' + local_file)
