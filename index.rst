@@ -6,6 +6,8 @@
 Welcome to T-Mart's documentation!
 ==================================
 
+T-Mart supports modelling and correction of the adjacency effect in aquatic remote sensing.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:

@@ -39,23 +39,9 @@ def anci_download(file, basefile, username, password):
                   
         except: 
             sys.exit('Warning: failed to download: ' + str(basefile) + '. Please check your credentials and if file is available on NASA Ocean Color website. Note that the files are typically available a month after image acquisition.')
-         
-    return local_file                       
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-
-
+    if os.path.exists(local_file):
+        return local_file       
+    else:
+        sys.exit('Warning: failed to download: ' + str(basefile) + '. Please check your credentials and if file is available on NASA Ocean Color website. Note that the files are typically available a month after image acquisition.')
 
