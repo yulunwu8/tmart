@@ -9,7 +9,7 @@
 
 # Overall control of AEC
 
-def run(file, username, password, overwrite=False, AOT='MERRA2', n_photon=100_000, AOT_offset=0.0, n_jobs=100):
+def run(file, username, password, overwrite=False, AOT='MERRA2', n_photon=100_000, AOT_offset=0.0, n_jobs=100, mask_SWIR_threshold=None):
     '''Run adjacency-effect correction on satellite files. See 'Introduction - Adjacency-Effect Correction' for detailed instructions.
     
     Arguments:
@@ -22,6 +22,7 @@ def run(file, username, password, overwrite=False, AOT='MERRA2', n_photon=100_00
     * ``n_photon`` -- Int. Number of photons in each T-Mart run, 100_000 is recommended for accurate results.
     * ``AOT_offset`` -- Float. Value added to AOT at 550nm. If resulted AOT is negative, it will be corrected to 0.
     * ``n_jobs`` -- Int. Number of jobs in Python multiprocessing. One CPU core processes one job at a time. n_photon is evenly distributed across the jobs.
+    * ``mask_SWIR_threshold`` -- Float. Reflectance threshold in a SWIR band used to mask non-water pixels in the processing. If specified, this overwrites the value in config.txt. 
 
     Example usage::
         
@@ -100,7 +101,7 @@ def run(file, username, password, overwrite=False, AOT='MERRA2', n_photon=100_00
     
     # S2/L89
     if file_is_dir: 
-        tmart_out = tmart.AEC.run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename_before_period, n_jobs)
+        tmart_out = tmart.AEC.run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename_before_period, n_jobs, mask_SWIR_threshold)
     # ACOLITE L1R 
     else:
         tmart_out = tmart.AEC.run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename_before_period, n_jobs)

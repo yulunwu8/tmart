@@ -17,7 +17,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="tmart",                     # This is the name of the package
-    version="2.4.11",                       
+    version="2.5.0",                       
     author="Yulun Wu",                     # Full name of the author
     description="Modelling and correcting for the adjacency effect in aquatic remote sensing",
     long_description=long_description,      # Long description read from the the readme file
@@ -38,5 +38,5 @@ setuptools.setup(
     # py_modules=["tmart"],             # Name of the python package
     # package_dir={'':'tmart/'},     # Directory of the source code of the package
     license_files=('license.txt'),
-    install_requires=['Py6S','scipy','pathos','matplotlib','netCDF4','rasterio','mgrs','geopandas','requests']  # Install other dependencies if any
+    install_requires=['scipy','pathos','matplotlib','netCDF4','mgrs','geopandas','requests','pandas']  # Install other dependencies if any
 )

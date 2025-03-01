@@ -113,7 +113,7 @@ def compute_masks(metadata, config, mask_type):
         print('Computing cloud mask...')
         
         # Sentinel-2
-        if sensor == 'S2A' or sensor == 'S2B':
+        if sensor == 'S2A' or sensor == 'S2B' or sensor == 'S2C':
             gml_file = "{}/MSK_CLOUDS_B00.gml".format(metadata['QI_DATA'])
             jp2_file = "{}/MSK_CLASSI_B00.jp2".format(metadata['QI_DATA'])
             
@@ -191,7 +191,7 @@ def compute_masks(metadata, config, mask_type):
     elif mask_type == 'all':
     
         # SWIR band 
-        print('Computing SWIR mask, reading band {}...'.format(config['L8_SWIR_band']))
+        print('Computing SWIR mask, reading band {}...'.format(metadata['SWIR_mask']))
         mask_SWIR = mask_threshold(metadata['SWIR_mask'],'mask_SWIR_threshold', mask_NAN = True)
         
         ### High TOA bands 

@@ -35,28 +35,29 @@ During the AEC process, a number of files are generated:
 - **tmart\_log\_\*.txt**: detailed processing information, as printed in the Python console. 
 - **tmart\_atm\_info\_\*.txt**: atmosphere and aerosol information used in the processing. This includes aerosol type, angstrom exponent, single scattering albedo, AOT at 550 nm, total column ozone, and total precipitable water vapour. 
 - **tmart\_ancillary/\*.nc**: GMAO MERRA2 ancillary files from the NASA Ocean Biology Processing Group. 
-- **tmart\_completed.txt**: a record of bands that have been corrected for the adjacency effect.  
+- **tmart\_completed.txt**: a record of bands that have been corrected for the adjacency effect. 
+- **tmart\_preview.txt**: a image preview of pixels identified as water (only run when ``AE_land`` is False).
 
 ## AEC configuration
 
 A TXT configuration file is stored in the *tmart* package folder. Its path is printed in the Python console and the log file. Brief descriptions are given in the file. Most of the configuration settings are tuned for best performance. 
 
-By default, T-Mart identifies water pixels and only modify their values, leaving land pixel values unchanged. In case a significant number of water pixels are falsely masked as land, the ``mask_SWIR_threshold`` can be increased based on the water pixel values in the scene. Alternatively, setting ``AE_land`` to True enables AEC across the entire scene. 
+By default, T-Mart identifies water pixels and only modify their values, leaving land pixel values unchanged to facilitate the existing calibration of atmospheric correction processors that extract information from land pixels. In case a significant number of water pixels are falsely masked as land, the ``mask_SWIR_threshold`` (default value: 0.03) can be increased based on the water pixel values in the scene. Modifying ``mask_SWIR_threshold`` in the *AEC.run* function overwrites the value in config.txt. Alternatively, setting ``AE_land`` to True enables AEC across the entire scene. 
 
 ## Additional arguments 
 
-``AOT`` and ``n_photon`` can be specified manually. You can specify ``AOT`` if you are certain about its value or simply to test the impact of using different values. ``n_photon`` is the number of photons used in each T-Mart run; the default value of 100,000 is recommended for accurate results. It can be reduced to 10,000 for quicker computation. 
+``AOT`` and ``n_photon`` can be specified manually. ``AOT`` is the aerosol optical thickness at 550 nm, you can specify it if you are certain about its value or simply to test the impact of using different values. ``n_photon`` is the number of photons used in each T-Mart run; the default value of 100,000 is recommended for accurate results. It can be reduced to 10,000 for quicker computation. 
 
 ```python
 tmart.AEC.run(file, username, password, overwrite=True, AOT = 0.05, n_photon = 10_000)
 ```
 
-## Assumptions in the processing 
+## Assumptions in AEC 
 
 A few assumptions are made in the processing, violations can lead to various degrees of errors in the output AE-free product: 
 
 - Isotropic/Lambertian surface 
-- Vertically stratified but horizontally homogeneous atmosphere and aerosols across the scene 
+- Vertically stratified but horizontally homogeneous atmospheric molecules and aerosols across the scene 
 - Flat surface or lack of topography
 
 See <a href="https://tmart-rtm.github.io/tmart.html#module-tmart.AEC.run" target="_blank">AEC.run Function</a> for all the arguments. 

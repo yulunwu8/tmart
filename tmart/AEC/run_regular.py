@@ -9,13 +9,13 @@
 
 # Run on Landsat and Sentinel series 
 
-def run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename, njobs): 
+def run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename, njobs, mask_SWIR_threshold): 
  
     import tmart
     import sys, os
     
     # read configuration
-    config = tmart.AEC.read_config()
+    config = tmart.AEC.read_config(mask_SWIR_threshold)
 
     # identify sensor
     print('\nReading image files: ')
@@ -23,7 +23,7 @@ def run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record,
     sensor = tmart.AEC.identify_sensor(file)
     
     # extract metadata
-    if sensor == 'S2A' or sensor == 'S2B':
+    if sensor == 'S2A' or sensor == 'S2B' or sensor == 'S2C':
         metadata = tmart.AEC.read_metadata_S2(file, config, sensor)
     elif sensor == 'L8' or sensor == 'L9':
         metadata = tmart.AEC.read_metadata_Landsat(file, config, sensor)
@@ -45,6 +45,11 @@ def run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record,
     mask_all   = tmart.AEC.compute_masks(metadata, config, 'all')   
     print('Done')
     
+    # plot water-extent preview
+    if not config['AE_land']=='True':
+        print('\nPlotting water-extent preview...')
+        tmart.AEC.plot_water_extent(metadata, config, mask_all)
+        
     # AOT
     if AOT == 'NIR':
         print('\nEstimating AOT from the NIR band: ')

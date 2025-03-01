@@ -31,7 +31,7 @@ conda activate tmart
 2 - Install dependencies: 
 
 ```bash
-conda install -c conda-forge Py6S
+conda install -c conda-forge Py6S rasterio==1.3.9
 ```
 
 
@@ -61,14 +61,6 @@ if __name__ == "__main__":
 ```
 
 The tool takes approximately 20 min to process a Landsat 8/9 scene and 30 min for a Sentinel-2 scene on an eight-core personal computer. See <a href="https://tmart-rtm.github.io/ins_aec.html" target="_blank">Instruction - Adjacency-Effect Correction</a> for detailed instructions.
-
-## Known issue(s)
-
-`rasterio` version 1.4.x leads to unprojected S2 image files when performing AE correction in Mac’s Terminal. You can specify `rasterio` version 1.3.9 in Installation step 2 to get around this: 
-
-```bash
-conda install -c conda-forge Py6S rasterio==1.3.9
-```
 
 
 ## Others

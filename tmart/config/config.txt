@@ -5,7 +5,7 @@ T-Mart configuration for adjacency-effect correction
 
 # Thresholds for identifying water pixels, all at TOA level
 mask_cirrus_threshold = 0.005
-mask_SWIR_threshold = 0.0215
+mask_SWIR_threshold = 0.03
 mask_highTOA_threshold = 0.3
 
 # Cirrus band name 

@@ -21,11 +21,12 @@ def identify_sensor(file):
         # remove AEC_ if exists 
         if base_name[0:4] == 'AEC_':
             base_name = base_name[4:]
-        
+
         # if with 'SAFE': S2
         if strings[-1] == 'SAFE':
             if   base_name[0:3] == 'S2A': sensor = 'S2A'
             elif base_name[0:3] == 'S2B': sensor = 'S2B'
+            elif base_name[0:3] == 'S2C': sensor = 'S2C'
         
         # else: Landsat series 
         else:

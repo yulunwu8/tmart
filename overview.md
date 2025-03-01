@@ -27,7 +27,7 @@ conda activate tmart
 2 - Install dependencies: 
 
 ```bash
-conda install -c conda-forge Py6S
+conda install -c conda-forge Py6S rasterio==1.3.9
 ```
 
 3 - Install tmart: 
@@ -46,7 +46,7 @@ Wu, Y., Knudby, A., Pahlevan, N., Lapen, D., & Zeng, C. (2024). Sensor-generic a
 
 Home page: <a href="https://github.com/yulunwu8/tmart" target="_blank">https://github.com/yulunwu8/tmart</a>
 
-Yulun Wu | September 29, 2024 | [yulunwu8@gmail.com](mailto:yulunwu8@gmail.com)
+Yulun Wu | February 28, 2025 | [yulunwu8@gmail.com](mailto:yulunwu8@gmail.com)
 
 
 

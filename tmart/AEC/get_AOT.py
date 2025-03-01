@@ -30,6 +30,10 @@ def get_AOT(metadata, config, anci, mask_cloud, mask_all, n_photon):
         band = Py6S.Wavelength(Py6S.PredefinedWavelengths.S2B_MSI_8A)
         wl = 864.0
         band_file = metadata['B8A']
+    elif sensor == 'S2C':
+        band = Py6S.Wavelength(0.83, 0.9, [0.0, 8.291e-05, 0.00016582, 0.00018964, 0.00021346, 0.00032219, 0.00043092, 0.002265495, 0.00410007, 0.15940945, 0.31471883, 0.6560948, 0.99747077, 0.980849005, 0.96422724, 0.950272335, 0.93631743, 0.7946804599999999, 0.65304349, 0.33604138499999997, 0.01903928, 0.010021164999999999, 0.00100305, 0.0006311349999999999, 0.00025922, 0.000206555, 0.00015389, 7.6945e-05, 0.0])
+        wl = 865.6
+        band_file = metadata['B8A']
     elif sensor == 'L8':
         band = Py6S.Wavelength(Py6S.PredefinedWavelengths.LANDSAT_OLI_B5)
         wl = 864.7

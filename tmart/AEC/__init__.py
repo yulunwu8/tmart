@@ -21,6 +21,7 @@ from .get_parameters import *
 from .identify_input import *
 from .identify_sensor import *
 from .irradiance_correction import *
+from .plot_water_extent import *
 from .read_config import *
 from .read_metadata_Landsat import *
 from .read_metadata_S2 import *

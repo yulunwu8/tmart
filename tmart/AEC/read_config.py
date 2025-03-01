@@ -9,7 +9,7 @@
 
 # Read configuration file 
 
-def read_config():
+def read_config(mask_SWIR_threshold):
     import os
     import pandas as pd
     
@@ -27,6 +27,10 @@ def read_config():
     df[['left', 'right']] = df.iloc[:,0].str.replace(' ', '').str.split('=', expand=True)
     result_dict = dict(zip(df['left'], df['right']))
     print('\nT-Mart configuration (editable at {}): '.format(file))
+    
+    if mask_SWIR_threshold is not None:
+        result_dict['mask_SWIR_threshold']=mask_SWIR_threshold
+    
     for k, v in result_dict.items():
         print(str(k) + ': '  + str(v))    
     

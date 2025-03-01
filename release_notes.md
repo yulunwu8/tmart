@@ -1,6 +1,13 @@
 # Release Notes
 
 
+## 2.5.0 (February 28, 2025)
+
+- Added AEC support for level-1 Sentinel-2C products
+- Updated default ``mask_SWIR_threshold`` value to 0.03, and enabled user modification in the *AEC.run* function
+- Added a water-extent preview in the image folder
+
+
 ## 2.4.5 (October 28, 2024)
 
 - Added support for SAFE.zip files
