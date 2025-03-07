@@ -12,7 +12,7 @@
 
 def plot_water_extent(metadata, config, mask_all):
     
-    import rasterio, sys, os, math, re
+    import rasterio, sys, os, math, re, gc
     import numpy as np
     import matplotlib.pyplot as plt
     
@@ -94,3 +94,6 @@ def plot_water_extent(metadata, config, mask_all):
     plt.close(fig)
     
     print('Preview saved: ' + str(path_preview))
+
+    del image_bands, mask, image_rgb, overlay, alpha_channel, overlaya
+    gc.collect()

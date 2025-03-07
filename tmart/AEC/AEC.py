@@ -13,7 +13,7 @@
 def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud, mask_all, n_photon, njobs):
     
     import tmart
-    import rasterio, sys, time
+    import rasterio, sys, time, gc
     from scipy import signal
     import numpy as np
     import math
@@ -208,4 +208,5 @@ def AEC(AEC_band_name, AEC_band_6S, wl, AOT, metadata, config, anci, mask_cloud,
     band_ds.write(temp_out, 1)
     band_ds.close()
     
-    
+    del band_ds, image, image_AEC, image_R_surf, is_nan, R_conv, R_correction, R_correction_original_shape, temp_SR, temp_SR_water, temp_is_nan, temp_out
+    gc.collect()

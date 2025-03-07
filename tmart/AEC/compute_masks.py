@@ -14,7 +14,7 @@ def compute_masks(metadata, config, mask_type):
     # mask_type: 'cloud' or 'all' 
     # output masks in a dictionary, with resolution as keys. E.g., masks['10m'], masks['20m'], etc.
     
-    import rasterio, sys, os
+    import rasterio, sys, os, gc
     import numpy as np
     
     sensor = metadata['sensor']
@@ -184,7 +184,10 @@ def compute_masks(metadata, config, mask_type):
                                                       width_reshaped, int(res / metadata['resolution'])]).mean(3).mean(1) > 0
             mask_reshaped = np.logical_or(mask_cirrus[str(res) + 'm'],mask_cloud_reshaped)
             masks[str(res) + 'm'] = mask_reshaped
-                
+
+        del mask_cirrus, mask_cloud, band_ds, band_array
+        gc.collect()
+
         return masks
     
     # All non-water 
@@ -222,10 +225,12 @@ def compute_masks(metadata, config, mask_type):
             # Overall mask: cirrus, SWIR, and highTOA
             mask_reshaped = np.logical_or(np.logical_or(mask_cirrus[str(res) + 'm'], mask_SWIR[str(res) + 'm']), mask_highTOA_res)
             masks[str(res) + 'm'] = mask_reshaped
-                
+        
+        del mask_cirrus, mask_SWIR, mask_highTOA, masks_highTOA, mask_highTOA_res, mask_reshaped
+        gc.collect()
+        
         return masks   
 
     else:
         sys.exit('Warning: unrecognized mask was requested')
-
 

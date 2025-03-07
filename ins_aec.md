@@ -15,7 +15,7 @@ file = 'user/test/S2A_MSIL1C_20160812T143752_N0204_R096_T20MKB_20160812T143749.S
 username = 'abcdef'
 password = '123456'
 
-# T-Mart uses multiprocessing, which needs to be wrapped in 'if __name__ == "__main__":' for Windows users
+# T-Mart uses multiprocessing, which needs to be wrapped in 'if __name__ == "__main__":' for Windows users. This is optional for Unix-based systems
 if __name__ == "__main__":
     tmart.AEC.run(file, username, password)
 ```
@@ -42,7 +42,7 @@ During the AEC process, a number of files are generated:
 
 A TXT configuration file is stored in the *tmart* package folder. Its path is printed in the Python console and the log file. Brief descriptions are given in the file. Most of the configuration settings are tuned for best performance. 
 
-By default, T-Mart identifies water pixels and only modify their values, leaving land pixel values unchanged to facilitate the existing calibration of atmospheric correction processors that extract information from land pixels. In case a significant number of water pixels are falsely masked as land, the ``mask_SWIR_threshold`` (default value: 0.03) can be increased based on the water pixel values in the scene. Modifying ``mask_SWIR_threshold`` in the *AEC.run* function overwrites the value in config.txt. Alternatively, setting ``AE_land`` to True enables AEC across the entire scene. 
+By default, T-Mart identifies water pixels and only modify their values, leaving land pixel values unchanged to facilitate the existing calibration of atmospheric correction processors that extract information from land pixels. In case a significant number of water pixels are falsely masked as land, the ``mask_SWIR_threshold`` (the reflectance threshold in a SWIR band used to mask non-water pixels; default value: 0.03) can be increased based on the water pixel values in the scene. Modifying ``mask_SWIR_threshold`` in the *AEC.run* function overwrites the value in config.txt. Alternatively, setting ``AE_land`` to True enables AEC across the entire scene. 
 
 ## Additional arguments 
 
