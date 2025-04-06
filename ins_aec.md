@@ -1,6 +1,8 @@
 # Instruction - Adjacency-Effect Correction
 
-<a href="https://youtube.com/playlist?list=PLzHfjrsxuGd0LnpNDYCqbo9PEnit9fDeT&si=ebnYU7Lq-OJSVtWJ" target="_blank">Video instructions</a>
+Video tutorials:
+
+<a href="https://youtube.com/playlist?list=PLzHfjrsxuGd0LnpNDYCqbo9PEnit9fDeT&si=ebnYU7Lq-OJSVtWJ" target="_blank"><img src="_images/playlist.png"  width="350"></a>
 
 ## Mininum input
 
