@@ -2,6 +2,8 @@
 
 Video tutorials:
 
+<a href="https://youtube.com/playlist?list=PLzHfjrsxuGd0LnpNDYCqbo9PEnit9fDeT&si=ebnYU7Lq-OJSVtWJ" target="_blank"><img src="files/playlist.png"  width="300"></a>
+
 <a href="https://youtube.com/playlist?list=PLzHfjrsxuGd0LnpNDYCqbo9PEnit9fDeT&si=ebnYU7Lq-OJSVtWJ" target="_blank"><img src="_images/playlist.png"  width="350"></a>
 
 ## Mininum input
