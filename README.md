@@ -12,12 +12,6 @@ Home page: <a href="https://github.com/yulunwu8/tmart" target="_blank">https://g
 
 User guide: <a href="https://tmart-rtm.github.io" target="_blank">https://tmart-rtm.github.io</a>
 
-## Publications
-
-Wu, Y., Knudby, A., & Lapen, D. (2023). Topography-adjusted Monte Carlo simulation of the adjacency effect in remote sensing of coastal and inland waters. *Journal of Quantitative Spectroscopy and Radiative Transfer*, 108589. <a href="https://doi.org/10.1016/j.jqsrt.2023.108589" target="_blank">https://doi.org/10.1016/j.jqsrt.2023.108589</a>
-
-Wu, Y., Knudby, A., Pahlevan, N., Lapen, D., & Zeng, C. (2024). Sensor-generic adjacency-effect correction for remote sensing of coastal and inland waters. *Remote Sensing of Environment*, 315, 114433. <a href="https://doi.org/10.1016/j.rse.2024.114433" target="_blank">https://doi.org/10.1016/j.rse.2024.114433</a>
-
 
 ## Installation 
 
@@ -67,9 +61,20 @@ Video tutorials:
 <a href="https://youtube.com/playlist?list=PLzHfjrsxuGd0LnpNDYCqbo9PEnit9fDeT&si=ebnYU7Lq-OJSVtWJ" target="_blank"><img src="files/playlist.png"  width="300"></a>
 
 
-## Others
 
-T-Mart can calculate reflectances of various units, see Table 1 in Wu et al. (2023) for examples. 
+## Publications
+
+Wu, Y., Knudby, A., & Lapen, D. (2023). Topography-adjusted Monte Carlo simulation of the adjacency effect in remote sensing of coastal and inland waters. *Journal of Quantitative Spectroscopy and Radiative Transfer*, 108589. <a href="https://doi.org/10.1016/j.jqsrt.2023.108589" target="_blank">https://doi.org/10.1016/j.jqsrt.2023.108589</a>
+
+Wu, Y., Knudby, A., Pahlevan, N., Lapen, D., & Zeng, C. (2024). Sensor-generic adjacency-effect correction for remote sensing of coastal and inland waters. *Remote Sensing of Environment*, 315, 114433. <a href="https://doi.org/10.1016/j.rse.2024.114433" target="_blank">https://doi.org/10.1016/j.rse.2024.114433</a>
+
+
+## Funding
+
+T-Mart was funded by the Canadian Space Agency (Grant 22AO2-LIQU to Liquid Geomatics Ltd.) and Agriculture and Agri-Food Canada (Grants J-001839 and J-002305 to D.R. Lapen).
+
+
+## Others
 
 For questions and suggestions (which I'm always open to!), please open an issue or email Yulun at [yulunwu8@gmail.com](mailto:yulunwu8@gmail.com)
 
