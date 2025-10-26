@@ -14,7 +14,7 @@ def run(file, username, password, overwrite=False, AOT='MERRA2', n_photon=100_00
     
     Arguments:
         
-    * ``file`` -- String. Path to satellite files. For L8/S2: provide path to the folder. For PRISMA: provide ACOLITE L1R file. SAFE.zip for S2 is supported: when doing so it is recommended to set ``overwrite`` as True to save space. 
+    * ``file`` -- String. Path to satellite files. For L8: provide path to the folder. For S2: provide path to the folder or zip file. For PRISMA: provide ACOLITE L1R file. 
     * ``username`` -- String. Username of EarthData account.
     * ``password`` -- String. Password of EarthData account.
     * ``overwrite`` -- Boolean. If overwrite the existing files. The default is False and it creates a folder in the same directory that starts with AEC in the name

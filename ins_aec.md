@@ -1,9 +1,5 @@
 # Instruction - Adjacency-Effect Correction
 
-Video tutorials:
-
-<a href="https://youtube.com/playlist?list=PLzHfjrsxuGd0LnpNDYCqbo9PEnit9fDeT&si=ebnYU7Lq-OJSVtWJ" target="_blank"><img src="_images/playlist.png"  width="300"></a>
-
 ## Mininum input
 
 The *AEC.run* function is used to perform adjacency-effect correction (AEC) in T-Mart. Correction is performed directly on level-1 products, and the output is adjacency-effect-free top-of-atmosphere products in the same format as the input level-1 products, therefore this workflow can be followed by any amtospheric correction tools. Currently it supports Sentinel-2 MSI, Landsat 8/9 OLI/OLI-2 and PRISMA imagery.
@@ -19,7 +15,7 @@ file = 'user/test/S2A_MSIL1C_20160812T143752_N0204_R096_T20MKB_20160812T143749.S
 username = 'abcdef'
 password = '123456'
 
-# T-Mart uses multiprocessing, which needs to be wrapped in 'if __name__ == "__main__":' for Windows users. This is optional for Unix-based systems
+# T-Mart uses multiprocessing, which must be wrapped in 'if __name__ == "__main__":' for Windows users. This is optional for Unix-based systems
 if __name__ == "__main__":
     tmart.AEC.run(file, username, password)
 ```
@@ -66,9 +62,12 @@ A few assumptions are made in the processing, violations can lead to various deg
 
 See <a href="https://tmart-rtm.github.io/tmart.html#module-tmart.AEC.run" target="_blank">AEC.run Function</a> for all the arguments. 
 
+## PRISMA image processing
 
+T-Mart supports AE correction for ACOLITE-generated L1R PRISMA files. The modified L1R files from T-Mart can then be reprocessed in ACOLITE for atmospheric correction. 
 
+## Video tutorials
 
-
+<a href="https://youtube.com/playlist?list=PLzHfjrsxuGd0LnpNDYCqbo9PEnit9fDeT&si=ebnYU7Lq-OJSVtWJ" target="_blank"><img src="_images/playlist.png"  width="300"></a>
 
 

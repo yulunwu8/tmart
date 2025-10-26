@@ -1,12 +1,11 @@
 # This file is part of TMart.
 #
-# Copyright 2024 Yulun Wu.
+# Copyright 2024-2025 Yulun Wu.
 #
 # TMart is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-
 
 # Identify satellite sensor, currently only supports S2 and L8/L9 
 
@@ -40,7 +39,4 @@ def identify_sensor(file):
         sys.exit('Unable to identify sensor, please use the original folder name.')
     
     print('\nIdentified sensor: ' + str(sensor) +  '\n')
-
     return sensor
-    
-    

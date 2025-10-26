@@ -19,7 +19,7 @@ Modelling and correcting for the adjacency effect in nearshore aquatic remote se
    ins_rho
 
    tmart
-
+   publications
    release_notes
 
 

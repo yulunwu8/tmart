@@ -1,6 +1,6 @@
 # This file is part of T-Mart.
 #
-# Copyright 2024 Yulun Wu.
+# Copyright 2024-2025 Yulun Wu.
 #
 # T-Mart is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -16,38 +16,6 @@ def irradiance_correction(image, wl_RC, band = None,
                           tm_vza = 0, tm_vaa = 0, tm_sza = 0, tm_saa = 0, 
                           atm_profile = None, 
                           aerosol_type = 'Maritime', aot550 = 0):
-    '''
-    
-
-    Parameters
-    ----------
-    image : numpy array 
-        surface reflectance.
-    wl_RC : TYPE
-        DESCRIPTION.
-    band : TYPE, optional
-        DESCRIPTION. The default is None.
-    tm_vza : TYPE, optional
-        DESCRIPTION. The default is 0.
-    tm_vaa : TYPE, optional
-        DESCRIPTION. The default is 0.
-    tm_sza : TYPE, optional
-        DESCRIPTION. The default is 0.
-    tm_saa : TYPE, optional
-        DESCRIPTION. The default is 0.
-    atm_profile : TYPE, optional
-        DESCRIPTION. The default is None.
-    aerosol_type : TYPE, optional
-        DESCRIPTION. The default is 'Maritime'.
-    aot550 : TYPE, optional
-        DESCRIPTION. The default is 0.
-
-    Returns
-    -------
-    image_out : TYPE
-        DESCRIPTION.
-
-    '''
     
     import numpy as np
     import sys
@@ -104,7 +72,6 @@ def irradiance_correction(image, wl_RC, band = None,
         s.ground_reflectance = GroundReflectance.HomogeneousLambertian(SR)
         s.run()
         list_R_dir.append(s.outputs.values['pixel_reflectance'])
-    
     
     # Calculate the ratio 
     array_R_dir = np.array(list_R_dir)

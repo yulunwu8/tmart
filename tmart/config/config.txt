@@ -27,8 +27,8 @@ reshape_factor_S2 = 18
 reshape_factor_L8 = 12
 
 
-# Number of cells in AEC in each axis 
-# larger value: slower processing, less violation of assumption that inside & outside the window are the same 
+# Number of cells in AEC along each axis 
+# larger value: slower processing, less violation of assuming all diffuse radiation comes from the window
 # must be an odd number
 
 window_size = 201
