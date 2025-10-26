@@ -9,7 +9,7 @@
 
 ## Description 
 
-T-Mart solves radiative transfer in a 3D surface-atmosphere system. It supports customizable surface models and enables simulation and correction for the adjacency effect (AE) in optical aquatic remote sensing. AE correction substantially improves satellite-based retrieval of water-leaving reflectance in nearshore environments (Wu et al., 2024). 
+T-Mart solves radiative transfer in a 3D surface-atmosphere system. It supports customizable surface and atmosphere models and enables simulation and correction for the adjacency effect (AE) in optical aquatic remote sensing. AE correction substantially improves satellite-based retrieval of water-leaving reflectance in nearshore environments (Wu et al., 2024). 
 
 
 ## Links
