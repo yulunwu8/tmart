@@ -32,7 +32,8 @@ def read_atm_info(path):
         for line in atm_file:
             for label, key in label_map.items():
                 if label in line:
-                    match = re.findall(r'[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?', line)
+                    body = line.split(':', 1)[1]
+                    match = re.findall(r'[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?', body)
                     if not match:
                         raise ValueError(f'No numeric value found for "{label}" in {path}')
                     values[key] = float(match[0])
