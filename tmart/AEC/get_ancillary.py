@@ -22,6 +22,9 @@ def get_ancillary(metadata, username, password, atm_info_file=None):
         except (FileNotFoundError, ValueError) as error:
             sys.exit(str(error))
     
+    if not username or not password:
+        raise ValueError('EarthData username and password are required when atm_info_file is not provided.')
+    
     # List all files to download 
     files = tmart.AEC.anci_list_files(metadata)
     

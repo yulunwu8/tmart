@@ -9,14 +9,14 @@
 
 # Overall control of AEC
 
-def run(file, username, password, overwrite=False, AOT='MERRA2', n_photon=100_000, AOT_offset=0.0, n_jobs=100, mask_SWIR_threshold=None, atm_info_file=None):
+def run(file, username=None, password=None, overwrite=False, AOT='MERRA2', n_photon=100_000, AOT_offset=0.0, n_jobs=100, mask_SWIR_threshold=None, atm_info_file=None):
     '''Run adjacency-effect correction on satellite files. See 'Introduction - Adjacency-Effect Correction' for detailed instructions.
     
     Arguments:
         
     * ``file`` -- String. Path to satellite files. For L8: provide path to the folder. For S2: provide path to the folder or zip file. For PRISMA: provide ACOLITE L1R file. 
-    * ``username`` -- String. Username of EarthData account.
-    * ``password`` -- String. Password of EarthData account.
+    * ``username`` -- String. Username of EarthData account (required unless ``atm_info_file`` is provided).
+    * ``password`` -- String. Password of EarthData account (required unless ``atm_info_file`` is provided).
     * ``overwrite`` -- Boolean. If overwrite the existing files. The default is False and it creates a folder in the same directory that starts with AEC in the name
     * ``AOT`` -- 'MERRA2': use ancillary data (default). Float: AOT at 550nm. 'NIR': calculate in T-Mart by finding dark pixels in NIR when considering the AE. 
     * ``n_photon`` -- Int. Number of photons in each T-Mart run, 100_000 is recommended for accurate results.
