@@ -95,10 +95,8 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
     if AOT == 'NIR':
         sys.exit('The default estimating AOT from the NIR band is not tested on PRISMA data, please use MERRA2 or user input instead.')
     elif AOT == 'MERRA2':
-        if anci.get('AOT_MERRA2') is None:
-            sys.exit('AOT550 missing from atmospheric info file; provide AOT or include AOT550 in the file.')
         AOT = anci['AOT_MERRA2']
-        print('\nUsing AOT from MERRA2: ' + str(AOT))
+        print('\nUsing AOT from MERRA2 or provided text file: ' + str(AOT))
     else:
         print('\nUser input AOT: ' + str(AOT))
     

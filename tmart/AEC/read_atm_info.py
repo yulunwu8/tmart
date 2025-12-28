@@ -1,6 +1,6 @@
 # This file is part of TMart.
 #
-# Copyright 2024 Yulun Wu.
+# Copyright 2024-2025 Yulun Wu.
 #
 # TMart is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by

@@ -55,10 +55,8 @@ def run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record,
         print('\nEstimating AOT from the NIR band: ')
         AOT = tmart.AEC.get_AOT(metadata, config, anci, mask_cloud, mask_all, n_photon)
     elif AOT == 'MERRA2':
-        if anci.get('AOT_MERRA2') is None:
-            sys.exit('AOT550 missing from atmospheric info file; provide AOT or include AOT550 in the file.')
         AOT = anci['AOT_MERRA2']
-        print('\nUsing AOT550 from MERRA2: ' + str(AOT))
+        print('\nUsing AOT550 from MERRA2 or provided text file: ' + str(AOT))
     else:
         print('\nUser input AOT: ' + str(AOT))
     
