@@ -65,7 +65,7 @@ The tool takes approximately 20 min to process a Landsat 8/9 scene and 30 min fo
 
 Video tutorials:
 
-<a href="https://youtube.com/playlist?list=PLzHfjrsxuGd0LnpNDYCqbo9PEnit9fDeT&si=ebnYU7Lq-OJSVtWJ" target="_blank"><img src="files/playlist.png"  width="300"></a>
+<a href="https://youtube.com/playlist?list=PLzHfjrsxuGd0LnpNDYCqbo9PEnit9fDeT&si=ebnYU7Lq-OJSVtWJ" target="_blank"><img src="https://raw.githubusercontent.com/yulunwu8/tmart/main/files/playlist.png"  width="300"></a>
 
 
 
