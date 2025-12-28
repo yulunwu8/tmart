@@ -119,10 +119,9 @@ def dirC_to_coord (direction,q0,linear_length):
 
     '''
     
-    linear_distance = ((direction[0]-q0[0])**2 + 
-                       (direction[1]-q0[1])**2 + 
-                       (direction[2]-q0[2])**2)**(1/2)
-    
+    # linear_distance = ((direction[0]-q0[0])**2 + 
+    #                    (direction[1]-q0[1])**2 + 
+    #                    (direction[2]-q0[2])**2)**(1/2)
     
     linear_distance = ((direction[0])**2 + 
                        (direction[1])**2 + 
