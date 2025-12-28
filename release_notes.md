@@ -1,6 +1,11 @@
 # Release Notes
 
 
+## 2.5.3 (December 28, 2025)
+
+- Added the option of using user-input atmospheric information rather than from ancillary data
+
+
 ## 2.5.0 (February 28, 2025)
 
 - Added AEC support for level-1 Sentinel-2C products
