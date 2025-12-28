@@ -9,20 +9,21 @@
 
 # Overall control of AEC
 
-def run(file, username, password, overwrite=False, AOT='MERRA2', n_photon=100_000, AOT_offset=0.0, n_jobs=100, mask_SWIR_threshold=None):
+def run(file, username=None, password=None, overwrite=False, AOT='MERRA2', n_photon=100_000, AOT_offset=0.0, n_jobs=100, mask_SWIR_threshold=None, atm_info_file=None):
     '''Run adjacency-effect correction on satellite files. See 'Introduction - Adjacency-Effect Correction' for detailed instructions.
     
     Arguments:
         
     * ``file`` -- String. Path to satellite files. For L8: provide path to the folder. For S2: provide path to the folder or zip file. For PRISMA: provide ACOLITE L1R file. 
-    * ``username`` -- String. Username of EarthData account.
-    * ``password`` -- String. Password of EarthData account.
+    * ``username`` -- String. Username of EarthData account (required unless ``atm_info_file`` is provided).
+    * ``password`` -- String. Password of EarthData account (required unless ``atm_info_file`` is provided).
     * ``overwrite`` -- Boolean. If overwrite the existing files. The default is False and it creates a folder in the same directory that starts with AEC in the name
     * ``AOT`` -- 'MERRA2': use ancillary data (default). Float: AOT at 550nm. 'NIR': calculate in T-Mart by finding dark pixels in NIR when considering the AE. 
     * ``n_photon`` -- Int. Number of photons in each T-Mart run, 100_000 is recommended for accurate results.
     * ``AOT_offset`` -- Float. Value added to AOT at 550nm. If resulted AOT is negative, it will be corrected to 0.
     * ``n_jobs`` -- Int. Number of jobs in Python multiprocessing. One CPU core processes one job at a time. n_photon is evenly distributed across the jobs.
     * ``mask_SWIR_threshold`` -- Float. Reflectance threshold in a SWIR band used to mask non-water pixels in the processing. If specified, this overwrites the value in config.txt. 
+    * ``atm_info_file`` -- String. Path to a tmart_atm_info_*.txt file. When provided, T-Mart skips downloading ancillary data and reads aerosol/atmosphere information from this file.
 
     Example usage::
         
@@ -101,10 +102,10 @@ def run(file, username, password, overwrite=False, AOT='MERRA2', n_photon=100_00
     
     # S2/L89
     if file_is_dir: 
-        tmart_out = tmart.AEC.run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename_before_period, n_jobs, mask_SWIR_threshold)
+        tmart_out = tmart.AEC.run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename_before_period, n_jobs, mask_SWIR_threshold, atm_info_file=atm_info_file)
     # ACOLITE L1R 
     else:
-        tmart_out = tmart.AEC.run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename_before_period, n_jobs)
+        tmart_out = tmart.AEC.run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename_before_period, n_jobs, atm_info_file=atm_info_file)
     
     # Stop logging 
     sys.stdout = orig_stdout

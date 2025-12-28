@@ -10,9 +10,20 @@
 
 # Extract aerosol type, ozone and water vapour from ancillary data from NASA Ocean Color 
 
-def get_ancillary(metadata, username, password):
+def get_ancillary(metadata, username, password, atm_info_file=None):
     
     import tmart
+    import sys
+
+    if atm_info_file is not None:
+        print(f'\nUsing atmospheric info file: {atm_info_file}')
+        try:
+            return tmart.AEC.read_atm_info(atm_info_file)
+        except (FileNotFoundError, ValueError) as error:
+            sys.exit(str(error))
+    
+    if not username or not password:
+        raise ValueError('EarthData username and password are required when atm_info_file is not provided.')
     
     # List all files to download 
     files = tmart.AEC.anci_list_files(metadata)
