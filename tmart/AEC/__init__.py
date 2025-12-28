@@ -23,6 +23,7 @@ from .identify_sensor import *
 from .irradiance_correction import *
 from .plot_water_extent import *
 from .read_config import *
+from .read_atm_info import *
 from .read_metadata_Landsat import *
 from .read_metadata_S2 import *
 from .read_PRISMA_vaa import *

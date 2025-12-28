@@ -9,7 +9,7 @@
 
 # Run on ACOLITE L1R files, currently supports PRSIMA only 
 
-def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename, njobs):
+def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename, njobs, atm_info_file=None):
  
     import tmart
     import sys, os, time
@@ -64,7 +64,7 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
         print(str(k) + ': '  + str(v))
     
     # Get ancillary information from NASA Ocean Color
-    anci = tmart.AEC.get_ancillary(metadata, username, password)
+    anci = tmart.AEC.get_ancillary(metadata, username, password, atm_info_file=atm_info_file)
     
     
     ### Masks 
@@ -95,6 +95,8 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
     if AOT == 'NIR':
         sys.exit('The default estimating AOT from the NIR band is not tested on PRISMA data, please use MERRA2 or user input instead.')
     elif AOT == 'MERRA2':
+        if anci.get('AOT_MERRA2') is None:
+            sys.exit('AOT550 missing from atmospheric info file; provide AOT or include AOT550 in the file.')
         AOT = anci['AOT_MERRA2']
         print('\nUsing AOT from MERRA2: ' + str(AOT))
     else:

@@ -9,7 +9,7 @@
 
 # Run on Landsat and Sentinel series 
 
-def run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename, njobs, mask_SWIR_threshold): 
+def run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename, njobs, mask_SWIR_threshold, atm_info_file=None): 
  
     import tmart
     import sys, os
@@ -37,7 +37,7 @@ def run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record,
         print(str(k) + ': '  + str(v))
         
     # get ancillary information from NASA Ocean Color
-    anci = tmart.AEC.get_ancillary(metadata, username, password)
+    anci = tmart.AEC.get_ancillary(metadata, username, password, atm_info_file=atm_info_file)
     
     # compute cloud and non-Water masks 
     print('\nComputing masks: ')
@@ -55,6 +55,8 @@ def run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record,
         print('\nEstimating AOT from the NIR band: ')
         AOT = tmart.AEC.get_AOT(metadata, config, anci, mask_cloud, mask_all, n_photon)
     elif AOT == 'MERRA2':
+        if anci.get('AOT_MERRA2') is None:
+            sys.exit('AOT550 missing from atmospheric info file; provide AOT or include AOT550 in the file.')
         AOT = anci['AOT_MERRA2']
         print('\nUsing AOT550 from MERRA2: ' + str(AOT))
     else:
