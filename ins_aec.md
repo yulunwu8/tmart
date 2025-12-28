@@ -20,6 +20,7 @@ if __name__ == "__main__":
     tmart.AEC.run(file, username, password)
 ```
 
+
 ## Overwrite existing files
 
 By default, the processing creates a copy of the original satellite files in the same directory, in a new folder named 'AEC_*'. To overwrite the eixsting files, add 'overwrite=True' to the arguments: 
@@ -27,6 +28,7 @@ By default, the processing creates a copy of the original satellite files in the
 ```python
 tmart.AEC.run(file, username, password, overwrite=True)
 ```
+
 
 ## Ancillary and log files  
 
@@ -51,6 +53,29 @@ By default, T-Mart identifies water pixels and only modify their values, leaving
 ```python
 tmart.AEC.run(file, username, password, overwrite=True, AOT = 0.05, n_photon = 10_000)
 ```
+
+
+## User-input atmospheric information
+
+When `atm_info_file` is supplied, `username` and `password` are not required because the atmosphere and aerosol values are read from the file instead of being fetched from NASA EarthData. The text file includes the aerosol type ratio and other atmospheric parameters. The Aerosol angstrom exponent and Aerosol single scattering albedo are only used to derive the ratio when EarthData is queried; if a text file is provided, their values are ignored and the ratio in the file is used directly.
+
+Example content:
+
+```
+Ratio of maritime aerosol in maritime/continental mixture: 0.32149729438202934
+Aerosol angstrom exponent: 1.1694952659402162
+Aerosol single scattering albedo: 0.9274053986128525
+AOT550: 0.07811043870567436
+Total column ozone: 264.1938889212531 DU
+Total precipitable water vapour: 19.350930129831248 kg m-2
+```
+
+Example usage without credentials:
+
+```python
+tmart.AEC.run(file, atm_info_file="tmart_atm_info_example.txt")
+```
+
 
 ## Assumptions in AEC 
 
