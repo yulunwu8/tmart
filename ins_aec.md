@@ -20,7 +20,6 @@ if __name__ == "__main__":
     tmart.AEC.run(file, username, password)
 ```
 
-
 ## Overwrite existing files
 
 By default, the processing creates a copy of the original satellite files in the same directory, in a new folder named 'AEC_*'. To overwrite the eixsting files, add 'overwrite=True' to the arguments: 
@@ -29,7 +28,6 @@ By default, the processing creates a copy of the original satellite files in the
 tmart.AEC.run(file, username, password, overwrite=True)
 ```
 
-
 ## Ancillary and log files  
 
 During the AEC process, a number of files are generated: 
@@ -37,8 +35,8 @@ During the AEC process, a number of files are generated:
 - **tmart\_log\_\*.txt**: detailed processing information, as printed in the Python console. 
 - **tmart\_atm\_info\_\*.txt**: atmosphere and aerosol information used in the processing. This includes aerosol type, angstrom exponent, single scattering albedo, AOT at 550 nm, total column ozone, and total precipitable water vapour. 
 - **tmart\_ancillary/\*.nc**: GMAO MERRA2 ancillary files from the NASA Ocean Biology Processing Group. 
-- **tmart\_completed.txt**: a record of bands that have been corrected for the adjacency effect. 
-- **tmart\_preview.txt**: a image preview of pixels identified as water (only run when ``AE_land`` is False).
+- **AEC\_completed\_\*.txt**: a record of bands that have been corrected for the adjacency effect. 
+- **tmart\_preview.png**: an image preview of pixels identified as water (only run when ``AE_land`` is False).
 
 ## AEC configuration
 
@@ -57,7 +55,7 @@ tmart.AEC.run(file, username, password, overwrite=True, AOT = 0.05, n_photon = 1
 
 ## User-input atmospheric information
 
-When `atm_info_file` is supplied, `username` and `password` are not required because the atmosphere and aerosol values are read from the file instead of being fetched from NASA EarthData. The text file includes the aerosol type ratio and other atmospheric parameters. The Aerosol angstrom exponent and Aerosol single scattering albedo are only used to derive the ratio when EarthData is queried; if a text file is provided, their values are ignored and the ratio in the file is used directly.
+When `atm_info_file` is supplied, `username` and `password` are not required because the atmosphere and aerosol values are read from the file instead of being fetched from NASA EarthData. The text file includes the aerosol type ratio and other atmospheric parameters. The Aerosol angstrom exponent and Aerosol single scattering albedo are only used to derive the ratio when EarthData is queried; if a text file is provided, their values are ignored and the ratio in the file is used directly. The AOT in the file is used only when ``AOT="MERRA2"``; otherwise the specified ``AOT`` value or ``AOT="NIR"`` result is used.
 
 Example content:
 
@@ -93,6 +91,6 @@ T-Mart supports AE correction for ACOLITE-generated L1R PRISMA files. The modifi
 
 ## Video tutorials
 
-<a href="https://youtube.com/playlist?list=PLzHfjrsxuGd0LnpNDYCqbo9PEnit9fDeT&si=ebnYU7Lq-OJSVtWJ" target="_blank"><img src="_images/playlist.png"  width="300"></a>
+<a href="https://youtube.com/playlist?list=PLzHfjrsxuGd0LnpNDYCqbo9PEnit9fDeT&si=ebnYU7Lq-OJSVtWJ" target="_blank"><img src="https://raw.githubusercontent.com/yulunwu8/tmart/main/files/playlist.png"  width="300"></a>
 
 
