@@ -28,9 +28,19 @@ def compute_masks(metadata, config, mask_type):
     pad_rows = metadata['AEC_height'] - metadata['height'] 
     
     # Mask function 
-    def mask_threshold(band_name, threshold, mask_NAN, reshape = True): 
+    def mask_threshold(band_names, threshold, mask_NAN, reshape = True): 
         # Output either an array or a dictionary, mask['10m'], etc. 
         
+
+        ### Test if band_names is string or list 
+
+        ### Convert to reflectance 
+
+        ### Calculate index
+
+
+
+
         # Read file and array 
         band_file = metadata[band_name]
         band_ds = rasterio.open(band_file)
