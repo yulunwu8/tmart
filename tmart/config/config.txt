@@ -3,14 +3,22 @@ T-Mart configuration for adjacency-effect correction
 # Notes 
 # Mar 28, 2024: L9 shares the same configuration as L8
 
+# Method for identifying water pixels, options: 'MNDWI', 'SWIR'
+water_detection_method = MNDWI
+
 # Thresholds for identifying water pixels, all at TOA level
 mask_cirrus_threshold = 0.005
+mask_MNDWI_threshold = 0
 mask_SWIR_threshold = 0.03
 mask_highTOA_threshold = 0.3
 
 # Cirrus band name 
 S2_cirrus_band = B10
 L8_cirrus_band = B9
+
+# Green band name 
+S2_green_band = B03
+L8_green_band = B3
 
 # SWIR band name 
 S2_SWIR_band = B11
@@ -42,7 +50,7 @@ cloud_contribution = 0.5
 AE_land = False
 
 
-# Lowest water-leaving reflectance in NIR, when estimating AOT in T-Mart
+# Lowest water-leaving reflectance in NIR, used when estimating AOT in T-Mart
 min_R_NIR = 0
 
 # Maximum amount of glint to remove when wind speed is 1 m/s, used when estimating AOT in T-Mart

@@ -28,7 +28,7 @@ def compute_masks(metadata, config, mask_type):
     pad_rows = metadata['AEC_height'] - metadata['height'] 
     
     # Mask function 
-    def mask_threshold(band_names, threshold, mask_NAN, reshape = True): 
+    def mask_threshold(band_names, threshold, mask_NAN, reshape = True, norm_diff = False): 
         # Output either an array or a dictionary, mask['10m'], etc. 
         
 
@@ -37,29 +37,59 @@ def compute_masks(metadata, config, mask_type):
         ### Convert to reflectance 
 
         ### Calculate index
-
-
-
-
-        # Read file and array 
-        band_file = metadata[band_name]
-        band_ds = rasterio.open(band_file)
-        band_array = band_ds.read(1)
         
-        # Resolution of this particular band 
-        res_band = int(abs(band_ds.transform[0]))
+        ### Uncomment the two cloud lines 
+
+        band_arrays = []
+        list_res = []
+
+        for band_name in band_names:
+
+            # Read file and array 
+            band_file = metadata[band_name]
+            band_ds = rasterio.open(band_file)
+            band_array = band_ds.read(1)
+            
+            # Resolution of this particular band 
+            res_band = int(abs(band_ds.transform[0]))
+            
+            # Pad less for lower resolution 
+            pad_rows_tmp = int(pad_rows/(res_band/metadata['resolution']))
+            pad_columns_tmp = int(pad_columns/(res_band/metadata['resolution']))
+            
+            # Padding 
+            band_array = np.pad(band_array, ((0, pad_rows_tmp), (0, pad_columns_tmp)), mode='constant', constant_values=0)
+            
+            # Scaling  
+            scale_mult = metadata[str(band_name) + '_mult']
+            scale_add = metadata[str(band_name) + '_add']
+            
+            band_array = band_array * scale_mult + scale_add
         
-        # Pad less for lower resolution 
-        pad_rows_tmp = int(pad_rows/(res_band/metadata['resolution']))
-        pad_columns_tmp = int(pad_columns/(res_band/metadata['resolution']))
+            band_arrays.append(band_array)
+            list_res.append(res_band)
         
-        # Padding 
-        band_array = np.pad(band_array, ((0, pad_rows_tmp), (0, pad_columns_tmp)), mode='constant', constant_values=0)
         
-        # Scaling  
-        scale_mult = metadata[str(band_name) + '_mult']
-        scale_add = metadata[str(band_name) + '_add']
-        mask_threshold = (float(config[threshold])  - scale_add ) / scale_mult
+        ### Check band values in SNAP
+        
+        
+        ### Turn all bands to the highest resolution 
+        
+        
+        ### Do band calculation 
+       
+        
+        ### Any NAN: not considered water, mask out
+        
+        
+        
+        
+        
+        mask_threshold = float(config[threshold]) 
+        
+        
+        
+        ### Move this section to 'If this is the resolution'
         
         # Make mask. If mask_NAN, then mask the NAN values 
         if mask_NAN: mask = np.logical_or(band_array > mask_threshold, band_array == 0) # In band_array,0 is masks 
@@ -116,7 +146,7 @@ def compute_masks(metadata, config, mask_type):
             return mask
     
     # Cirrus band 
-    mask_cirrus = mask_threshold(metadata['cirrus_mask'], threshold = 'mask_cirrus_threshold', mask_NAN = False)
+    ### mask_cirrus = mask_threshold(metadata['cirrus_band'], threshold = 'mask_cirrus_threshold', mask_NAN = False)
     
     # Cloud 
     if mask_type == 'cloud':
@@ -204,10 +234,24 @@ def compute_masks(metadata, config, mask_type):
     
     # All non-water 
     elif mask_type == 'all':
-    
-        # SWIR band 
-        print('Computing SWIR mask, reading band {}...'.format(metadata['SWIR_mask']))
-        mask_SWIR = mask_threshold(metadata['SWIR_mask'],'mask_SWIR_threshold', mask_NAN = True)
+        
+        # Water-detection method 
+        if config['water_detection_method'] == 'MNDWI': 
+            
+            print('Computing MNDWI mask, reading bands {} and {}...'.format(metadata['green_band'],metadata['SWIR_band']))
+            mask_dw = mask_threshold([metadata['green_band'],metadata['SWIR_band']],
+                                     'mask_MNDWI_threshold', mask_NAN = True,
+                                     norm_diff = True)
+            
+        
+        elif config['water_detection_method'] == 'SWIR': 
+        
+            print('Computing SWIR mask, reading band {}...'.format(metadata['SWIR_band']))
+            mask_dw = mask_threshold(metadata['SWIR_band'],'mask_SWIR_threshold', mask_NAN = True)
+        
+        else:
+            sys.exit('Warning: unrecognized water detection method')
+        
         
         ### High TOA bands 
         masks_highTOA = {}
@@ -235,10 +279,10 @@ def compute_masks(metadata, config, mask_type):
                 mask_highTOA_res = np.logical_or(mask_highTOA_res, masks_highTOA[highTOA_band_name][str(res) + 'm'])
                 
             # Overall mask: cirrus, SWIR, and highTOA
-            mask_reshaped = np.logical_or(np.logical_or(mask_cirrus[str(res) + 'm'], mask_SWIR[str(res) + 'm']), mask_highTOA_res)
+            mask_reshaped = np.logical_or(np.logical_or(mask_cirrus[str(res) + 'm'], mask_dw[str(res) + 'm']), mask_highTOA_res)
             masks[str(res) + 'm'] = mask_reshaped
         
-        del mask_cirrus, mask_SWIR, mask_highTOA, masks_highTOA, mask_highTOA_res, mask_reshaped
+        del mask_cirrus, mask_dw, mask_highTOA, masks_highTOA, mask_highTOA_res, mask_reshaped
         gc.collect()
         
         return masks   
