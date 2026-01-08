@@ -29,16 +29,6 @@ def compute_masks(metadata, config, mask_type):
     
     # Mask function 
     def mask_threshold(band_names, threshold, mask_NAN, reshape = True, norm_diff = False): 
-        # Output either an array or a dictionary, mask['10m'], etc. 
-        
-
-        ### Check
-        
-        # sensor: L8, S2
-        # versions: new ND, new one band, old one band 
-        # masks: cloud, all 
-        
-
         
         band_arrays = []
         list_res = []
@@ -70,9 +60,8 @@ def compute_masks(metadata, config, mask_type):
             band_arrays.append(band_array_temp)
             list_res.append(res_band)
             list_scale_add.append(scale_add)
-        
-        
-        
+            
+        # Normalized difference
         if norm_diff: 
         
             # Adjust resolution
@@ -83,13 +72,10 @@ def compute_masks(metadata, config, mask_type):
             elif list_res[0] != list_res[1]: 
                 sys.exit('Warning: two bands have different resolution')
             
-            # Norm diff 
+            # Calculation
             a = band_arrays[0].astype(np.float32, copy=False)
             b = band_arrays[1].astype(np.float32, copy=False)
-            
             den = a + b
-            
-            
             zero_div_mask = np.logical_or(a==list_scale_add[0], b==list_scale_add[1])
             
             # Safe ND: where den==0, output is 0 (so old mask_NAN logic still works)
@@ -105,45 +91,14 @@ def compute_masks(metadata, config, mask_type):
             band_array = band_arrays[0]
             zero_div_mask = None
         
-        
-        
         mask_threshold = float(config[threshold])
         
-        '''
-        if mask_NAN:
-            if norm_diff:                
-                # mask = zero_div_mask
-                # mask |= (band_array < mask_threshold)
-                
-                mask = np.logical_or(band_array < mask_threshold, zero_div_mask)
-                
-            else:
-                mask = np.logical_or(band_array > mask_threshold, band_array == 0)
-        else:
-            if norm_diff:
-                mask = band_array < mask_threshold
-            else:
-                mask = band_array > mask_threshold
-        '''
-        
-     
         if norm_diff: 
             if mask_NAN: mask = np.logical_or(band_array < mask_threshold, zero_div_mask)
             else: mask = band_array < mask_threshold
         else:
             if mask_NAN: mask = np.logical_or(band_array > mask_threshold, band_array == scale_add)
             else: mask = band_array > mask_threshold 
-        
-        
-        
-        
-        
-        
-        ### Challenges: 
-        # 1: a or b is 0: ND is 1, this propagates to lower resolutions 
-        # 2: unify masks at different resolutions 
-        
-        
         
         # Add other resolution 
         if reshape:
