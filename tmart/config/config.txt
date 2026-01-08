@@ -4,7 +4,7 @@ T-Mart configuration for adjacency-effect correction
 # Mar 28, 2024: L9 shares the same configuration as L8
 
 # Method for identifying water pixels, options: 'MNDWI', 'SWIR'
-water_detection_method = MNDWI
+water_detection_method = SWIR
 
 # Thresholds for identifying water pixels, all at TOA level
 mask_cirrus_threshold = 0.005

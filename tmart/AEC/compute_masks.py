@@ -42,6 +42,7 @@ def compute_masks(metadata, config, mask_type):
         
         band_arrays = []
         list_res = []
+        list_scale_add = []
 
         for band_name in band_names:
 
@@ -68,6 +69,7 @@ def compute_masks(metadata, config, mask_type):
         
             band_arrays.append(band_array_temp)
             list_res.append(res_band)
+            list_scale_add.append(scale_add)
         
         
         
@@ -87,14 +89,8 @@ def compute_masks(metadata, config, mask_type):
             
             den = a + b
             
-            # zero_div_mask = (den == 0)   # this is exactly the 0/0 case (also covers 0/0 and +/-0)
             
-            # Add one is zero 
-            
-            # zero_div_mask = (a == 0)
-            # zero_div_mask |= (b == 0)
-            
-            zero_div_mask = np.logical_or(a==0, b==0)
+            zero_div_mask = np.logical_or(a==list_scale_add[0], b==list_scale_add[1])
             
             # Safe ND: where den==0, output is 0 (so old mask_NAN logic still works)
             with np.errstate(divide='ignore', invalid='ignore'):
@@ -135,7 +131,7 @@ def compute_masks(metadata, config, mask_type):
             if mask_NAN: mask = np.logical_or(band_array < mask_threshold, zero_div_mask)
             else: mask = band_array < mask_threshold
         else:
-            if mask_NAN: mask = np.logical_or(band_array > mask_threshold, band_array == 0)
+            if mask_NAN: mask = np.logical_or(band_array > mask_threshold, band_array == scale_add)
             else: mask = band_array > mask_threshold 
         
         
@@ -158,7 +154,7 @@ def compute_masks(metadata, config, mask_type):
             if norm_diff:
                 band_array[zero_div_mask] = np.nan
             else:
-                band_array[band_array == 0] = np.nan
+                band_array[band_array == scale_add] = np.nan
             
             masks = {}
             
