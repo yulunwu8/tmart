@@ -85,7 +85,19 @@ def plot_water_extent(metadata, config, mask_all):
     
     # Add annotation 
     fig.text(0.5, 0.95, base_name, weight='bold', ha='center', fontsize=12, wrap=True)
-    fig.text(0.5, 0.045, 'Only pixels shaded in cyan were identified as water and were corrected for the adjacency effect by T-Mart. See <T-Mart user guide>/<Adjacency-Effect Correction>/<AEC configuration> for more information. Current mask_SWIR_threshold: ' + str(config['mask_SWIR_threshold']),
+    
+    if config['water_detection_method'] == 'MNDWI':
+        water_method_text = (
+            'Current water_detection_method: MNDWI ('
+            + str(metadata['green_band'])
+            + ', '
+            + str(metadata['SWIR_band'])
+            + '); mask_MNDWI_threshold: '
+            + str(config['mask_MNDWI_threshold'])
+        )
+    else:
+        water_method_text = 'Current water_detection_method: SWIR; mask_SWIR_threshold: ' + str(config['mask_SWIR_threshold'])
+    fig.text(0.5, 0.04, 'Only pixels shaded in cyan were identified as water and were corrected for the adjacency effect by T-Mart. See <T-Mart user guide>/<Adjacency-Effect Correction>/<Water identification> for more information. ' + water_method_text,
              ha='center', fontsize=12, wrap=True)
     
     # Save the figure 

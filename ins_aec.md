@@ -42,7 +42,15 @@ During the AEC process, a number of files are generated:
 
 A TXT configuration file is stored in the *tmart* package folder. Its path is printed in the Python console and the log file. Brief descriptions are given in the file. Most of the configuration settings are tuned for best performance. 
 
-By default, T-Mart identifies water pixels and only modify their values, leaving land pixel values unchanged to facilitate the existing calibration of atmospheric correction processors that extract information from land pixels. In case a significant number of water pixels are falsely masked as land, the ``mask_SWIR_threshold`` (the reflectance threshold in a SWIR band used to mask non-water pixels; default value: 0.03) can be increased based on the water pixel values in the scene. Modifying ``mask_SWIR_threshold`` in the *AEC.run* function overwrites the value in config.txt. Alternatively, setting ``AE_land`` to True enables AEC across the entire scene. 
+## Water identification
+
+By default, T-Mart identifies water pixels and only modify their values, leaving land pixel values unchanged to facilitate the existing calibration of atmospheric correction processors that extract information from land pixels. 
+
+When ``water_detection_method = SWIR`` in ``config.txt``, water pixels are identified as the SWIR band reflectance lower than the threshold ``mask_SWIR_threshold`` (default value: 0.03). Increase this value if a significant number of water pixels are falsely masked as land.
+
+When ``water_detection_method = MNDWI``, water identification is based on the normalized difference between the green and SWIR bands. The green and SWIR bands are configurable in ``config.txt``, and can be swapped to use any normalized difference. Pixels with MNDWI values lower than ``mask_MNDWI_threshold`` are treated as non-water, and the default value is 0. Adjust this threshold if needed based on the scene's water/land separation.
+
+Both ``mask_SWIR_threshold`` or ``mask_MNDWI_threshold`` can be adjusted in ``config.txt``. Modifying ``mask_SWIR_threshold`` in the *AEC.run* function overwrites the value in ``config.txt``. Alternatively, setting ``AE_land`` to True enables AEC across the entire scene. 
 
 ## Additional arguments 
 
