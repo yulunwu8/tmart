@@ -42,7 +42,7 @@ During the AEC process, a number of files are generated:
 
 A TXT configuration file is stored in the *tmart* package folder. Its path is printed in the Python console and the log file. Brief descriptions are given in the file. Most of the configuration settings are tuned for best performance. 
 
-## Water identification
+## Identify water extent
 
 By default, T-Mart identifies water pixels and only modify their values, leaving land pixel values unchanged to facilitate the existing calibration of atmospheric correction processors that extract information from land pixels. 
 

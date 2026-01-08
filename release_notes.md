@@ -1,6 +1,11 @@
 # Release Notes
 
 
+## 2.6.0 (January 8, 2026)
+
+- Added the option of using MNDWI or other normalized difference indices to identify water extent
+
+
 ## 2.5.3 (December 28, 2025)
 
 - Added the option of using user-input atmospheric information rather than from ancillary data for AE correction
