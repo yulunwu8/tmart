@@ -78,7 +78,6 @@ def compute_masks(metadata, config, mask_type):
             den = a + b
             zero_div_mask = np.logical_or(a==list_scale_add[0], b==list_scale_add[1])
             
-            # Safe ND: where den==0, output is 0 (so old mask_NAN logic still works)
             with np.errstate(divide='ignore', invalid='ignore'):
                 band_array = np.divide(
                     (a - b),
