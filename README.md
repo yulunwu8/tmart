@@ -1,8 +1,8 @@
 # T-Mart: Topography-adjusted Monte-carlo Adjacency-effect Radiative Transfer Code
 
 
-[![PyPI version](https://badge.fury.io/py/tmart.svg)](https://pypi.org/project/tmart/)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](license.txt)
+[![PyPI version](https://badge.fury.io/py/tmart.svg#1)](https://pypi.org/project/tmart/)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/yulunwu8/tmart/blob/main/license.txt)
 [![Docs](https://img.shields.io/badge/docs-online-blue.svg)](https://tmart-rtm.github.io)
 
 
