@@ -75,7 +75,7 @@ def run(file, username=None, password=None, overwrite=False, AOT='MERRA2', n_pho
     if os.path.exists(AEC_record): 
         sys.exit('Record of adjacency correction found: ' + str(AEC_record) + 
                  '. Corrcting for the AE twice is not recommended and will lead to unpredictable results. ' + 
-                 'If you’re confident that the imagery has not been corrected for the AE, delete this file to proceed.')
+                 'If you’re aware that the imagery has not been corrected for the AE, delete this file to proceed.')
 
     # Start logging in txt file
     orig_stdout = sys.stdout

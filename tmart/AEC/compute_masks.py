@@ -65,11 +65,12 @@ def compute_masks(metadata, config, mask_type):
         if norm_diff: 
         
             # Adjust resolution
-            if metadata['sensor']=='S2A' or metadata['sensor']=='S2B' or metadata['sensor']=='S2C':
-                band_arrays[1] = np.repeat(np.repeat(band_arrays[1], 2, axis=0), 2, axis=1)
-                res_band = 10
+            if threshold=='mask_MNDWI_threshold':
+                if metadata['sensor']=='S2A' or metadata['sensor']=='S2B' or metadata['sensor']=='S2C':
+                    band_arrays[1] = np.repeat(np.repeat(band_arrays[1], 2, axis=0), 2, axis=1)
+                    res_band = 10
             
-            elif list_res[0] != list_res[1]: 
+            if list_res[0] != list_res[1]: 
                 sys.exit('Warning: two bands have different resolution')
             
             # Calculation
@@ -247,15 +248,19 @@ def compute_masks(metadata, config, mask_type):
     elif mask_type == 'all':
         
         # Water-detection method 
-        if config['water_detection_method'] == 'MNDWI': 
-            
+        if config['water_detection_method'] == 'NDWI': 
+            print('Computing NDWI mask, reading bands {} and {}...'.format(metadata['green_band'],metadata['NIR_band']))
+            mask_dw = mask_threshold([metadata['green_band'],metadata['NIR_band']],
+                                     'mask_NDWI_threshold', mask_NAN = True,
+                                     norm_diff = True)
+                    
+        elif config['water_detection_method'] == 'MNDWI': 
             print('Computing MNDWI mask, reading bands {} and {}...'.format(metadata['green_band'],metadata['SWIR_band']))
             mask_dw = mask_threshold([metadata['green_band'],metadata['SWIR_band']],
                                      'mask_MNDWI_threshold', mask_NAN = True,
                                      norm_diff = True)
             
         elif config['water_detection_method'] == 'SWIR': 
-        
             print('Computing SWIR mask, reading band {}...'.format(metadata['SWIR_band']))
             mask_dw = mask_threshold([metadata['SWIR_band']],'mask_SWIR_threshold', mask_NAN = True)
         

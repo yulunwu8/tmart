@@ -3,11 +3,12 @@ T-Mart configuration for adjacency-effect correction
 # Notes 
 # Mar 28, 2024: L9 shares the same configuration as L8
 
-# Method for identifying water pixels, options: 'MNDWI', 'SWIR'
-water_detection_method = SWIR
+# Method for identifying water pixels, options: NDWI, SWIR, MNDWI
+water_detection_method = NDWI
 
 # Thresholds for identifying water pixels, all at TOA level
 mask_cirrus_threshold = 0.005
+mask_NDWI_threshold = 0
 mask_MNDWI_threshold = 0
 mask_SWIR_threshold = 0.03
 mask_highTOA_threshold = 0.3
@@ -19,6 +20,10 @@ L8_cirrus_band = B9
 # Green band name 
 S2_green_band = B03
 L8_green_band = B3
+
+# NIR band name 
+S2_NIR_band = B08
+L8_NIR_band = B5
 
 # SWIR band name 
 S2_SWIR_band = B11

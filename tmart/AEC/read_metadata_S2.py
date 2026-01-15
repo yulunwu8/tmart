@@ -40,6 +40,7 @@ def read_metadata_S2(file,config,sensor):
     # masks 
     metadata['cirrus_band'] = config['S2_cirrus_band']
     metadata['SWIR_band'] = config['S2_SWIR_band']
+    metadata['NIR_band'] = config['S2_NIR_band']
     metadata['green_band'] = config['S2_green_band']
     
     # bands to be AECed

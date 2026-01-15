@@ -90,6 +90,7 @@ def read_metadata_Landsat(file, config, sensor):
     # masks 
     metadata['cirrus_band'] = config['L8_cirrus_band']
     metadata['SWIR_band'] = config['L8_SWIR_band']
+    metadata['NIR_band'] = config['L8_NIR_band']
     metadata['green_band'] = config['L8_green_band']
   
     # bands to be AECed
