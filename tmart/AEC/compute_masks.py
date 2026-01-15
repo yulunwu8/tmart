@@ -70,7 +70,7 @@ def compute_masks(metadata, config, mask_type):
                     band_arrays[1] = np.repeat(np.repeat(band_arrays[1], 2, axis=0), 2, axis=1)
                     res_band = 10
             
-            if list_res[0] != list_res[1]: 
+            elif list_res[0] != list_res[1]: 
                 sys.exit('Warning: two bands have different resolution')
             
             # Calculation
