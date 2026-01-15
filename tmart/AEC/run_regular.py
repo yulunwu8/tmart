@@ -41,7 +41,6 @@ def run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record,
     
     # compute cloud and non-Water masks 
     print('\nComputing masks: ')
-    
     mask_cloud = tmart.AEC.compute_masks(metadata, config, 'cloud')
     mask_all   = tmart.AEC.compute_masks(metadata, config, 'all')   
     print('Done')
