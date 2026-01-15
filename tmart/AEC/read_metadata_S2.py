@@ -38,8 +38,10 @@ def read_metadata_S2(file,config,sensor):
     metadata['highTOA_band_names'] = highTOA_band_names
     
     # masks 
-    metadata['cirrus_mask'] = config['S2_cirrus_band']
-    metadata['SWIR_mask'] = config['S2_SWIR_band']
+    metadata['cirrus_band'] = config['S2_cirrus_band']
+    metadata['SWIR_band'] = config['S2_SWIR_band']
+    metadata['NIR_band'] = config['S2_NIR_band']
+    metadata['green_band'] = config['S2_green_band']
     
     # bands to be AECed
     metadata['AEC_bands_name'] = ['B01','B02','B03','B04','B05','B06','B07','B08','B8A','B11','B12']

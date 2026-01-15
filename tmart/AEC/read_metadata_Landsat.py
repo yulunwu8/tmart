@@ -88,8 +88,10 @@ def read_metadata_Landsat(file, config, sensor):
     metadata['highTOA_band_names'] = highTOA_band_names
 
     # masks 
-    metadata['cirrus_mask'] = config['L8_cirrus_band']
-    metadata['SWIR_mask'] = config['L8_SWIR_band']
+    metadata['cirrus_band'] = config['L8_cirrus_band']
+    metadata['SWIR_band'] = config['L8_SWIR_band']
+    metadata['NIR_band'] = config['L8_NIR_band']
+    metadata['green_band'] = config['L8_green_band']
   
     # bands to be AECed
     metadata['AEC_bands_name'] = ['B1','B2','B3','B4','B5','B6','B7']

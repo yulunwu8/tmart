@@ -1,9 +1,14 @@
 # Release Notes
 
 
+## 2.6.0 (January 15, 2026)
+
+- Added support for NDWI (now the default, replacing SWIR) and other normalized-difference indices for water-extent detection
+
+
 ## 2.5.3 (December 28, 2025)
 
-- Added the option of using user-input atmospheric information rather than from ancillary data
+- Added the option of using user-input atmospheric information rather than from ancillary data for AE correction
 
 
 ## 2.5.0 (February 28, 2025)

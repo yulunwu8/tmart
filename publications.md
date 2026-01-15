@@ -9,8 +9,9 @@ Wu, Y., Knudby, A., Pahlevan, N., Lapen, D., & Zeng, C. (2024). Sensor-generic a
 
 ## Studies using T-Mart
 
-Giardino, C., Pahlevan, N., Fabbretto, A., Panizza, L., Pellegrino, A., Vandermeulen, R., Gianinetto, M., Adriaensen, S., Agten, J., Bernert, H., De Keukelaere, L., Harmel, T., Heege, T., Knudby, A., Schenk, K., Steinmetz, F., Sterckx, S., Vanhellemont, Q., Wu, Y., … Gascon, F. (2025). ACIX-III Aqua: Evaluation of atmospheric correction for hyperspectral PRISMA imagery over inland and coastal waters. *International Journal of Remote Sensing*, 1–25. <a href="https://doi.org/10.1080/01431161.2025.2574517" target="_blank">https://doi.org/10.1080/01431161.2025.2574517</a>
+Ansari, M., Wu, Y., & Knudby, A. (2025). Assessing the Impact of T-Mart Adjacency Effect Correction on Turbidity Retrieval from Landsat 8/9 and Sentinel-2 Imagery (Case Study: St. Lawrence River, Canada). *Remote Sensing*, 18(1), 127. <a href="https://doi.org/10.3390/rs18010127" target="_blank">https://doi.org/10.3390/rs18010127</a>
 
+Giardino, C., Pahlevan, N., Fabbretto, A., Panizza, L., Pellegrino, A., Vandermeulen, R., Gianinetto, M., Adriaensen, S., Agten, J., Bernert, H., De Keukelaere, L., Harmel, T., Heege, T., Knudby, A., Schenk, K., Steinmetz, F., Sterckx, S., Vanhellemont, Q., Wu, Y., … Gascon, F. (2025). ACIX-III Aqua: Evaluation of atmospheric correction for hyperspectral PRISMA imagery over inland and coastal waters. *International Journal of Remote Sensing*, 1–25. <a href="https://doi.org/10.1080/01431161.2025.2574517" target="_blank">https://doi.org/10.1080/01431161.2025.2574517</a>
 
 Hu, Y., Zhan, H., He, Q., & Zhan, W. (2025). Assessment of Atmospheric Correction Algorithms for Landsat-8/9 Operational Land Imager over Inland and Coastal Waters. *Remote Sensing*, 17(17), 3055. <a href="https://doi.org/10.3390/rs17173055" target="_blank">https://doi.org/10.3390/rs17173055</a>
 
