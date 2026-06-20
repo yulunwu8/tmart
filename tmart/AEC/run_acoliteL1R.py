@@ -9,7 +9,7 @@
 
 # Run on ACOLITE L1R files, currently supports PRSIMA only 
 
-def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename, njobs, mask_SWIR_threshold, atm_info_file=None):
+def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename, njobs, mask_SWIR_threshold, mask_NDWI_threshold, atm_info_file=None):
  
     import tmart
     import sys, os, time
@@ -18,7 +18,7 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
     from scipy import signal, interpolate
         
     # Read configuration
-    config = tmart.AEC.read_config(mask_SWIR_threshold)
+    config = tmart.AEC.read_config(mask_SWIR_threshold, mask_NDWI_threshold)
     
     # Open netcdf file 
     dset = nc4.Dataset(file, 'r+')
