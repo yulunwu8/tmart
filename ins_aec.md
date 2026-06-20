@@ -60,6 +60,9 @@ Both ``mask_SWIR_threshold`` or ``mask_NDWI_threshold`` can be adjusted in ``con
 tmart.AEC.run(file, username, password, overwrite=True, AOT = 0.05, n_photon = 10_000)
 ```
 
+See <a href="https://tmart-rtm.github.io/tmart.html#module-tmart.AEC.run" target="_blank">AEC.run Function</a> for all the arguments. 
+
+
 ## User-input atmospheric information
 
 Alternative to retrieving atmospheric parameters from NASA EarthData, users may provide a custom atmospheric information file via the `atm_info_file` argument.
@@ -100,7 +103,6 @@ A few assumptions are made in the processing, violations can lead to various deg
 - Vertically stratified but horizontally homogeneous atmospheric molecules and aerosols across the scene 
 - Flat surface or lack of topography
 
-See <a href="https://tmart-rtm.github.io/tmart.html#module-tmart.AEC.run" target="_blank">AEC.run Function</a> for all the arguments. 
 
 ## PRISMA image processing
 
