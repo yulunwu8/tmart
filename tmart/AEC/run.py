@@ -105,7 +105,7 @@ def run(file, username=None, password=None, overwrite=False, AOT='MERRA2', n_pho
         tmart_out = tmart.AEC.run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename_before_period, n_jobs, mask_SWIR_threshold, atm_info_file=atm_info_file)
     # ACOLITE L1R 
     else:
-        tmart_out = tmart.AEC.run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename_before_period, n_jobs, atm_info_file=atm_info_file)
+        tmart_out = tmart.AEC.run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename_before_period, n_jobs, mask_SWIR_threshold, atm_info_file=atm_info_file)
     
     # Stop logging 
     sys.stdout = orig_stdout

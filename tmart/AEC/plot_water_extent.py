@@ -29,35 +29,43 @@ def plot_water_extent(metadata, config, mask_all):
     elif sensor == 'L8' or sensor == 'L9':
         RGB = ['B4','B3','B2']
         res = '30m'
-    
+    elif sensor == 'PRISMA':
+        RGB = []
+        res = None
+        base_name = metadata['oname']
+        
     image_bands = []    
     
-    # Loop through 3 colours 
-    for band_name in RGB:        
-        band_file = metadata[band_name]
-        band_ds = rasterio.open(band_file)
-        
-        # Scaling  
-        scale_mult = metadata[str(band_name) + '_mult']
-        scale_add = metadata[str(band_name) + '_add']
-        
-        
-        # Read image
-        band_ds_image = band_ds.read(1)
-        image = band_ds_image * scale_mult + scale_add
-        
-        # L8 solar zenith correction: https://www.usgs.gov/landsat-missions/using-usgs-landsat-level-1-data-product
-        if sensor =='L8' or sensor == 'L9': image = image / math.cos(metadata['sza']/180*math.pi)
+    if sensor == 'PRISMA':
+        image_bands = metadata['RGB_bands']
+        band_ds_image = image_bands[0]
     
-        image_bands.append(image)
+    else:
+        # Loop through 3 colours 
+        for band_name in RGB:        
+            band_file = metadata[band_name]
+            band_ds = rasterio.open(band_file)
+            
+            # scaling  
+            scale_mult = metadata[str(band_name) + '_mult']
+            scale_add = metadata[str(band_name) + '_add']
+            
+            # read image
+            band_ds_image = band_ds.read(1)
+            image = band_ds_image * scale_mult + scale_add
+            
+            # L8 solar zenith correction: https://www.usgs.gov/landsat-missions/using-usgs-landsat-level-1-data-product
+            if sensor =='L8' or sensor == 'L9': image = image / math.cos(metadata['sza']/180*math.pi)
+        
+            image_bands.append(image)
     
     # Load mask 
-    mask = mask_all[res]
-    if mask.shape != image.shape:
-        mask = mask[:image.shape[0], :image.shape[1]]
+    mask = mask_all if sensor == 'PRISMA' else mask_all[res]
+    if mask.shape != band_ds_image.shape:
+        mask = mask[:band_ds_image.shape[0], :band_ds_image.shape[1]]
     
     # Identify % water
-    is_nan = band_ds_image==0
+    is_nan = np.logical_or(band_ds_image==0, np.isnan(band_ds_image))
     percent_water = np.sum(mask == False) / np.sum(is_nan == False) * 100
     print(f"{percent_water:.2f}% of non-NA pixels are identified as water.")
     

@@ -9,7 +9,7 @@
 
 # Run on ACOLITE L1R files, currently supports PRSIMA only 
 
-def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename, njobs, atm_info_file=None):
+def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename, njobs, mask_SWIR_threshold, atm_info_file=None):
  
     import tmart
     import sys, os, time
@@ -18,7 +18,7 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
     from scipy import signal, interpolate
         
     # Read configuration
-    config = tmart.AEC.read_config()
+    config = tmart.AEC.read_config(mask_SWIR_threshold)
     
     # Open netcdf file 
     dset = nc4.Dataset(file, 'r+')
@@ -27,11 +27,30 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
     WLs = dset.getncattr('band_waves')
     WWs = dset.getncattr('band_widths')
     
+    
+    # PRISMA wavelength selections 
+    needed_wavelengths = {
+        'cloud': 1373,
+        'SWIR': 1596,
+        'NDWI_green': 559,
+        'NDWI_NIR': 860,
+        'MNDWI_green': 559,
+        'MNDWI_SWIR': 1596,
+        'RGB_red': 646,
+        'RGB_green': 559,
+        'RGB_blue': 483,
+    }
+    
+    def rhot_name(wavelength_key):
+        return 'rhot_' + str(needed_wavelengths[wavelength_key])
+    
     ### Set up metadata  
     window_size = 101
     reshape_factor = 5
 
     metadata = {}
+    metadata['sensor'] = 'PRISMA'
+    metadata['oname'] = dset.getncattr('oname')
     
     # Dimension 
     metadata['height'] = 1000
@@ -69,16 +88,39 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
     
     ### Masks 
     
-    # Cloud mask, may need to find band closest to 1373 in case of future wavelength shift 
-    image_cloud = dset['rhot_1373'][:]
+    # Cloud mask
+    image_cloud = dset[rhot_name('cloud')][:]
     image_cloud_compressed = image_cloud.reshape([height_reshaped, reshape_factor, width_reshaped, reshape_factor]).mean(3).mean(1)
     mask_cloud_compressed = image_cloud_compressed > float(config['mask_cirrus_threshold'])
     
-    # SWIR, may need to find band closest to 1600 in case of future wavelength shift 
-    mask_SWIR = dset['rhot_1596'][:] > float(config['mask_SWIR_threshold'])
+    # Detect-water mask. True means non-water
+    if config['water_detection_method'] == 'NDWI':
+        print('Computing PRISMA NDWI mask, reading bands {} and {}...'.format(rhot_name('NDWI_green'), rhot_name('NDWI_NIR')))
+        green = dset[rhot_name('NDWI_green')][:].astype(np.float32, copy=False)
+        nir = dset[rhot_name('NDWI_NIR')][:].astype(np.float32, copy=False)
+        den = green + nir
+        with np.errstate(divide='ignore', invalid='ignore'):
+            ndwi = np.divide(green - nir, den, out=np.zeros_like(den, dtype=np.float32), where=den != 0)
+        mask_dw = np.logical_or(ndwi < float(config['mask_NDWI_threshold']), den == 0)
+    
+    elif config['water_detection_method'] == 'MNDWI':
+        print('Computing PRISMA MNDWI mask, reading bands {} and {}...'.format(rhot_name('MNDWI_green'), rhot_name('MNDWI_SWIR')))
+        green = dset[rhot_name('MNDWI_green')][:].astype(np.float32, copy=False)
+        swir = dset[rhot_name('MNDWI_SWIR')][:].astype(np.float32, copy=False)
+        den = green + swir
+        with np.errstate(divide='ignore', invalid='ignore'):
+            mndwi = np.divide(green - swir, den, out=np.zeros_like(den, dtype=np.float32), where=den != 0)
+        mask_dw = np.logical_or(mndwi < float(config['mask_MNDWI_threshold']), den == 0)
+    
+    elif config['water_detection_method'] == 'SWIR':
+        print('Computing PRISMA SWIR mask, reading band {}...'.format(rhot_name('SWIR')))
+        mask_dw = dset[rhot_name('SWIR')][:] > float(config['mask_SWIR_threshold'])
+    
+    else:
+        sys.exit('Warning: unrecognized water detection method')
     
     # TOA out of limit, all bands > 0.3 
-    mask_highTOA = np.zeros(np.shape(mask_SWIR))    
+    mask_highTOA = np.zeros(np.shape(mask_dw))    
     for WL in WLs: 
         print('High TOA: {:.1f} nm'.format(WL))
         rhot_wl = 'rhot_' + str(int(round(WL)))
@@ -87,9 +129,17 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
             sys.exit('T-Mart assumed PRISMA has no masked values, please use another image or contact Yulun at yulunwu8@gmail.com')
         mask_highTOA = np.logical_or(mask_highTOA, image_highTOA > float(config['mask_highTOA_threshold']))
     
-    # Combine highTOA and SWIR masks, original resolution 
-    mask_all = np.logical_or(mask_highTOA, mask_SWIR)
+    # Combine highTOA and detect-water masks, original resolution 
+    mask_all = np.logical_or(mask_highTOA, mask_dw)
     
+    # Preview image
+    metadata['RGB_bands'] = [dset[rhot_name('RGB_red')][:],
+                             dset[rhot_name('RGB_green')][:],
+                             dset[rhot_name('RGB_blue')][:]]
+    metadata['green_band'] = rhot_name('NDWI_green')
+    metadata['NIR_band'] = rhot_name('NDWI_NIR')
+    metadata['SWIR_band'] = rhot_name('SWIR')
+    tmart.AEC.plot_water_extent(metadata, config, mask_all)
     
     # AOT
     if AOT == 'NIR':
@@ -218,9 +268,10 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
         
         # Smoothing the edges 
         if reshape_factor >1 and not hp_AE_land:
+            # make land nan
             image_water = np.where(mask_all, np.nan, image)
             
-            # Suppress warning of mean of empty slice 
+            # suppress warning of mean of empty slice 
             import warnings
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore", category=RuntimeWarning)
@@ -231,7 +282,7 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
             # with non-water as nan 
             image_water_R_surf = image_water_AEC - R_atm
             
-            # Edit image_R_surf: where there's water image_R_surf, keep it, where there's nan, use original image_R_surf
+            # edit image_R_surf: where there's water image_R_surf, keep it; where there's nan, use original image_R_surf
             # image_R_surf can only be edited after convolution 
             image_R_surf = np.where(np.isnan(image_water_R_surf), image_R_surf, image_water_R_surf)   
             

@@ -19,6 +19,9 @@ Lion, V., Robran, B., Kroth, F., & Oppelt, N. (2025). The adjacency effect in op
 
 Xu, J., Cao, Z., Chen, P., & Duan, H. (2025). Assessment of land adjacency effect correction on deriving aquatic reflectance over river waters from Landsat-8/9 and Sentinel-2 imagery. *Optics Express*, 33(21), 43561. <a href="https://doi.org/10.1364/OE.572553" target="_blank">https://doi.org/10.1364/OE.572553</a>
 
+Zhai, M., Zhou, X., Tao, Z., Lv, T., & Zhang, H. (2026). Correction of Adjacency Effects on Nearshore Lake Remote Sensing Reflectance Considering Multifactor and Morphological Influences on the Water-Land Interface. *IEEE Transactions on Geoscience and Remote Sensing*, 64, 1–18. <a href="https://doi.org/10.1109/TGRS.2026.3674932" target="_blank">https://doi.org/10.1109/TGRS.2026.3674932</a>
+
+
 
 
 
