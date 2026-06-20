@@ -50,7 +50,7 @@ When ``water_detection_method = NDWI`` in ``config.txt``, water identification i
 
 When ``water_detection_method = SWIR``, water pixels are identified as the SWIR band reflectance lower than the threshold ``mask_SWIR_threshold`` (default value: 0.03). Increase this value if a significant number of water pixels are falsely masked as land.
 
-Both ``mask_SWIR_threshold`` or ``mask_NDWI_threshold`` can be adjusted in ``config.txt``. Modifying ``mask_SWIR_threshold`` or ``mask_NDWI_threshold`` in the *AEC.run* function overwrites the corresponding value in ``config.txt``. Alternatively, setting ``AE_land`` to True enables AEC across the entire scene.
+Both ``mask_NDWI_threshold`` or ``mask_SWIR_threshold`` can be adjusted in ``config.txt``. Modifying ``mask_NDWI_threshold`` or ``mask_SWIR_threshold`` in the *AEC.run* function overwrites the corresponding value in ``config.txt``. Alternatively, setting ``AE_land`` to True enables AEC across the entire scene.
 
 ## Additional arguments 
 
