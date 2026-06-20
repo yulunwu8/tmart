@@ -9,7 +9,7 @@
 
 # Read configuration file 
 
-def read_config(mask_SWIR_threshold):
+def read_config(mask_SWIR_threshold, mask_NDWI_threshold):
     import os
     import pandas as pd
     
@@ -30,7 +30,10 @@ def read_config(mask_SWIR_threshold):
     
     if mask_SWIR_threshold is not None:
         result_dict['mask_SWIR_threshold']=mask_SWIR_threshold
-    
+
+    if mask_NDWI_threshold is not None:
+        result_dict['mask_NDWI_threshold']=mask_NDWI_threshold
+
     for k, v in result_dict.items():
         print(str(k) + ': '  + str(v))    
     

@@ -9,13 +9,13 @@
 
 # Run on Landsat and Sentinel series 
 
-def run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename, njobs, mask_SWIR_threshold, atm_info_file=None): 
+def run_regular(file, username, password, AOT, AOT_offset, n_photon, AEC_record, basename, njobs, mask_SWIR_threshold, mask_NDWI_threshold, atm_info_file=None):
  
     import tmart
     import sys, os
     
     # read configuration
-    config = tmart.AEC.read_config(mask_SWIR_threshold)
+    config = tmart.AEC.read_config(mask_SWIR_threshold, mask_NDWI_threshold)
 
     # identify sensor
     print('\nReading image files: ')
