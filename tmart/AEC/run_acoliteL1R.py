@@ -232,7 +232,10 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
         conv_window_1   = interp_conv_window_1(WL)
         F_correction    = interp_F_correction(WL)
         F_captured      = interp_F_captured(WL)
-        R_atm           = interp_R_atm(wl)
+        R_atm           = interp_R_atm(WL)
+        
+        print('F_correction: ' + str(F_correction))
+        print('R_atm: ' + str(R_atm))
         
         # Read image 
         image = dset[rhot_wl][:].data
@@ -315,7 +318,7 @@ def run_acoliteL1R(file, username, password, AOT, AOT_offset, n_photon, AEC_reco
         # This is implemented for water only
         # Input has to include land, because the function uses the env irradiance of the average reflectance across the scene
         print("\nIrradiance correction: ")
-        temp_SR_water = tmart.AEC.irradiance_correction(image = temp_SR, wl_RC = wl/1000, band = None,
+        temp_SR_water = tmart.AEC.irradiance_correction(image = temp_SR, wl_RC = WL/1000, band = None,
                                                         tm_vza = metadata['vza'], tm_vaa = metadata['vaa'], 
                                                         tm_sza = metadata['sza'], tm_saa = metadata['saa'],
                                                         atm_profile = anci, 

@@ -157,7 +157,7 @@ class Atmosphere():
             s = Py6S.SixS()
             
             # Wavelength and band 
-            s.wavelength = Py6S.Wavelength(self.wl/1000)   
+            s.wavelength = Py6S.Wavelength(self.wl/1000, self.wl/1000)   
             if band is not None:
                 s.wavelength = band
             
