@@ -2,7 +2,7 @@
 
 
 [![PyPI version](https://badge.fury.io/py/tmart.svg)](https://pypi.org/project/tmart/)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/yulunwu8/tmart/blob/main/license.txt)
+[![License: GPL v3 or later](https://img.shields.io/badge/License-GPLv3%2B-blue.svg)](https://github.com/yulunwu8/tmart/blob/main/license.txt)
 [![Docs](https://img.shields.io/badge/docs-online-blue.svg)](https://tmart-rtm.github.io)
 
 
