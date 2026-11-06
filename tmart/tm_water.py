@@ -277,7 +277,7 @@ def find_eta_P(pt_direction_op_C,sun_dir,q_collision_N_polar,wind_dir):
 # Calculate needed normal relative to surface normal, taking into account wind direction  
 # Convert it to eta_a and eta_c 
 # Find fresnel reflectance 
-# Multipied by Cox-Munk intensity 
+# Multiplied by Cox-Munk intensity 
 
 ### Calculate glint reflectance using Cox-Munk + Fresnel reflectance 
 def find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_speed, water_refraIdx_wl, print_on):
@@ -339,15 +339,13 @@ def find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_sp
     
     solar_zenith = sun_dir[0] /180 * math.pi
     
-    rho_glint = math.pi * p_cox_munk * R_specular / (4 * math.cos(solar_zenith) * math.cos(beta)**4 )       
+    # rho_glint = math.pi * p_cox_munk * R_specular / (4 * math.cos(solar_zenith) * math.cos(beta)**4 )  # blocked Nov 6, 2026   
     
 
-    # incident_angle = dirC_to_dirP(pt_direction_op_C) 
-    # incident_zenith = incident_angle[0] /180 * math.pi
-    # rho_glint2 = math.pi * p_cox_munk * R_specular / (4 * math.cos(solar_zenith) * math.cos(incident_zenith) * math.cos(beta)**4 )
-    # print('rho_glint with solar_z correction: ' +str(rho_glint2))    
+    incident_angle = dirC_to_dirP(pt_direction_op_C) 
+    incident_zenith = incident_angle[0] /180 * math.pi
+    rho_glint2 = math.pi * p_cox_munk * R_specular / (4 * math.cos(solar_zenith) * math.cos(incident_zenith) * math.cos(beta)**4 )
     
-    # MC model doesn't need cos(solar_z) in the denominator because it inherently deals with it
     
     if print_on: 
         print('angle_pt_sun: '+str(angle_pt_sun))
@@ -355,9 +353,9 @@ def find_R_cm(pt_direction_op_C, sun_dir, q_collision_N_polar, wind_dir, wind_sp
         print('p_cox_munk: '+str(p_cox_munk))
         print('cos_solar_zenith: '+str(math.cos(solar_zenith)))
         print('cos_beta**4: '+str(math.cos(beta)**4))
-        print('cox_munk reflectance: '+str(rho_glint))
+        print('cox_munk reflectance: '+str(rho_glint2))
     
-    return rho_glint 
+    return rho_glint2 
 
 
 

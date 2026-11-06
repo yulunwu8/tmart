@@ -78,7 +78,7 @@ How parameters in the file are used:
 
 Example content:
 
-```
+```text
 Ratio of maritime aerosol in maritime/continental mixture: 0.32149729438202934
 Aerosol angstrom exponent: 1.1694952659402162
 Aerosol single scattering albedo: 0.9274053986128525
